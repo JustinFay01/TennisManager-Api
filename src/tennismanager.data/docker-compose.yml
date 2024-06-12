@@ -1,0 +1,13 @@
+﻿version: '3.8'
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tennismanager 
+    volumes:
+      - ${PWD}/db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

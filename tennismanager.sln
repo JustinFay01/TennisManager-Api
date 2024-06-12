@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.api", "src\tennismanager.api\tennismanager.api.csproj", "{E0204206-D1B2-4B98-A781-6C86711998C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.service", "src\tennismanager.service\tennismanager.service.csproj", "{4C790C62-CCBE-4E0C-9707-14CAF5F2C5FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6E767D0E-FC1E-4DD3-BE6D-98105A4D136C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.data", "src\tennismanager.data\tennismanager.data.csproj", "{C52A2DE2-0DF6-45E2-B167-23C2FA3786EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.shared", "src\tennismanager.shared\tennismanager.shared.csproj", "{29796C05-DF6A-411F-8E96-6D9F3255EDCB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0204206-D1B2-4B98-A781-6C86711998C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0204206-D1B2-4B98-A781-6C86711998C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0204206-D1B2-4B98-A781-6C86711998C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0204206-D1B2-4B98-A781-6C86711998C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C790C62-CCBE-4E0C-9707-14CAF5F2C5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C790C62-CCBE-4E0C-9707-14CAF5F2C5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C790C62-CCBE-4E0C-9707-14CAF5F2C5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C790C62-CCBE-4E0C-9707-14CAF5F2C5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52A2DE2-0DF6-45E2-B167-23C2FA3786EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52A2DE2-0DF6-45E2-B167-23C2FA3786EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52A2DE2-0DF6-45E2-B167-23C2FA3786EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52A2DE2-0DF6-45E2-B167-23C2FA3786EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

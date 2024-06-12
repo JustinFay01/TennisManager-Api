@@ -1,0 +1,6 @@
+﻿services:
+  tennismanager.service:
+    image: tennismanager.service
+    build:
+      context: .
+      dockerfile: src/tennismanager.service/Dockerfile
