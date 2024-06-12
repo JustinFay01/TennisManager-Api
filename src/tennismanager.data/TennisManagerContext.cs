@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using tennismanager_api.tennismanager.constants;
 using tennismanager_api.tennismanager.constants.Utilities;
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.data.Entities.Abstract;
+using tennismanager.shared;
 
-namespace tennismanager_api.tennismanager.data;
+namespace tennismanager.data;
 
 public class TennisManagerContext : DbContext
 {

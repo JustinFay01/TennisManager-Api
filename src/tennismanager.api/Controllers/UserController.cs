@@ -6,6 +6,7 @@ using tennismanager_api.tennismanager.services.DTO;
 using tennismanager_api.tennismanager.services.Services;
 using tennismanager.api.Models.User;
 using tennismanager.service.Services;
+using tennismanager.shared;
 
 namespace tennismanager.api.Controllers;
 
@@ -73,6 +74,26 @@ public class UserController : ControllerBase
         {
             var user = await _userService.GetUserByIdAsync(id);
             return new OkObjectResult(user);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return StatusCode(500, exception.Message);
+        }
+    }
+    
+    [HttpDelete("{coachId}/{userId}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] Guid coachId, Guid userId)
+    {
+        try
+        {
+            await _userService.DeleteUserAsync(coachId, userId);
+            return new OkResult();
+        }
+        catch(ValidationException validationException)
+        {
+            _logger.LogError(validationException, validationException.Message);
+            return new BadRequestObjectResult(validationException.Message);
         }
         catch (Exception exception)
         {

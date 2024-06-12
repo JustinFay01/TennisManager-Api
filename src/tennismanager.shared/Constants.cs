@@ -1,4 +1,4 @@
-﻿namespace tennismanager_api.tennismanager.constants;
+﻿namespace tennismanager.shared;
 
 public static class SystemUserIds
 {

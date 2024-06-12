@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
 using tennismanager_api.tennismanager.constants;
+using tennismanager.shared;
 
 namespace tennismanager.api.Models.User;
 
