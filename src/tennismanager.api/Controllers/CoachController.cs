@@ -5,6 +5,7 @@ using tennismanager.api.Models.User.Requests;
 using tennismanager.api.Models.User.Responses;
 using tennismanager.service.DTO;
 using tennismanager.service.Services;
+using tennismanager.shared;
 
 namespace tennismanager.api.Controllers;
 
@@ -13,14 +14,14 @@ namespace tennismanager.api.Controllers;
 public class CoachController : ControllerBase
 {
     
-    private readonly ILogger<UserController> _logger;
+    private readonly ILogger<CoachController> _logger;
     private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
     private readonly IValidator<PackagePriceRequest> _packagePriceRequestValidator;
     private readonly IMapper _mapper;
     private readonly ICoachService _coachService;
 
     public CoachController(
-        ILogger<UserController> logger,
+        ILogger<CoachController> logger,
         IValidator<UserCreateRequest> createUserRequestValidator,
         IMapper mapper, IValidator<PackagePriceRequest> packagePriceRequestValidator, ICoachService coachService)
     {
@@ -38,6 +39,9 @@ public class CoachController : ControllerBase
         try
         {
             _userCreateRequestValidator.ValidateAndThrow(request);
+            // TODO: Clean this up
+            if (request.Type != UserTypes.Coach)
+                return new BadRequestObjectResult("User type must be 'coach'");
             
             var coachDto = _mapper.Map<CoachDto>(request);
             
@@ -65,6 +69,10 @@ public class CoachController : ControllerBase
         try
         {
             var coachDto = await _coachService.GetCoachByIdAsync(id);
+            if (coachDto == null)
+            {
+                return new NotFoundResult();
+            }
             return new OkObjectResult(_mapper.Map<CoachResponse>(coachDto));
         }
         catch (Exception exception)

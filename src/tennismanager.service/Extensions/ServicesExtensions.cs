@@ -17,7 +17,7 @@ public static class ServicesExtensions
         // Injects all Mappers
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<ICoachService, CoachService>();
         services.AddScoped<IPackageService, PackageService>();
         services.AddScoped<ISessionService, SessionService>();
