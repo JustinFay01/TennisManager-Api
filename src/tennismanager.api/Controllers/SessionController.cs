@@ -5,6 +5,7 @@ using tennismanager_api.tennismanager.services.DTO;
 using tennismanager_api.tennismanager.services.Services;
 using tennismanager.api.Models.Session;
 using tennismanager.service.DTO;
+using tennismanager.service.Services;
 
 namespace tennismanager.api.Controllers;
 
@@ -44,6 +45,25 @@ public class SessionController
         {
             _logger.LogError(validationException, validationException.Message);
             return new BadRequestObjectResult(validationException.Message);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return new StatusCodeResult(500);
+        }
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSessionById(Guid id)
+    {
+        try
+        {
+            var session = await _sessionService.GetSessionByIdAsync(id);
+            if (session == null)
+            {
+                return new NotFoundResult();
+            }
+            return new OkObjectResult(session);
         }
         catch (Exception exception)
         {

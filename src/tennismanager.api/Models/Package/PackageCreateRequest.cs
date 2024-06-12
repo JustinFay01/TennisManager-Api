@@ -25,6 +25,6 @@ public class PackageCreateRequestValidator : AbstractValidator<PackageCreateRequ
         .GreaterThan(0).WithMessage("Usages should be more than 0.");
 
         RuleFor(x => x.DefaultPrice)
-        .GreaterThan(0).WithMessage("Default price should be more than 0.");
+        .GreaterThanOrEqualTo(0).WithMessage("Default price should be greater than or equal to 0.");
     }
 }

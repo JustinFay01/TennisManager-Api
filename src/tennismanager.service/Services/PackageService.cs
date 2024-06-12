@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using tennismanager_api.tennismanager.data;
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.services.DTO;
@@ -8,6 +9,7 @@ namespace tennismanager_api.tennismanager.services.Services;
 public interface IPackageService
 {
     Task<PackageDto> CreatePackageAsync(PackageDto coach);
+    Task<PackageDto?> GetPackageByIdAsync(Guid id);
 }
 public class PackageService : IPackageService
 {
@@ -34,5 +36,11 @@ public class PackageService : IPackageService
         await _tennisManagerContext.SaveChangesAsync();
         
         return _mapper.Map<PackageDto>(package);
+    }
+
+    public async Task<PackageDto?> GetPackageByIdAsync(Guid id)
+    {
+        var package = await _tennisManagerContext.Packages.FirstOrDefaultAsync(p => p.Id == id);
+        return package != null ? _mapper.Map<PackageDto>(package) : null;
     }
 }

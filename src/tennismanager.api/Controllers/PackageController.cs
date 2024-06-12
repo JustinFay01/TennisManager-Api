@@ -52,4 +52,19 @@ public class PackageController : ControllerBase
             return StatusCode(500, exception.Message);
         }
     }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetPackageById(Guid id)
+    {
+        try
+        {
+            var package = await _packageService.GetPackageByIdAsync(id);
+            return package != null ? new OkObjectResult(package) : new NotFoundResult();
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return StatusCode(500, exception.Message);
+        }
+    }
 }
