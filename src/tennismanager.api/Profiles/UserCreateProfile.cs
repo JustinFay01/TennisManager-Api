@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using tennismanager_api.tennismanager.api.Models.User;
-using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.services.DTO;
+using tennismanager.api.Models.User;
 
-namespace tennismanager_api.tennismanager.api.Profiles;
+namespace tennismanager.api.Profiles;
 
 public class UserCreateProfile : Profile
 {

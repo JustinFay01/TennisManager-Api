@@ -4,9 +4,8 @@ using tennismanager_api.tennismanager.data;
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.data.Entities.Abstract;
 using tennismanager_api.tennismanager.services.DTO;
-using tennismanager_api.tennismanager.services.DTO.Abstract;
 
-namespace tennismanager_api.tennismanager.services.Services;
+namespace tennismanager.service.Services;
 
 public interface IUserService
 {

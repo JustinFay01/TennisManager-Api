@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
 
-namespace tennismanager_api.tennismanager.api.Models.Package;
+namespace tennismanager.api.Models.Package;
 
 public class PackageCreateRequest
 {

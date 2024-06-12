@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using tennismanager_api.tennismanager.api.Models.Session;
 using tennismanager_api.tennismanager.services.DTO;
+using tennismanager.api.Models.Session;
 
-namespace tennismanager_api.tennismanager.api.Profiles;
+namespace tennismanager.api.Profiles;
 
 public class SessionCreateProfile : Profile
 {

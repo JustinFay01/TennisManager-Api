@@ -8,9 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.service", "src\tennismanager.service\tennismanager.service.csproj", "{4C790C62-CCBE-4E0C-9707-14CAF5F2C5FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6E767D0E-FC1E-4DD3-BE6D-98105A4D136C}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.data", "src\tennismanager.data\tennismanager.data.csproj", "{C52A2DE2-0DF6-45E2-B167-23C2FA3786EE}"
 EndProject

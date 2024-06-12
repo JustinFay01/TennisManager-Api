@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using tennismanager_api.tennismanager.api.Models.Package;
 using tennismanager_api.tennismanager.services.DTO;
+using tennismanager.api.Models.Package;
 
-namespace tennismanager_api.tennismanager.api.Profiles;
+namespace tennismanager.api.Profiles;
 
 public class PackageCreateProfile : Profile
 {

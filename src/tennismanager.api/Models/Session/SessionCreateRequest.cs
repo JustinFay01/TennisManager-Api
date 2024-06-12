@@ -1,8 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
-using tennismanager_api.tennismanager.constants.Utilities;
 
-namespace tennismanager_api.tennismanager.api.Models.Session;
+namespace tennismanager.api.Models.Session;
 
 public static class SessionCreateRequestType
 {

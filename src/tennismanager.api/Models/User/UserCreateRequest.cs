@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using FluentValidation;
 using tennismanager_api.tennismanager.constants;
 
-namespace tennismanager_api.tennismanager.api.Models.User;
+namespace tennismanager.api.Models.User;
 
 public class UserCreateRequest
 {

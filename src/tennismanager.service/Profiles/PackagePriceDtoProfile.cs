@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.services.DTO;
-using tennismanager_api.tennismanager.services.Extensions;
 using tennismanager_api.tennismanager.shared.Extensions;
 
 namespace tennismanager_api.tennismanager.services.Profiles;

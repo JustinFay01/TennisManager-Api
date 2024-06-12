@@ -1,10 +1,12 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using tennismanager_api.tennismanager.api.Models.User;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using tennismanager_api.tennismanager.data;
+using tennismanager_api.tennismanager.services.Profiles;
 using tennismanager_api.tennismanager.services.Services;
+using tennismanager.service.Services;
 
-namespace tennismanager_api.tennismanager.services.Extensions;
+namespace tennismanager.service.Extensions;
 
 public static class ServicesExtensions
 {
@@ -12,12 +14,10 @@ public static class ServicesExtensions
     {
         services.AddDbContext<TennisManagerContext>(options =>
         options.UseNpgsql(config.GetConnectionString("DefaultConnection")));
-        
-        // Injects all Validators
-        services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
+
         // Injects all Mappers
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+        
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPackageService, PackageService>();
         services.AddScoped<ISessionService, SessionService>();

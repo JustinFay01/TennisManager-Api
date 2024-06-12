@@ -2,7 +2,6 @@
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.data.Entities.Abstract;
 using tennismanager_api.tennismanager.services.DTO;
-using tennismanager_api.tennismanager.services.Extensions;
 
 namespace tennismanager_api.tennismanager.services.Profiles;
 

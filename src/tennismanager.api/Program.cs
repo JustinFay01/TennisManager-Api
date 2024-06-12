@@ -1,6 +1,9 @@
-using tennismanager_api.tennismanager.services.Extensions;
+using FluentValidation;
+using tennismanager.api.Models.User;
+using tennismanager.api.Profiles;
+using tennismanager.service.Extensions;
 
-namespace tennismanager_api.tennismanager.api;
+namespace tennismanager.api;
 
 public class Program
 {
@@ -11,6 +14,9 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllers();
         builder.Services.UseTennisManagerServices(builder.Configuration);
+        
+        // Injects all Validators
+        builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
         
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

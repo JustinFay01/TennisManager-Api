@@ -11,13 +11,17 @@ We are going to be using EF to create both ORM and migrations.
 To create a new migration run: 
 
 ```
-dotnet ef migrations add <MigrationName>
+dotnet ef migrations add <MigrationName> -s .\src\tennismanager.api -p .\src\tennismanager.data -v
 ```
 
 To update the database to the latest migration
 
 ```
-dotnet ef database update
+dotnet ef database update -s .\src\tennismanager.api -p .\src\tennismanager.data -v
+```
+
+```
+dotnet ef migrations list -s .\src\tennismanager.api -p .\src\tennismanager.data -v
 ```
 
 This will generate a migration with a timestamp preceeding the given name.

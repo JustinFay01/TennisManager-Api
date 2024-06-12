@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
 
-namespace tennismanager_api.tennismanager.api.Models.User;
+namespace tennismanager.api.Models.User;
 
 public class PackagePriceRequest
 {

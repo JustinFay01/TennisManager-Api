@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using tennismanager_api.tennismanager.api.Models.User;
 using tennismanager_api.tennismanager.constants;
 using tennismanager_api.tennismanager.services.DTO;
 using tennismanager_api.tennismanager.services.Services;
+using tennismanager.api.Models.User;
+using tennismanager.service.Services;
 
-namespace tennismanager_api.tennismanager.api.Controllers;
+namespace tennismanager.api.Controllers;
 
 [ApiController]
 [Route("/api/user")]
