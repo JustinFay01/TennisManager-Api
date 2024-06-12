@@ -1,4 +1,4 @@
-﻿using tennismanager_api.tennismanager.services.DTO.Abstract;
+﻿using tennismanager.service.DTO.Abstract;
 
 namespace tennismanager.service.DTO;
 

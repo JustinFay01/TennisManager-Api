@@ -1,4 +1,4 @@
-﻿namespace tennismanager_api.tennismanager.services.DTO.Abstract;
+﻿namespace tennismanager.service.DTO.Abstract;
 
 public interface IAuditableDto<T>
 {

@@ -1,4 +1,4 @@
-﻿namespace tennismanager_api.tennismanager.services.DTO;
+﻿namespace tennismanager.service.DTO;
 
 public class CustomerDto : UserDto
 {

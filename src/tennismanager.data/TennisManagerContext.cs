@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using tennismanager_api.tennismanager.constants.Utilities;
-using tennismanager_api.tennismanager.data.Entities;
-using tennismanager_api.tennismanager.data.Entities.Abstract;
+using tennismanager.data.Entities;
+using tennismanager.data.Entities.Abstract;
 using tennismanager.shared;
+using tennismanager.shared.Utilities;
 
 namespace tennismanager.data;
 

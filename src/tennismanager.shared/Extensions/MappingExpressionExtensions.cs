@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace tennismanager_api.tennismanager.shared.Extensions;
+namespace tennismanager.shared.Extensions;
 
 public static class MappingExpressionExtensions
 {

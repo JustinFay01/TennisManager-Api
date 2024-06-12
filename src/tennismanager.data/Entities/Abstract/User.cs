@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace tennismanager_api.tennismanager.data.Entities.Abstract;
+namespace tennismanager.data.Entities.Abstract;
 
 public abstract class User : BaseEntity<Guid>
 {

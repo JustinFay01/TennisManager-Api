@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using tennismanager_api.tennismanager.data.Entities;
-using tennismanager_api.tennismanager.services.DTO;
+using tennismanager.data.Entities;
+using tennismanager.service.DTO;
 
 namespace tennismanager.service.Profiles;
 

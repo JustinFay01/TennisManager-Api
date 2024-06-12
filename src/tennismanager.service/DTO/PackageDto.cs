@@ -1,6 +1,6 @@
-﻿using tennismanager_api.tennismanager.services.DTO.Abstract;
+﻿using tennismanager.service.DTO.Abstract;
 
-namespace tennismanager_api.tennismanager.services.DTO;
+namespace tennismanager.service.DTO;
 
 public class PackageDto : AuditableDto<Guid>
 {

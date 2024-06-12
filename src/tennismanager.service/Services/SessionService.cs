@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using tennismanager_api.tennismanager.data;
-using tennismanager_api.tennismanager.data.Entities;
 using tennismanager.data;
+using tennismanager.data.Entities;
 using tennismanager.service.DTO;
 
 namespace tennismanager.service.Services;

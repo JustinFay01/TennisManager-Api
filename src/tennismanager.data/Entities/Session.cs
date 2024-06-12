@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using tennismanager_api.tennismanager.data.Entities.Abstract;
+using tennismanager.data.Entities.Abstract;
 
-namespace tennismanager_api.tennismanager.data.Entities;
+namespace tennismanager.data.Entities;
 
 public enum SessionType
 {

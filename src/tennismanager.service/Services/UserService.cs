@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using tennismanager_api.tennismanager.data.Entities;
-using tennismanager_api.tennismanager.data.Entities.Abstract;
-using tennismanager_api.tennismanager.services.DTO;
 using tennismanager.data;
+using tennismanager.data.Entities;
+using tennismanager.data.Entities.Abstract;
+using tennismanager.service.DTO;
 using tennismanager.shared;
 
 namespace tennismanager.service.Services;
@@ -14,7 +14,7 @@ public interface IUserService
     Task<CoachDto> CreateCoachAsync(CoachDto coach);
     Task<CustomerDto> CreateCustomerAsync(CustomerDto customerDto);
     Task<UserDto?> GetUserByIdAsync(Guid id);
-    Task DeleteUserAsync(Guid coachId, Guid userId);
+    Task DeleteUserAsync(Guid id);
 }
 
 public class UserService : IUserService
@@ -71,21 +71,14 @@ public class UserService : IUserService
         return null;
     }
 
-    public async Task DeleteUserAsync(Guid coachId, Guid userId)
+    public async Task DeleteUserAsync(Guid id)
     {
-        // Determine if coachId is a coach or customer
-        var coach = await _tennisManagerContext.Coaches.FirstOrDefaultAsync(c => c.Id == coachId);
-        if (coach == null)
-        {
-            throw new ValidationException("Only a coach can delete a user");
-        }
-        
         // Find customer
-        var customer = await _tennisManagerContext.Customers.FirstOrDefaultAsync(c => c.Id == userId);
+        var customer = await _tennisManagerContext.Customers.FirstOrDefaultAsync(c => c.Id == id);
         if (customer == null)
         {
             // Since the customer was not found, check if the user is a coach
-            var user = await _tennisManagerContext.Coaches.FirstOrDefaultAsync(c => c.Id == userId);
+            var user = await _tennisManagerContext.Coaches.FirstOrDefaultAsync(c => c.Id == id);
             if (user == null || user.Id == new Guid(SystemUserIds.JustinFayId))
             {
                 throw new ValidationException("No user found.");

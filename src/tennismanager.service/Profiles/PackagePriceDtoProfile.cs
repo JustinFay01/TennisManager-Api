@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using tennismanager_api.tennismanager.data.Entities;
-using tennismanager_api.tennismanager.services.DTO;
-using tennismanager_api.tennismanager.shared.Extensions;
+using tennismanager.data.Entities;
+using tennismanager.service.DTO;
+using tennismanager.shared.Extensions;
 
-namespace tennismanager_api.tennismanager.services.Profiles;
+namespace tennismanager.service.Profiles;
 
 public class PackagePriceDtoProfile : Profile
 {

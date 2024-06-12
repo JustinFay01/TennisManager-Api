@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using tennismanager_api.tennismanager.constants;
-using tennismanager_api.tennismanager.services.DTO;
-using tennismanager_api.tennismanager.services.Services;
 using tennismanager.api.Models.User;
+using tennismanager.service.DTO;
 using tennismanager.service.Services;
 using tennismanager.shared;
 
@@ -82,12 +80,12 @@ public class UserController : ControllerBase
         }
     }
     
-    [HttpDelete("{coachId}/{userId}")]
-    public async Task<IActionResult> DeleteUser([FromRoute] Guid coachId, Guid userId)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
     {
         try
         {
-            await _userService.DeleteUserAsync(coachId, userId);
+            await _userService.DeleteUserAsync(id);
             return new OkResult();
         }
         catch(ValidationException validationException)

@@ -1,4 +1,4 @@
-﻿namespace tennismanager_api.tennismanager.constants.Utilities;
+﻿namespace tennismanager.shared.Utilities;
 
 public class DateTimeFactory
 {

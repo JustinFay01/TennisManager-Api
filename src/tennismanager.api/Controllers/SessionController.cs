@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using tennismanager_api.tennismanager.services.DTO;
-using tennismanager_api.tennismanager.services.Services;
 using tennismanager.api.Models.Session;
 using tennismanager.service.DTO;
 using tennismanager.service.Services;
