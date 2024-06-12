@@ -20,11 +20,11 @@ public class CustomerSessionEntityTypeConfiguration : AuditableEntityTypeConfigu
         builder.HasOne(cs => cs.Customer)
         .WithMany(c => c.ParticipatedSessions)
         .HasForeignKey(cs => cs.CustomerId)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(cs => cs.Session)
         .WithMany(s => s.CustomerSessions)
         .HasForeignKey(cs => cs.SessionId)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.Cascade);
     }
 }

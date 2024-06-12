@@ -26,11 +26,11 @@ public class CustomerPackageEntityTypeConfiguration : AuditableEntityTypeConfigu
     builder.HasOne(cp => cp.Customer)
     .WithMany(c => c.Packages)
     .HasForeignKey(cp => cp.CustomerId)
-    .OnDelete(DeleteBehavior.Restrict);
+    .OnDelete(DeleteBehavior.Cascade);
 
     builder.HasOne(cp => cp.Package)
     .WithMany(p => p.Customers)
     .HasForeignKey(cp => cp.PackageId)
-    .OnDelete(DeleteBehavior.Restrict);
+    .OnDelete(DeleteBehavior.Cascade);
   }
 }

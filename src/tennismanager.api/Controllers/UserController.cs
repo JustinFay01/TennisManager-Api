@@ -43,14 +43,14 @@ public class UserController : ControllerBase
 
             switch (request.Type)
             {
-                case UserTypes.Coach:
-                    var coachDto = _mapper.Map<CoachDto>(request);
-                    
-                    coachDto = await _userService.CreateCoachAsync(coachDto);
-                    
-                    var coachResponse = _mapper.Map<CoachResponse>(coachDto);
-                    
-                    return new CreatedResult($"api/user/{coachResponse.Id}", coachResponse);
+                // case UserTypes.Coach:
+                //     var coachDto = _mapper.Map<CoachDto>(request);
+                //     
+                //     coachDto = await _userService.CreateCoachAsync(coachDto);
+                //     
+                //     var coachResponse = _mapper.Map<CoachResponse>(coachDto);
+                //     
+                //     return new CreatedResult($"api/user/{coachResponse.Id}", coachResponse);
                 
                 case UserTypes.Customer:
                     var customer = _mapper.Map<CustomerDto>(request);
@@ -93,46 +93,9 @@ public class UserController : ControllerBase
         }
     }
     
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
-    {
-        try
-        {
-            await _userService.DeleteUserAsync(id);
-            return new OkResult();
-        }
-        catch(ValidationException validationException)
-        {
-            _logger.LogError(validationException, validationException.Message);
-            return new BadRequestObjectResult(validationException.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return StatusCode(500, exception.Message);
-        }
-    }
+
     
-    [HttpPut("put/package/price")]
-    public async Task<IActionResult> PutPackagePrice([FromBody] PackagePriceRequest request)
-    {
-        try
-        {
-            _packagePriceRequestValidator.ValidateAndThrow(request);
-            var user = await _userService.PutPackagePriceAsync(request.Price, new Guid(request.CoachId), new Guid(request.PackageId));
-            return new OkObjectResult(user);
-        }
-        catch (ValidationException validationException)
-        {
-            _logger.LogError(validationException, validationException.Message);
-            return new BadRequestObjectResult(validationException.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return StatusCode(500, exception.Message);
-        }
-    }
+
     
     
 }

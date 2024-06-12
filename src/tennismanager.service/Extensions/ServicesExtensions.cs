@@ -18,6 +18,7 @@ public static class ServicesExtensions
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICoachService, CoachService>();
         services.AddScoped<IPackageService, PackageService>();
         services.AddScoped<ISessionService, SessionService>();
         

@@ -20,11 +20,11 @@ public class CoachPackagePriceEntityTypeConfiguration : AuditableEntityTypeConfi
         builder.HasOne(e => e.Coach)
             .WithMany(e => e.PackagePricesList)
             .HasForeignKey(cpp => cpp.CoachId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(e => e.Package)
             .WithMany(e => e.PackagePricesList)
             .HasForeignKey(cpp => cpp.PackageId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
