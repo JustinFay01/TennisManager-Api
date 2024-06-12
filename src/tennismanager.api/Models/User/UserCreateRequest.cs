@@ -21,9 +21,6 @@ public class UserCreateRequest
     
     [JsonPropertyName("phone")] 
     public string? PhoneNumber { get; set; }
-    
-    [JsonPropertyName("packageprices")] 
-    public PackagePriceRequest[] PackagePrices { get; set; } = [];
 }
 
 public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
@@ -55,14 +52,15 @@ public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
         .Must(phone => string.IsNullOrEmpty(phone) || Regex.IsMatch(phone, @"(((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4})"))
         .WithMessage("Phone number can only contain digits, plus sign, minus sign, parentheses and spaces or be null.");
 
-        When(x => x.Type.Equals(UserTypes.Coach) && x.PackagePrices.Length != 0, () =>
-        {
-            RuleForEach(x => x.PackagePrices).SetValidator(new PackagePriceRequestValidator());
-        }).Otherwise(() =>
-        {
-            RuleFor(x => x.PackagePrices.Length).Equal(0)
-            .WithMessage("Only coaches may include a list of package prices.");
-        });
+        // TODO: Remove when sure that the package prices are not needed
+        // When(x => x.Type.Equals(UserTypes.Coach) && x.PackagePrices.Length != 0, () =>
+        // {
+        //     RuleForEach(x => x.PackagePrices).SetValidator(new PackagePriceRequestValidator());
+        // }).Otherwise(() =>
+        // {
+        //     RuleFor(x => x.PackagePrices.Length).Equal(0)
+        //     .WithMessage("Only coaches may include a list of package prices.");
+        // });
 
     }
 }

@@ -2,12 +2,13 @@
 using tennismanager_api.tennismanager.data;
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.services.DTO;
+using tennismanager.service.DTO;
 
 namespace tennismanager_api.tennismanager.services.Services;
 
 public interface  ISessionService
 {
-    Task CreateSessionAsync(SessionDto sessionDto);   
+    Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);   
 }
 
 public class SessionService : ISessionService
@@ -21,12 +22,14 @@ public class SessionService : ISessionService
         _mapper = mapper;
     }
     
-    public Task CreateSessionAsync(SessionDto sessionDto)
+    public async Task<SessionDto> CreateSessionAsync(SessionDto sessionDto)
     {
         var session = _mapper.Map<Session>(sessionDto);
         
         _tennisManagerContext.Sessions.Add(session);
         
-        return _tennisManagerContext.SaveChangesAsync();
+         await _tennisManagerContext.SaveChangesAsync();
+         
+         return _mapper.Map<SessionDto>(session);
     }
 }

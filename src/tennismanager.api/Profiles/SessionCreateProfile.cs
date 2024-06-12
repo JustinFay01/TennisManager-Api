@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using tennismanager_api.tennismanager.services.DTO;
 using tennismanager.api.Models.Session;
+using tennismanager.service.DTO;
 
 namespace tennismanager.api.Profiles;
 

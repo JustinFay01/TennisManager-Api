@@ -16,8 +16,7 @@ public class UserCreateProfile : Profile
             .Include<UserCreateRequest, CoachDto>()
             .Include<UserCreateRequest, CustomerDto>();
 
-        CreateMap<UserCreateRequest, CoachDto>()
-            .ForMember(dest => dest.PackagePricesList, opt => opt.MapFrom(src => src.PackagePrices));
+        CreateMap<UserCreateRequest, CoachDto>();
         
         // TODO: Implement collections
         CreateMap<UserCreateRequest, CustomerDto>();

@@ -1,6 +1,6 @@
 ﻿using tennismanager_api.tennismanager.services.DTO.Abstract;
 
-namespace tennismanager_api.tennismanager.services.DTO;
+namespace tennismanager.service.DTO;
 
 public class SessionDto : AuditableDto<Guid>
 {

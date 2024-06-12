@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using tennismanager_api.tennismanager.services.DTO;
 using tennismanager_api.tennismanager.services.Services;
 using tennismanager.api.Models.Session;
+using tennismanager.service.DTO;
 
 namespace tennismanager.api.Controllers;
 
@@ -35,9 +36,9 @@ public class SessionController
             
             var sessionDto = _mapper.Map<SessionDto>(request);
             
-            await _sessionService.CreateSessionAsync(sessionDto);
+            var session = await _sessionService.CreateSessionAsync(sessionDto);
          
-            return new CreatedResult();
+            return new CreatedResult($"api/session/{sessionDto.Id}", session);
         }
         catch (ValidationException validationException)
         {

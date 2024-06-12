@@ -9,8 +9,8 @@ namespace tennismanager.service.Services;
 
 public interface IUserService
 {
-    Task CreateCoachAsync(CoachDto coach);
-    Task CreateCustomerAsync(CustomerDto customerDto);
+    Task<CoachDto> CreateCoachAsync(CoachDto coach);
+    Task<CustomerDto> CreateCustomerAsync(CustomerDto customerDto);
     Task<UserDto?> GetUserByIdAsync(Guid id);
 }
 
@@ -29,22 +29,26 @@ public class UserService : IUserService
         _mapper = mapper;
     }
     
-    public async Task CreateCoachAsync(CoachDto coachDto)
+    public async Task<CoachDto> CreateCoachAsync(CoachDto coachDto)
     {
         var coach = _mapper.Map<Coach>(coachDto);
         
         _tennisManagerContext.Coaches.Add(coach);
         
         await _tennisManagerContext.SaveChangesAsync();
+        
+        return _mapper.Map<CoachDto>(coach);
     }
 
-    public Task CreateCustomerAsync(CustomerDto customerDto)
+    public async Task<CustomerDto> CreateCustomerAsync(CustomerDto customerDto)
     {
         var customer = _mapper.Map<Customer>(customerDto);
         
         _tennisManagerContext.Customers.Add(customer);
         
-        return _tennisManagerContext.SaveChangesAsync();
+        await _tennisManagerContext.SaveChangesAsync();
+        
+        return _mapper.Map<CustomerDto>(customer);
     }
 
     public async Task<UserDto?> GetUserByIdAsync(Guid id)

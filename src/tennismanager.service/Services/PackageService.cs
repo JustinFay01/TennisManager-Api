@@ -7,7 +7,7 @@ namespace tennismanager_api.tennismanager.services.Services;
 
 public interface IPackageService
 {
-    Task CreatePackageAsync(PackageDto coach);
+    Task<PackageDto> CreatePackageAsync(PackageDto coach);
 }
 public class PackageService : IPackageService
 {
@@ -25,12 +25,14 @@ public class PackageService : IPackageService
     }
     
     
-    public async Task CreatePackageAsync(PackageDto packageDto)
+    public async Task<PackageDto> CreatePackageAsync(PackageDto packageDto)
     {
         var package = _mapper.Map<Package>(packageDto);
 
         _tennisManagerContext.Packages.Add(package);
 
         await _tennisManagerContext.SaveChangesAsync();
+        
+        return _mapper.Map<PackageDto>(package);
     }
 }

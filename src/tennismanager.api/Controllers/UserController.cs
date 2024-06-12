@@ -19,9 +19,9 @@ public class UserController : ControllerBase
     private readonly IMapper _mapper;
 
     public UserController(
-        ILogger<UserController> logger, 
-        IUserService coachService, 
-        IValidator<UserCreateRequest> createUserRequestValidator, 
+        ILogger<UserController> logger,
+        IUserService coachService,
+        IValidator<UserCreateRequest> createUserRequestValidator,
         IMapper mapper)
     {
         _logger = logger;
@@ -29,8 +29,8 @@ public class UserController : ControllerBase
         _userCreateRequestValidator = createUserRequestValidator;
         _mapper = mapper;
     }
-    
-    
+
+
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
     {
@@ -41,20 +41,18 @@ public class UserController : ControllerBase
             switch (request.Type)
             {
                 case UserTypes.Coach:
-                    var coach = _mapper.Map<CoachDto>(request);
-                    await _userService.CreateCoachAsync(coach);
-                    
-                    break;
+                    var coachDto = _mapper.Map<CoachDto>(request);
+                    coachDto = await _userService.CreateCoachAsync(coachDto);
+                    return new CreatedResult($"api/user/{coachDto.Id}", coachDto);
+                
                 case UserTypes.Customer:
                     var customer = _mapper.Map<CustomerDto>(request);
-                    await _userService.CreateCustomerAsync(customer);
-                    
-                    break;
+                    customer = await _userService.CreateCustomerAsync(customer);
+                    return new CreatedResult($"api/user/{customer.Id}", customer);
+                
                 default:
                     throw new ValidationException("This property can only be 'coach' or 'customer'");
             }
-            
-            return new CreatedResult();
         }
         catch (ValidationException validationException)
         {
@@ -66,9 +64,9 @@ public class UserController : ControllerBase
             _logger.LogError(exception, "Something went wrong!");
             return StatusCode(500, exception.Message);
         }
-    }   
-    
-    [HttpGet("get/{id}")]
+    }
+
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
         try

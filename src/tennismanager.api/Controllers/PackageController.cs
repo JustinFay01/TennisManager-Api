@@ -29,7 +29,7 @@ public class PackageController : ControllerBase
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] PackageCreateRequest request)
+    public async Task<IActionResult> CreatePackage([FromBody] PackageCreateRequest request)
     {
         try
         {
@@ -37,9 +37,9 @@ public class PackageController : ControllerBase
 
             var packageDto = _mapper.Map<PackageDto>(request);
 
-            await _packageService.CreatePackageAsync(packageDto);
+            var package = await _packageService.CreatePackageAsync(packageDto);
             
-            return new CreatedResult();
+            return new CreatedResult($"api/package/{packageDto.Id}", package);
         }
         catch (ValidationException validationException)
         {

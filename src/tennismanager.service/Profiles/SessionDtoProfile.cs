@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using tennismanager_api.tennismanager.data.Entities;
 using tennismanager_api.tennismanager.services.DTO;
+using tennismanager.service.DTO;
 
-namespace tennismanager_api.tennismanager.services.Profiles;
+namespace tennismanager.service.Profiles;
 
 public class SessionDtoProfile : Profile
 {
@@ -11,7 +12,8 @@ public class SessionDtoProfile : Profile
         CreateMap<SessionDto, Session>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => SessionTypeMapper.MapSessionType(src.Type)))
-            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date));
+            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))
+            .ReverseMap();
     }
 }
 

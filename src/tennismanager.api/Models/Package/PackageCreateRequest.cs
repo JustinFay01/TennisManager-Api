@@ -11,13 +11,6 @@ public class PackageCreateRequest
     public int Uses { get; set; }
     [JsonPropertyName("defaultPrice")]
     public decimal DefaultPrice { get; set; }
-
-    // TODO: Implement collections for requests 
-    // [JsonPropertyName("packagePriceList")] 
-    // public colletion name;
-    //
-    // [JsonPropertyName("Customers")] 
-    // public collection Customers;
 }
 
 public class PackageCreateRequestValidator : AbstractValidator<PackageCreateRequest>

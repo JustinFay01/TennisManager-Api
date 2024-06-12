@@ -20,7 +20,6 @@ public class PackagePriceRequestValidator : AbstractValidator<PackagePriceReques
     public PackagePriceRequestValidator()
     {
         RuleFor(x => x.Price).GreaterThan(0);
-        RuleFor(x => x.CoachId).NotEmpty();
         RuleFor(x => x.PackageId).NotEmpty();
     }
 }
