@@ -1,5 +1,6 @@
 using FluentValidation;
 using tennismanager.api.Models.User;
+using tennismanager.api.Models.User.Requests;
 using tennismanager.api.Profiles;
 using tennismanager.service.Extensions;
 

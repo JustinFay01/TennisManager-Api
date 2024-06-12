@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
 
-namespace tennismanager.api.Models.User;
+namespace tennismanager.api.Models.User.Requests;
 
 public class PackagePriceRequest
 {
@@ -19,8 +19,13 @@ public class PackagePriceRequestValidator : AbstractValidator<PackagePriceReques
 {
     public PackagePriceRequestValidator()
     {
-        RuleFor(x => x.Price).GreaterThan(0);
-        RuleFor(x => x.PackageId).NotEmpty();
-        RuleFor(x => x.CoachId).NotEmpty();
+        RuleFor(x => x.Price).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.PackageId).NotEmpty().Must(BeAValidGuid).WithMessage("Invalid PackageId Format.");
+        RuleFor(x => x.CoachId).NotEmpty().Must(BeAValidGuid).WithMessage("Invalid CoachId Format.");
+    }
+    
+    private bool BeAValidGuid(string guid)
+    {
+        return Guid.TryParse(guid, out _);
     }
 }

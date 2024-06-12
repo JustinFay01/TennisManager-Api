@@ -23,6 +23,10 @@ public class UserDtoProfile : Profile
             .ForMember(dest => dest.PackagePricesList, opt => opt.MapFrom(src => src.PackagePricesList))
             .ReverseMap();
         
+        CreateMap<CoachPackagePrice, PackagePriceDto>()
+            .ForMember(dest => dest.PackageId, opt => opt.MapFrom(src => src.PackageId))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
+        
         CreateMap<CustomerDto, Customer>()
             .ReverseMap();
     }

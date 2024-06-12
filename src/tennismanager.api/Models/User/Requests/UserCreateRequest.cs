@@ -1,10 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using FluentValidation;
-using tennismanager_api.tennismanager.constants;
 using tennismanager.shared;
 
-namespace tennismanager.api.Models.User;
+namespace tennismanager.api.Models.User.Requests;
 
 public class UserCreateRequest
 {

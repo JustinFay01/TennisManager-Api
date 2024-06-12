@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.VisualBasic;
-using tennismanager_api.tennismanager.constants;
 using tennismanager.shared;
 
 #nullable disable
