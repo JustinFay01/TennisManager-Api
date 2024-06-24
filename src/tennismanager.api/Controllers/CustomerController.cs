@@ -40,8 +40,6 @@ public class CustomerController : ControllerBase
             
             customerDto = await _customerService.CreateCustomerAsync(customerDto);
             
-           // var coachResponse = _mapper.Map<CoachResponse>(coachDto);
-            
             return new CreatedResult($"api/user/{customerDto.Id}", customerDto);
         }
         catch (ValidationException validationException)

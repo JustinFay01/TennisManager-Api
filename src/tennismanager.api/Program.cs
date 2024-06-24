@@ -12,6 +12,21 @@ public class Program
     {
        
         var builder = WebApplication.CreateBuilder(args);
+        
+        // Allow cors
+        var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("*")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
+        
+        
         // Add services to the container.
         builder.Services.AddControllers();
         builder.Services.UseTennisManagerServices(builder.Configuration);
@@ -33,6 +48,10 @@ public class Program
         }
         
         app.UseHttpsRedirection();
+        
+        // Needs to be before UseAuthorization
+        app.UseCors(MyAllowSpecificOrigins);
+        
         app.UseAuthorization();
         app.MapControllers();
         app.Run();

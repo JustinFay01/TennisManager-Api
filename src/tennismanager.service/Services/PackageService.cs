@@ -48,6 +48,8 @@ public class PackageService : IPackageService
 
     public async Task<IEnumerable<PackageDto>> GetPackagesPurchasedAfterDateAsync(DateTime afterDate)
     {
+        afterDate = DateTime.SpecifyKind(afterDate, DateTimeKind.Utc);
+        
         var packages = await _tennisManagerContext.CustomerPackages
             .Where(p => p.DatePurchased > afterDate)
             .ToListAsync();

@@ -86,6 +86,12 @@ public class PackageController : ControllerBase
                 .DateTimeNotGreaterThanOrEqualTo(DateTimeFactory.UtcNow.Date, "Date must not be less than current date time.");
 
             var packages = await _packageService.GetPackagesPurchasedAfterDateAsync(afterDate);
+
+            if (!packages.Any())
+            {
+                return new NoContentResult();
+            }
+
             return new OkObjectResult(packages);
         }
         catch (ArgumentException exception)

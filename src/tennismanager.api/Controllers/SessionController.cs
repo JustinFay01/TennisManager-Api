@@ -37,7 +37,7 @@ public class SessionController
             
             var session = await _sessionService.CreateSessionAsync(sessionDto);
          
-            return new CreatedResult($"api/session/{sessionDto.Id}", session);
+            return new CreatedResult($"api/session/{session.Id}", session);
         }
         catch (ValidationException validationException)
         {
