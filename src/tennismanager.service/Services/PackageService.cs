@@ -10,7 +10,9 @@ public interface IPackageService
 {
     Task<PackageDto> CreatePackageAsync(PackageDto coach);
     Task<PackageDto?> GetPackageByIdAsync(Guid id);
+    Task<IEnumerable<PackageDto>> GetPackagesPurchasedAfterDateAsync(DateTime afterDate);
 }
+
 public class PackageService : IPackageService
 {
     private readonly TennisManagerContext _tennisManagerContext;
@@ -25,8 +27,8 @@ public class PackageService : IPackageService
         _tennisManagerContext = tennisManagerContext;
         _mapper = mapper;
     }
-    
-    
+
+
     public async Task<PackageDto> CreatePackageAsync(PackageDto packageDto)
     {
         var package = _mapper.Map<Package>(packageDto);
@@ -34,7 +36,7 @@ public class PackageService : IPackageService
         _tennisManagerContext.Packages.Add(package);
 
         await _tennisManagerContext.SaveChangesAsync();
-        
+
         return _mapper.Map<PackageDto>(package);
     }
 
@@ -42,5 +44,16 @@ public class PackageService : IPackageService
     {
         var package = await _tennisManagerContext.Packages.FirstOrDefaultAsync(p => p.Id == id);
         return package != null ? _mapper.Map<PackageDto>(package) : null;
+    }
+
+    public async Task<IEnumerable<PackageDto>> GetPackagesPurchasedAfterDateAsync(DateTime afterDate)
+    {
+        var packages = await _tennisManagerContext.CustomerPackages
+            .Where(p => p.DatePurchased > afterDate)
+            .ToListAsync();
+
+        var packageDtos = packages.Select(p => _mapper.Map<PackageDto>(p));
+        
+        return packageDtos;
     }
 }

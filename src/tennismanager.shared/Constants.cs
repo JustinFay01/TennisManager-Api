@@ -10,3 +10,10 @@ public static class UserTypes
     public const string Coach = "coach";
     public const string Customer = "customer";
 }
+
+public static class DateTimeConstants
+{
+    public const string DateFormat = "dd/MM/yyyy";
+    public const string DateTimeFormat = "dd/MM/yyyy HH:mm:ss";
+    public const string TimeFormat = "HH:mm:ss";
+}
