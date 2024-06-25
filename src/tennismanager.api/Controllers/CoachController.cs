@@ -49,7 +49,7 @@ public class CoachController : ControllerBase
             
             var coachResponse = _mapper.Map<CoachResponse>(coachDto);
             
-            return new CreatedResult($"api/user/{coachResponse.Id}", coachResponse);
+            return new CreatedResult($"api/coach/{coachResponse.Id}", coachResponse);
         }
         catch (ValidationException validationException)
         {

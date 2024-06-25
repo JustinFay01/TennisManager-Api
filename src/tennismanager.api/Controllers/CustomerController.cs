@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dawn;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.User.Requests;
@@ -40,12 +41,36 @@ public class CustomerController : ControllerBase
             
             customerDto = await _customerService.CreateCustomerAsync(customerDto);
             
-            return new CreatedResult($"api/user/{customerDto.Id}", customerDto);
+            return new CreatedResult($"api/customer/{customerDto.Id}", customerDto);
         }
         catch (ValidationException validationException)
         {
             _logger.LogError(validationException, validationException.Message);
             return new BadRequestObjectResult(validationException.Message);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return StatusCode(500, exception.Message);
+        }
+    }
+    
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllCustomers([FromQuery] int page, [FromQuery] int pageSize)
+    {
+        try
+        {
+            Guard.Argument(page, nameof(page)).NotNegative().NotZero();
+            Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
+
+            var customers = await _customerService.GetAllCustomersAsync(page, pageSize);
+            
+            return new OkObjectResult(customers);
+        }
+        catch (ArgumentException exception)
+        {
+            _logger.LogError(exception, exception.Message);
+            return new BadRequestObjectResult(exception.Message);
         }
         catch (Exception exception)
         {

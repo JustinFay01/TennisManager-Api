@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.service.DTO;
+using tennismanager.shared.Models;
 
 namespace tennismanager.service.Services;
 
@@ -11,6 +12,8 @@ public interface ICustomerService
     Task<CustomerDto> CreateCustomerAsync(CustomerDto coach);
     
     Task<CustomerDto?> GetCustomerByIdAsync(Guid id);
+    
+    Task<PagedResponse<CustomerDto>> GetAllCustomersAsync(int page, int pageSize);
 }
 
 public class CustomerService : ICustomerService
@@ -47,5 +50,25 @@ public class CustomerService : ICustomerService
             .FirstOrDefaultAsync(c => c.Id == id);
         
         return customer != null ? _mapper.Map<CustomerDto>(customer) : null;
+    }
+
+    public async Task<PagedResponse<CustomerDto>> GetAllCustomersAsync(int page, int pageSize)
+    {
+        var count = await _tennisManagerContext.Customers.CountAsync();
+
+        var query = await _tennisManagerContext.Customers
+            .Include(c => c.Packages)
+            .Include(c => c.ParticipatedSessions)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        
+        return new PagedResponse<CustomerDto>
+        {
+            Items = _mapper.Map<List<CustomerDto>>(query),
+            PageNumber = page,
+            PageSize = pageSize,
+            TotalCount = count
+        };
     }
 }
