@@ -9,11 +9,11 @@ public class PagedResponse<T> where T : class
     
     public int PageSize { get; set; }
     
-    private int totalCount { get; set; }
+    private int _totalCount { get; set; }
 
-    public int TotalCount
+    public int TotalPages
     {
-        get => (int)Math.Ceiling((double)totalCount / PageSize);
-        set => totalCount = value;
+        get => (int)Math.Ceiling((double)_totalCount / PageSize);
+        set => _totalCount = value;
     }
 }

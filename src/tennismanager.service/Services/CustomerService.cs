@@ -13,7 +13,7 @@ public interface ICustomerService
     
     Task<CustomerDto?> GetCustomerByIdAsync(Guid id);
     
-    Task<PagedResponse<CustomerDto>> GetAllCustomersAsync(int page, int pageSize);
+    Task<PagedResponse<CustomerDto>> GetCustomersAsync(int page, int pageSize);
 }
 
 public class CustomerService : ICustomerService
@@ -52,7 +52,7 @@ public class CustomerService : ICustomerService
         return customer != null ? _mapper.Map<CustomerDto>(customer) : null;
     }
 
-    public async Task<PagedResponse<CustomerDto>> GetAllCustomersAsync(int page, int pageSize)
+    public async Task<PagedResponse<CustomerDto>> GetCustomersAsync(int page, int pageSize)
     {
         var count = await _tennisManagerContext.Customers.CountAsync();
 
@@ -68,7 +68,7 @@ public class CustomerService : ICustomerService
             Items = _mapper.Map<List<CustomerDto>>(query),
             PageNumber = page,
             PageSize = pageSize,
-            TotalCount = count
+            TotalPages = count
         };
     }
 }

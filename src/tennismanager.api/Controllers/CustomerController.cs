@@ -56,14 +56,14 @@ public class CustomerController : ControllerBase
     }
     
     [HttpGet("all")]
-    public async Task<IActionResult> GetAllCustomers([FromQuery] int page, [FromQuery] int pageSize)
+    public async Task<IActionResult> GetCustomers([FromQuery] int page, [FromQuery] int pageSize)
     {
         try
         {
             Guard.Argument(page, nameof(page)).NotNegative().NotZero();
             Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
 
-            var customers = await _customerService.GetAllCustomersAsync(page, pageSize);
+            var customers = await _customerService.GetCustomersAsync(page, pageSize);
             
             return new OkObjectResult(customers);
         }
