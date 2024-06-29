@@ -45,12 +45,13 @@ public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
             RuleFor(x => x.Email).EmailAddress();
         });
         // Accepts:
+        // 1234567890
         // (123) 456-7890
         // 123-456-7890
-        // 456-7890
+        // 123.456.7890
         RuleFor(x => x.PhoneNumber)
-        .Must(phone => string.IsNullOrEmpty(phone) || Regex.IsMatch(phone, @"(((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4})"))
-        .WithMessage("Phone number can only contain digits, plus sign, minus sign, parentheses and spaces or be null.");
+        .Must(phone => string.IsNullOrEmpty(phone) || Regex.IsMatch(phone, @"(?:\d{10}|\d{3}-\d{3}-\d{4}|\d{3}\.\d{3}\.\d{4}|\(\d{3}\)\s?\d{3}-\d{4})$"))
+        .WithMessage("Phone number can only contain digits, spaces, periods, minus sign, parentheses and spaces or be null.");
 
         // TODO: Remove when sure that the package prices are not needed
         // When(x => x.Type.Equals(UserTypes.Coach) && x.PackagePrices.Length != 0, () =>
