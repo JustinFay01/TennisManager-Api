@@ -66,9 +66,10 @@ public class CustomerService : ICustomerService
         return new PagedResponse<CustomerDto>
         {
             Items = _mapper.Map<List<CustomerDto>>(query),
+            TotalItems = count,
             PageNumber = page,
-            PageSize = pageSize,
-            TotalPages = count
+            PageSize = pageSize
+            // Automatically calculates the TotalPages
         };
     }
 }
