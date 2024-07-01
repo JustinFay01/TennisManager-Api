@@ -57,8 +57,11 @@ public class CustomerService : ICustomerService
         var count = await _tennisManagerContext.Customers.CountAsync();
 
         var query = await _tennisManagerContext.Customers
+            .AsNoTracking()
             .Include(c => c.Packages)
             .Include(c => c.ParticipatedSessions)
+            .OrderBy(c => c.LastName)
+            .ThenBy(c => c.FirstName)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

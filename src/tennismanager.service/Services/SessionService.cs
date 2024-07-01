@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using tennismanager_api.tennismanager.data;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.service.DTO;
+using tennismanager.shared.Models;
 
 namespace tennismanager.service.Services;
 
-public interface  ISessionService
+public interface ISessionService
 {
     Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);  
     
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
+    Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize);
 }
 
 public class SessionService : ISessionService
@@ -40,5 +41,25 @@ public class SessionService : ISessionService
     {
         var session = await _tennisManagerContext.Sessions.FirstOrDefaultAsync(s => s.Id == id);
         return session != null ? _mapper.Map<SessionDto>(session) : null;
+    }
+
+    public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize)
+    {
+        var count = _tennisManagerContext.Sessions.Count();
+
+        var query = await _tennisManagerContext.Sessions
+            .AsNoTracking()
+            .OrderByDescending(s => s.Date)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResponse<SessionDto>
+        {
+            Items = _mapper.Map<List<SessionDto>>(query),
+            TotalItems = count,
+            PageNumber = page,
+            PageSize = pageSize
+        };
     }
 }

@@ -10,7 +10,7 @@ using tennismanager.shared;
 namespace tennismanager.api.Controllers;
 
 [ApiController]
-[Route("/api/customer")]
+[Route("/api/customers")]
 public class CustomerController : ControllerBase
 {
     private readonly ILogger<CustomerController> _logger;

@@ -10,7 +10,7 @@ using tennismanager.shared;
 namespace tennismanager.api.Controllers;
 
 [ApiController]
-[Route("/api/coach")]
+[Route("/api/coaches")]
 public class CoachController : ControllerBase
 {
     

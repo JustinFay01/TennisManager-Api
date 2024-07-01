@@ -12,7 +12,7 @@ using tennismanager.shared.Utilities;
 namespace tennismanager.api.Controllers;
 
 [ApiController]
-[Route("/api/package")]
+[Route("/api/packages")]
 public class PackageController : ControllerBase
 {
     private readonly ILogger<PackageController> _logger;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dawn;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.Session;
@@ -8,7 +9,7 @@ using tennismanager.service.Services;
 namespace tennismanager.api.Controllers;
 
 [ApiController]
-[Route("/api/session")]
+[Route("/api/sessions")]
 public class SessionController
 {
     private readonly ILogger<SessionController> _logger;
@@ -43,6 +44,25 @@ public class SessionController
         {
             _logger.LogError(validationException, validationException.Message);
             return new BadRequestObjectResult(validationException.Message);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return new StatusCodeResult(500);
+        }
+    }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> GetSessions([FromQuery] int page, [FromQuery] int pageSize)
+    {
+        try
+        {
+            Guard.Argument(page, nameof(page)).NotNegative().NotZero();
+            Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
+
+            var sessions = await _sessionService.GetSessionsAsync(page, pageSize);
+
+            return new OkObjectResult(sessions);
         }
         catch (Exception exception)
         {
