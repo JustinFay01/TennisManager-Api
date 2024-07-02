@@ -1,6 +1,6 @@
-@tennismanager.api_HostAddress = http://localhost:5233
+@tennismanager.api_HostAddress = https://localhost:7168
 
-GET {{tennismanager.api_HostAddress}}/weatherforecast/
+GET {{tennismanager.api_HostAddress}}/api/customers/all?page=1&pageSize=10
 Accept: application/json
 
 ###
