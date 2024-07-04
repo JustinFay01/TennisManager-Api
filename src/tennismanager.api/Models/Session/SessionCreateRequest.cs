@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
+using tennismanager.api.Extensions;
 
 namespace tennismanager.api.Models.Session;
 
@@ -18,6 +19,9 @@ public class SessionCreateRequest
 {
     [JsonPropertyName("type")] public string Type { get; set; }
 
+    [JsonPropertyName("CoachId")] public string? CoachId { get; set; }
+
+    [JsonPropertyName("CustomerAndPrice")] public Dictionary<string, decimal>? CustomerAndPrice { get; set; }
     [JsonPropertyName("date")] public DateTime Date { get; set; }
 }
 
@@ -40,5 +44,19 @@ public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequ
             .Must(x => integrations.Contains(x)).WithMessage(
                 "This property can only be 'event', 'tennisPrivate', 'tennisDrill', 'tennisHitting, 'picklePrivate', 'pickleDrill', 'pickleHitting'"
             );
+
+        When(x => x.Type == SessionCreateRequestType.TennisPrivate || x.Type == SessionCreateRequestType.PicklePrivate,
+            () => { RuleFor(x => x.CoachId).NotNull(); });
+
+        When(x => x.CustomerAndPrice != null, () =>
+        {
+            RuleFor(x => x.CustomerAndPrice).NotEmpty();
+            RuleForEach(x => x.CustomerAndPrice)
+                .ChildRules(c =>
+                {
+                    c.RuleFor(x => x.Key).IsValidGuid();
+                    c.RuleFor(x => x.Value).NotNull();
+                });
+        });
     }
 }

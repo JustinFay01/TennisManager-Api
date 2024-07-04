@@ -28,8 +28,14 @@ public class SessionService : ISessionService
     
     public async Task<SessionDto> CreateSessionAsync(SessionDto sessionDto)
     {
-        var session = _mapper.Map<Session>(sessionDto);
-        
+        var session = sessionDto.Type switch
+        {
+            nameof(SessionType.TennisPrivate) or nameof(SessionType.PicklePrivate)
+                => _mapper.Map<PrivateSession>(sessionDto),
+
+            _ => _mapper.Map<Session>(sessionDto)
+        };
+
         _tennisManagerContext.Sessions.Add(session);
         
          await _tennisManagerContext.SaveChangesAsync();

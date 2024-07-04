@@ -11,6 +11,8 @@ public class SessionCreateProfile : Profile
         CreateMap<SessionCreateRequest, SessionDto>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
-            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date));
+            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))
+            .ForMember(dest => dest.CoachId,
+                opt => opt.MapFrom(src => string.IsNullOrEmpty(src.CoachId) ? Guid.Empty : Guid.Parse(src.CoachId)));
     }
 }

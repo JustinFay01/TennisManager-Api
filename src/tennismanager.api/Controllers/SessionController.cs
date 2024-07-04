@@ -36,11 +36,16 @@ public class SessionController
         try
         {
             _sessionCreateRequestValidator.ValidateAndThrow(request);
-            
+
             var sessionDto = _mapper.Map<SessionDto>(request);
-            
+
             var session = await _sessionService.CreateSessionAsync(sessionDto);
-         
+
+            if (request.CustomerAndPrice != null)
+                await _sessionService.AddCustomersToSessionAsync(session.Id,
+                    request.CustomerAndPrice.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value));
+
+
             return new CreatedResult($"api/session/{session.Id}", session);
         }
         catch (ValidationException validationException)
@@ -73,7 +78,7 @@ public class SessionController
             return new StatusCodeResult(500);
         }
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSessionById(Guid id)
     {
@@ -84,6 +89,7 @@ public class SessionController
             {
                 return new NotFoundResult();
             }
+
             return new OkObjectResult(session);
         }
         catch (Exception exception)
@@ -113,5 +119,4 @@ public class SessionController
             return new StatusCodeResult(500);
         }
     }
-
 }
