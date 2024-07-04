@@ -9,8 +9,8 @@ namespace tennismanager.service.Services;
 
 public interface ISessionService
 {
-    Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);  
-    
+    Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);
+    Task AddCustomersToSessionAsync(Guid sessionId, Dictionary<Guid, decimal> customerIds);
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
     Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize);
 }
@@ -41,6 +41,21 @@ public class SessionService : ISessionService
     {
         var session = await _tennisManagerContext.Sessions.FirstOrDefaultAsync(s => s.Id == id);
         return session != null ? _mapper.Map<SessionDto>(session) : null;
+    }
+
+    public async Task AddCustomersToSessionAsync(Guid sessionId, Dictionary<Guid, decimal> customerIds)
+    {
+        var customerSessions = customerIds
+            .Select(kvp => new CustomerSession
+            {
+                CustomerId = kvp.Key,
+                SessionId = sessionId,
+                Price = kvp.Value
+            })
+            .ToList();
+
+        await _tennisManagerContext.CustomerSessions.AddRangeAsync(customerSessions);
+        await _tennisManagerContext.SaveChangesAsync();
     }
 
     public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize)

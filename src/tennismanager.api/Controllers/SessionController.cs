@@ -16,15 +16,18 @@ public class SessionController
     private readonly IMapper _mapper;
     private readonly ISessionService _sessionService;
     private readonly IValidator<SessionCreateRequest> _sessionCreateRequestValidator;
+    private readonly IValidator<SessionAddCustomersRequest> _sessionAddCustomersRequestValidator;
 
     public SessionController(
         ILogger<SessionController> logger,
-        IMapper mapper, ISessionService sessionService, IValidator<SessionCreateRequest> sessionCreateRequestValidator)
+        IMapper mapper, ISessionService sessionService, IValidator<SessionCreateRequest> sessionCreateRequestValidator,
+        IValidator<SessionAddCustomersRequest> sessionAddCustomersRequestValidator)
     {
         _logger = logger;
         _mapper = mapper;
         _sessionService = sessionService;
         _sessionCreateRequestValidator = sessionCreateRequestValidator;
+        _sessionAddCustomersRequestValidator = sessionAddCustomersRequestValidator;
     }
 
     [HttpPost("create")]
@@ -82,6 +85,27 @@ public class SessionController
                 return new NotFoundResult();
             }
             return new OkObjectResult(session);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return new StatusCodeResult(500);
+        }
+    }
+
+    [HttpPatch("{id}/add-customers")]
+    public async Task<IActionResult> AddCustomersToSession(Guid id, [FromBody] SessionAddCustomersRequest request)
+    {
+        try
+        {
+            _sessionAddCustomersRequestValidator.ValidateAndThrow(request);
+
+            var customersAndPrices =
+                request.CustomersAndPrice.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value);
+
+            await _sessionService.AddCustomersToSessionAsync(id, customersAndPrices);
+
+            return new OkResult();
         }
         catch (Exception exception)
         {
