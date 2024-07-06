@@ -24,16 +24,7 @@ public static class SessionTypeMapper
 {
     public static SessionType MapSessionType(string type)
     {
-        return type switch
-        {
-            "event" => SessionType.Event,
-            "tennisPrivate" => SessionType.TennisPrivate,
-            "tennisDrill" => SessionType.TennisDrill,
-            "tennisHitting" => SessionType.TennisHitting,
-            "picklePrivate" => SessionType.PicklePrivate,
-            "pickleDrill" => SessionType.PickleDrill,
-            "pickleHitting" => SessionType.PickleHitting,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Invalid session type.")
-        };
+        if (Enum.TryParse(type, true, out SessionType sessionType)) return sessionType;
+        throw new ArgumentException($"Invalid session type: {type}");
     }
 }

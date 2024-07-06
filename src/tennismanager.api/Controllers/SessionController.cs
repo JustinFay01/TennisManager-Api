@@ -45,7 +45,6 @@ public class SessionController
                 await _sessionService.AddCustomersToSessionAsync(session.Id,
                     request.CustomerAndPrice.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value));
 
-
             return new CreatedResult($"api/session/{session.Id}", session);
         }
         catch (ValidationException validationException)

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.service.DTO;
+using tennismanager.service.Profiles;
 using tennismanager.shared.Models;
 
 namespace tennismanager.service.Services;
@@ -19,28 +20,28 @@ public class SessionService : ISessionService
 {
     private readonly TennisManagerContext _tennisManagerContext;
     private readonly IMapper _mapper;
-    
+
     public SessionService(TennisManagerContext tennisManagerContext, IMapper mapper)
     {
         _tennisManagerContext = tennisManagerContext;
         _mapper = mapper;
     }
-    
+
     public async Task<SessionDto> CreateSessionAsync(SessionDto sessionDto)
     {
-        var session = sessionDto.Type switch
+        var sessionType = SessionTypeMapper.MapSessionType(sessionDto.Type);
+        var session = sessionType switch
         {
-            nameof(SessionType.TennisPrivate) or nameof(SessionType.PicklePrivate)
+            SessionType.TennisPrivate or SessionType.PicklePrivate
                 => _mapper.Map<PrivateSession>(sessionDto),
-
             _ => _mapper.Map<Session>(sessionDto)
         };
 
         _tennisManagerContext.Sessions.Add(session);
-        
-         await _tennisManagerContext.SaveChangesAsync();
-         
-         return _mapper.Map<SessionDto>(session);
+
+        await _tennisManagerContext.SaveChangesAsync();
+
+        return _mapper.Map<SessionDto>(session);
     }
 
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)

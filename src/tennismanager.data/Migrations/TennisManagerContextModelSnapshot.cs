@@ -49,7 +49,7 @@ namespace tennismanager_api.tennismanager.data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
 
                     b.HasDiscriminator<string>("UserType").HasValue("User");
 
@@ -93,7 +93,7 @@ namespace tennismanager_api.tennismanager.data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("CoachPackagePrices");
+                    b.ToTable("CoachPackagePrices", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.CustomerPackage", b =>
@@ -136,7 +136,7 @@ namespace tennismanager_api.tennismanager.data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("CustomerPackages");
+                    b.ToTable("CustomerPackages", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.CustomerSession", b =>
@@ -176,7 +176,7 @@ namespace tennismanager_api.tennismanager.data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("CustomerSessions");
+                    b.ToTable("CustomerSessions", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Package", b =>
@@ -213,7 +213,7 @@ namespace tennismanager_api.tennismanager.data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Packages");
+                    b.ToTable("Packages", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Session", b =>
@@ -248,7 +248,7 @@ namespace tennismanager_api.tennismanager.data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Sessions", (string)null);
 
                     b.HasDiscriminator<string>("Type").HasValue("PickleHitting");
 

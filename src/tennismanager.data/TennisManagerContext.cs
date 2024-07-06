@@ -8,7 +8,7 @@ namespace tennismanager.data;
 
 public class TennisManagerContext : DbContext
 {
-    
+    public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Coach> Coaches { get; set; }
     public DbSet<Package> Packages { get; set; }

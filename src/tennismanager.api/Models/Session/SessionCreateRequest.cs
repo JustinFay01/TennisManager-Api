@@ -42,8 +42,7 @@ public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequ
 
         RuleFor(x => x.Type).NotNull()
             .Must(x => integrations.Contains(x)).WithMessage(
-                "This property can only be 'event', 'tennisPrivate', 'tennisDrill', 'tennisHitting, 'picklePrivate', 'pickleDrill', 'pickleHitting'"
-            );
+                $"Type must be one of the following: {string.Join(", ", integrations)}");
 
         When(x => x.Type == SessionCreateRequestType.TennisPrivate || x.Type == SessionCreateRequestType.PicklePrivate,
             () => { RuleFor(x => x.CoachId).NotNull(); });

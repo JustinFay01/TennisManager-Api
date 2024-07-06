@@ -1,6 +1,29 @@
 @tennismanager.api_HostAddress = https://localhost:7168
 
+# Customers
+
+
+## Get all customers
+###
 GET {{tennismanager.api_HostAddress}}/api/customers/all?page=1&pageSize=10
 Accept: application/json
+
+###
+
+
+# Sessions
+
+## Create a Private session which requires coach
+
+###
+POST{{tennismanager.api_HostAddress}}/api/sessions/create
+Content-Type: application/json
+
+{
+  "type": "tennisPrivate",
+  "coachId": "ad0ad278-99cd-47ed-90fa-3a2e237d4810",
+  "date": "2021-12-12T12:00:00"
+}
+
 
 ###
