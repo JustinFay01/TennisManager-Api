@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using tennismanager_api.tennismanager.data;
 using tennismanager.data;
 using tennismanager.service.Services;
 
