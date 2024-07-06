@@ -6,22 +6,22 @@ namespace tennismanager.api.Models.Session;
 
 public static class SessionCreateRequestType
 {
-    public const string Event = "event";
-    public const string TennisPrivate = "tennisPrivate";
-    public const string TennisDrill = "tennisDrill";
-    public const string TennisHitting = "tennisHitting";
-    public const string PicklePrivate = "picklePrivate";
-    public const string PickleDrill = "pickleDrill";
-    public const string PickleHitting = "pickleHitting";
+    public const string Event = "Event";
+    public const string TennisPrivate = "TennisPrivate";
+    public const string TennisDrill = "TennisDrill";
+    public const string TennisHitting = "TennisHitting";
+    public const string PicklePrivate = "PicklePrivate";
+    public const string PickleDrill = "PickleDrill";
+    public const string PickleHitting = "PickleHitting";
 }
 
 public class SessionCreateRequest
 {
     [JsonPropertyName("type")] public string Type { get; set; }
 
-    [JsonPropertyName("CoachId")] public string? CoachId { get; set; }
+    [JsonPropertyName("coachId")] public string? CoachId { get; set; }
 
-    [JsonPropertyName("CustomerAndPrice")] public Dictionary<string, decimal>? CustomerAndPrice { get; set; }
+    [JsonPropertyName("customerAndPrice")] public Dictionary<string, decimal>? CustomerAndPrice { get; set; }
     [JsonPropertyName("date")] public DateTime Date { get; set; }
 }
 

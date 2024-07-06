@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.service.DTO;
-using tennismanager.service.Profiles;
 using tennismanager.shared.Models;
 
 namespace tennismanager.service.Services;
@@ -29,13 +28,7 @@ public class SessionService : ISessionService
 
     public async Task<SessionDto> CreateSessionAsync(SessionDto sessionDto)
     {
-        var sessionType = SessionTypeMapper.MapSessionType(sessionDto.Type);
-        var session = sessionType switch
-        {
-            SessionType.TennisPrivate or SessionType.PicklePrivate
-                => _mapper.Map<PrivateSession>(sessionDto),
-            _ => _mapper.Map<Session>(sessionDto)
-        };
+        var session = _mapper.Map<Session>(sessionDto);
 
         _tennisManagerContext.Sessions.Add(session);
 

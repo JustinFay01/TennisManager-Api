@@ -16,5 +16,7 @@ public class CoachEntityTypeConfiguration : UserEntityTypeConfiguration<Coach>
         builder.HasMany(e => e.PackagePricesList)
         .WithOne(e => e.Coach)
         .OnDelete(DeleteBehavior.Cascade);
+
+        base.Configure(builder);
     }
 }

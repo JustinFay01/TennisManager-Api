@@ -27,9 +27,6 @@ public class TennisManagerContext : DbContext
         // Only need to specify one of these even if they extend different configuration types 
         // (AuditableEntity... && UserEntity...) because they both extend IEntityTypeConfiguration
         // and are within the same assembly 
-        //
-        // Also, do not call base because this will apply those changes automatically
-        // if base is called then it will call the configuration twice
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CoachEntityTypeConfiguration).Assembly);
         
         // User, Customer, and Coach hierarchy
@@ -38,6 +35,8 @@ public class TennisManagerContext : DbContext
             .HasValue<User>("User")
             .HasValue<Customer>("Customer")
             .HasValue<Coach>("Coach");
+
+        base.OnModelCreating(modelBuilder);
     }
 
     public override int SaveChanges()
@@ -66,9 +65,7 @@ public class TennisManagerContext : DbContext
             {
                 ((AuditableEntity)entry.Entity).CreatedById = new Guid(user);
                 ((AuditableEntity)entry.Entity).CreatedOn = DateTimeFactory.UtcNow; // For testing purposes
-                continue; // we don't need when it was updated because it was just created
             }
-            // else it is modified 
             ((AuditableEntity)entry.Entity).UpdatedById = new Guid(user);
             ((AuditableEntity)entry.Entity).UpdatedOn = DateTimeFactory.UtcNow;
         }

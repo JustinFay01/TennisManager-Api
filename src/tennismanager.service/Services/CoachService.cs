@@ -17,6 +17,8 @@ public interface ICoachService
     Task DeleteUserAsync(Guid id);
     
     Task<PackagePriceDto?> PutPackagePriceAsync(decimal requestPrice, Guid requestCoachId, Guid requestPackageId);
+
+    Task<List<CoachDto>> GetCoachesAsync();
 }
 
 public class CoachService : ICoachService
@@ -118,5 +120,15 @@ public class CoachService : ICoachService
         await _tennisManagerContext.SaveChangesAsync();
 
         return _mapper.Map<PackagePriceDto>(packagePrice);
+    }
+
+    public async Task<List<CoachDto>> GetCoachesAsync()
+    {
+        var coaches = await _tennisManagerContext.Coaches
+            .Include(c => c.PackagePricesList)
+            .Select(c => _mapper.Map<CoachDto>(c))
+            .ToListAsync();
+
+        return coaches;
     }
 }

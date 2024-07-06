@@ -17,11 +17,6 @@ public class PackageEntityTypeConfiguration : AuditableEntityTypeConfiguration<P
 {
     public override void Configure(EntityTypeBuilder<Package> builder)
     {
-        builder.Property(c => c.Id)
-        .HasColumnType("uuid")
-        .ValueGeneratedOnAdd()
-        .IsRequired();
-
         builder.HasMany(e => e.PackagePricesList)
         .WithOne(e => e.Package)
         .OnDelete(DeleteBehavior.Cascade);
@@ -29,5 +24,7 @@ public class PackageEntityTypeConfiguration : AuditableEntityTypeConfiguration<P
         builder.HasMany(p => p.Customers)
         .WithOne(cp => cp.Package)
         .OnDelete(DeleteBehavior.Cascade);
+
+        base.Configure(builder);
     }
 }

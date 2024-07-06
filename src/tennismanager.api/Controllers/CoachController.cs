@@ -123,5 +123,21 @@ public class CoachController : ControllerBase
             return StatusCode(500, exception.Message);
         }
     }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> GetCoaches()
+    {
+        try
+        {
+            var coaches = await _coachService.GetCoachesAsync();
+
+            return new OkObjectResult(coaches);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return StatusCode(500, exception.Message);
+        }
+    }
     
 }
