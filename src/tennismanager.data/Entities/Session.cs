@@ -17,11 +17,14 @@ public enum SessionType
 
 public class Session : AuditableEntity
 {
+    public string Name { get; set; }
     public DateTime Date { get; set; }
     public SessionType Type { get; set; }
     public ICollection<CustomerSession> CustomerSessions { get; set; } = [];
     public Coach? Coach { get; set; }
     public Guid? CoachId { get; set; }
+    
+    public string? Description { get; set; }
 }
 
 public class SessionEntityConfiguration : AuditableEntityTypeConfiguration<Session>
@@ -35,6 +38,13 @@ public class SessionEntityConfiguration : AuditableEntityTypeConfiguration<Sessi
 
         builder.Property(s => s.Date)
             .IsRequired();
+        
+        builder.Property(s => s.Name)
+            .IsRequired()
+            .HasMaxLength(100);
+        
+        builder.Property(s => s.Description)
+            .HasMaxLength(500);
         
         builder.HasMany(s => s.CustomerSessions)
         .WithOne(cs => cs.Session)

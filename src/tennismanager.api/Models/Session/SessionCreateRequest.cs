@@ -18,6 +18,9 @@ public static class SessionCreateRequestType
 public class SessionCreateRequest
 {
     [JsonPropertyName("type")] public string Type { get; set; }
+    
+    public string Name { get; set; }
+    public string? Description { get; set; }
 
     [JsonPropertyName("coachId")] public string? CoachId { get; set; }
 
@@ -43,6 +46,8 @@ public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequ
         RuleFor(x => x.Type).NotNull()
             .Must(x => integrations.Contains(x)).WithMessage(
                 $"Type must be one of the following: {string.Join(", ", integrations)}");
+        
+        RuleFor(x => x.Name).NotEmpty();
 
         When(x => x.Type == SessionCreateRequestType.TennisPrivate || x.Type == SessionCreateRequestType.PicklePrivate,
             () => { RuleFor(x => x.CoachId).NotNull(); });
