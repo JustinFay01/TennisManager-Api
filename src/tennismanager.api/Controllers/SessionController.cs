@@ -42,7 +42,7 @@ public class SessionController
             var session = await _sessionService.CreateSessionAsync(sessionDto);
 
             if (request.CustomerAndPrice != null)
-                await _sessionService.AddCustomersToSessionAsync(session.Id,
+                await _sessionService.AddCustomersToSessionAsync([session.Id],
                     request.CustomerAndPrice.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value));
 
             return new CreatedResult($"api/session/{session.Id}", session);
@@ -98,19 +98,31 @@ public class SessionController
         }
     }
 
-    [HttpPatch("{id}/add-customers")]
-    public async Task<IActionResult> AddCustomersToSession(Guid id, [FromBody] SessionAddCustomersRequest request)
+    [HttpPatch("add-customers")]
+    public async Task<IActionResult> AddCustomersToSession([FromBody] SessionAddCustomersRequest request)
     {
         try
         {
             _sessionAddCustomersRequestValidator.ValidateAndThrow(request);
 
             var customersAndPrices =
-                request.CustomersAndPrice.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value);
+                request.CustomersAndPrices.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value);
 
-            await _sessionService.AddCustomersToSessionAsync(id, customersAndPrices);
+            var sessionIds = request.SessionIds.Select(x => Guid.Parse(x)).ToList();
+
+            await _sessionService.AddCustomersToSessionAsync(sessionIds, customersAndPrices);
 
             return new OkResult();
+        }
+        catch (ArgumentException exception)
+        {
+            _logger.LogError(exception, exception.Message);
+            return new BadRequestObjectResult(exception.Message);
+        }
+        catch (ValidationException validationException)
+        {
+            _logger.LogError(validationException, validationException.Message);
+            return new BadRequestObjectResult(validationException.Message);
         }
         catch (Exception exception)
         {

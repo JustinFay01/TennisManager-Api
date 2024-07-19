@@ -1,22 +1,27 @@
-﻿using FluentValidation;
+﻿using System.Text.Json.Serialization;
+using FluentValidation;
 using tennismanager.api.Extensions;
 
 namespace tennismanager.api.Models.Session;
 
 public class SessionAddCustomersRequest
 {
-    public Guid SessionId { get; set; }
-    public Dictionary<string, decimal> CustomersAndPrice { get; set; }
+    [JsonPropertyName("sessionIds")]
+    public List<string> SessionIds { get; set; }
+    
+    [JsonPropertyName("customersAndPrices")]
+    public Dictionary<string, decimal> CustomersAndPrices { get; set; }
 }
 
 public class SessionAddCustomersRequestValidator : AbstractValidator<SessionAddCustomersRequest>
 {
     public SessionAddCustomersRequestValidator()
     {
-        RuleFor(x => x.SessionId).NotEmpty();
-        RuleFor(x => x.CustomersAndPrice).NotEmpty();
+        RuleFor(x => x.SessionIds).NotEmpty()
+            .ForEach(x => x.IsValidGuid());
+        RuleFor(x => x.CustomersAndPrices).NotEmpty();
 
-        RuleForEach(x => x.CustomersAndPrice)
+        RuleForEach(x => x.CustomersAndPrices)
             .ChildRules(c =>
             {
                 c.RuleFor(x => x.Key).IsValidGuid();
