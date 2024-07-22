@@ -31,9 +31,12 @@ public class CustomerService : ICustomerService
         _tennisManagerContext = tennisManagerContext;
     }
     
-    public async Task<CustomerDto> CreateCustomerAsync(CustomerDto coach)
+    public async Task<CustomerDto> CreateCustomerAsync(CustomerDto customerDto)
     {
-        var customer = _mapper.Map<Customer>(coach);
+        var customer = _mapper.Map<Customer>(customerDto);
+        
+        if(!string.IsNullOrEmpty(customerDto.PhoneNumber))
+            customer.PhoneNumber = ParsePhoneNumber(customer.PhoneNumber);
         
         _tennisManagerContext.Customers.Add(customer);
         
@@ -74,5 +77,13 @@ public class CustomerService : ICustomerService
             PageSize = pageSize
             // Automatically calculates the TotalPages
         };
+    }
+    
+    private static string ParsePhoneNumber(string phoneNumber)
+    {
+        // Remove all non numbers
+        var number = phoneNumber.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
+        // add . 
+        return number.Insert(3, ".").Insert(7, ".");
     }
 }

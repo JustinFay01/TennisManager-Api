@@ -33,7 +33,7 @@ public class CustomerController : ControllerBase
         try
         {
             _userCreateRequestValidator.ValidateAndThrow(request);
-            // TODO: Clean this up
+            
             if (request.Type != UserTypes.Customer)
                 return new BadRequestObjectResult("User type must be 'customer'");
             
