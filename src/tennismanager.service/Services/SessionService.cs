@@ -47,15 +47,15 @@ public class SessionService : ISessionService
     {
         var customerSessions = new List<CustomerSession>();
         foreach (var id in sessionIds)
-        { 
-            customerSessions.AddRange(customerIds
-                .Select(kvp => new CustomerSession
-                {
-                    CustomerId = kvp.Key,
-                    SessionId = id,
-                    Price = kvp.Value
-                })
-                .ToList());
+        {
+            // customerSessions.AddRange(customerIds
+            //     .Select(kvp => new CustomerSession
+            //     {
+            //         CustomerId = kvp.Key,
+            //         SessionId = id,
+            //         Price = kvp.Value
+            //     })
+            //     .ToList());
         }
 
         await _tennisManagerContext.CustomerSessions.AddRangeAsync(customerSessions);
@@ -66,19 +66,19 @@ public class SessionService : ISessionService
     {
         var count = _tennisManagerContext.Sessions.Count();
 
-        var query = await _tennisManagerContext.Sessions
-            .AsNoTracking()
-            .OrderByDescending(s => s.Date)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+        // var query = await _tennisManagerContext.Sessions
+        //     .AsNoTracking()
+        //     .OrderByDescending(s => s.Date)
+        //     .Skip((page - 1) * pageSize)
+        //     .Take(pageSize)
+        //     .ToListAsync();
 
         return new PagedResponse<SessionDto>
         {
-            Items = _mapper.Map<List<SessionDto>>(query),
-            TotalItems = count,
-            PageNumber = page,
-            PageSize = pageSize
+            // Items = _mapper.Map<List<SessionDto>>(query),
+            // TotalItems = count,
+            // PageNumber = page,
+            // PageSize = pageSize
         };
     }
 }

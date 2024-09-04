@@ -49,13 +49,13 @@ public class PackageService : IPackageService
     public async Task<IEnumerable<PackageDto>> GetPackagesPurchasedAfterDateAsync(DateTime afterDate)
     {
         afterDate = DateTime.SpecifyKind(afterDate, DateTimeKind.Utc);
-        
-        var packages = await _tennisManagerContext.CustomerPackages
-            .Where(p => p.DatePurchased > afterDate)
-            .ToListAsync();
 
-        var packageDtos = packages.Select(p => _mapper.Map<PackageDto>(p));
-        
-        return packageDtos;
+        // var packages = await _tennisManagerContext.CustomerPackages
+        //     .Where(p => p.DatePurchased > afterDate)
+        //     .ToListAsync();
+
+        // var packageDtos = packages.Select(p => _mapper.Map<PackageDto>(p));
+
+        return [];
     }
 }

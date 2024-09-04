@@ -4,27 +4,22 @@ using tennismanager.data.Entities.Abstract;
 
 namespace tennismanager.data.Entities;
 
-public class Package : AuditableEntity
+public class Package : BaseEntity
 {
     public string Name { get; set; }
+    public Customer Customer { get; set; }
+    public Guid CustomerId { get; set; }
+    public decimal Price { get; set; }
     public int Uses { get; set; }
-    public decimal DefaultPrice { get; set; }
-    public ICollection<CoachPackagePrice> PackagePricesList { get; set; } = [];
-    public ICollection<CustomerPackage> Customers { get; set; }
+    public Coach Coach { get; set; }
+    public Guid CoachId { get; set; }
+    public DateTime PurchaseDate { get; set; }
+    
 }
 
-public class PackageEntityTypeConfiguration : AuditableEntityTypeConfiguration<Package>
+public class PackageEntityTypeConfiguration : IEntityTypeConfiguration<Package>
 {
-    public override void Configure(EntityTypeBuilder<Package> builder)
+    public void Configure(EntityTypeBuilder<Package> builder)
     {
-        builder.HasMany(e => e.PackagePricesList)
-        .WithOne(e => e.Package)
-        .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(p => p.Customers)
-        .WithOne(cp => cp.Package)
-        .OnDelete(DeleteBehavior.Cascade);
-
-        base.Configure(builder);
     }
 }

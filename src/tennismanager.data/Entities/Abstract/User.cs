@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿namespace tennismanager.data.Entities.Abstract;
 
-namespace tennismanager.data.Entities.Abstract;
-
-public abstract class User : BaseEntity<Guid>
+public abstract class User : BaseEntity
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -11,18 +8,8 @@ public abstract class User : BaseEntity<Guid>
     public string? PhoneNumber { get; set; }
 }
 
-public abstract class UserEntityTypeConfiguration<T> : IEntityTypeConfiguration<T> where T : User
+public class Admin : User
 {
-    public virtual void Configure(EntityTypeBuilder<T> builder)
-    {
-        builder.Property(c => c.Id)
-            .HasColumnType("uuid")
-            .ValueGeneratedOnAdd()
-            .IsRequired();
-        
-        builder.Property(c => c.FirstName).IsRequired();
-        builder.Property(c => c.LastName).IsRequired();
-        builder.Property(c => c.Email);
-        builder.Property(c => c.PhoneNumber);
-    }
+    public string Username { get; set; }
+    public string Password { get; set; }
 }

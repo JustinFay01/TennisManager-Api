@@ -27,6 +27,13 @@ dotnet ef migrations list -s .\src\tennismanager.api -p .\src\tennismanager.data
 This will generate a migration with a timestamp preceeding the given name.
 
 
+To remove a migration
+
+```
+dotnet ef migrations remove -s .\src\tennismanager.api -p .\src\tennismanager.data -v
+```
+
+
 ## Models
 
 Models don't need to extend anything, but do needed to be added to the `TennisManagerContext.cs` class in the form of a db set. 

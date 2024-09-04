@@ -15,42 +15,50 @@ public enum SessionType
     PickleHitting
 }
 
-public class Session : AuditableEntity
+public class Session : BaseEntity
 {
     public string Name { get; set; }
-    public DateTime Date { get; set; }
+
+    /// <summary>
+    ///     Different types of sessions. This could include events, tennis private, tennis drill, tennis hitting, pickleball
+    ///     private, pickleball drill, pickleball hitting
+    /// </summary>
     public SessionType Type { get; set; }
-    public ICollection<CustomerSession> CustomerSessions { get; set; } = [];
+
+    /// <summary>
+    ///     Duration in minutes
+    /// </summary>
+    public int Duration { get; set; }
+
+    public int Capacity { get; set; }
+
+    /// <summary>
+    ///     Coach for private sessions
+    /// </summary>
     public Coach? Coach { get; set; }
+
     public Guid? CoachId { get; set; }
-    
     public string? Description { get; set; }
+
+    /// <summary>
+    ///     Customers who have signed up for this session
+    /// </summary>
+    public ICollection<CustomerSession> CustomerSessions { get; set; }
 }
 
-public class SessionEntityConfiguration : AuditableEntityTypeConfiguration<Session>
+public class SessionEntityConfiguration : IEntityTypeConfiguration<Session>
 {
-    public override void Configure(EntityTypeBuilder<Session> builder)
+    public void Configure(EntityTypeBuilder<Session> builder)
     {
-        // Session Properties
         builder.Property(s => s.Type)
             .IsRequired()
             .HasConversion<string>();
 
-        builder.Property(s => s.Date)
-            .IsRequired();
-        
         builder.Property(s => s.Name)
             .IsRequired()
             .HasMaxLength(100);
-        
+
         builder.Property(s => s.Description)
             .HasMaxLength(500);
-        
-        builder.HasMany(s => s.CustomerSessions)
-        .WithOne(cs => cs.Session)
-        .HasForeignKey(cs => cs.SessionId)
-        .OnDelete(DeleteBehavior.Cascade);
-
-        base.Configure(builder);
     }
 }

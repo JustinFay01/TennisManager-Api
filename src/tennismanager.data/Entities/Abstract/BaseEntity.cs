@@ -1,6 +1,21 @@
-﻿namespace tennismanager.data.Entities.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public abstract class BaseEntity<T> : IBaseEntity<T>
+namespace tennismanager.data.Entities.Abstract;
+
+public abstract class BaseEntity : IBaseEntity<Guid>
 {
-    public T Id { get; set; }
+    public Guid Id { get; set; }
+}
+
+public abstract class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
+    where TEntity : BaseEntity
+{
+    public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+    {
+        builder.Property(c => c.Id)
+            .HasColumnType("uuid")
+            .ValueGeneratedOnAdd()
+            .IsRequired();
+    }
 }

@@ -16,7 +16,7 @@ namespace tennismanager.data.Migrations
                 $@"DELETE FROM public.""Users"" where ""Users"".""Id"" = '{SystemUserIds.JustinFayId}'");
             
             migrationBuilder.Sql(
-                $@"INSERT INTO public.""Users"" (""Id"", ""FirstName"", ""LastName"", ""UserType"") Values ('{SystemUserIds.JustinFayId}', 'Justin', 'Fay', 'Coach')");
+                $@"INSERT INTO public.""Users"" (""Id"", ""FirstName"", ""LastName"", ""UserType"") Values ('{SystemUserIds.JustinFayId}', 'Justin', 'Fay', 'Admin')");
         }
 
         /// <inheritdoc />
