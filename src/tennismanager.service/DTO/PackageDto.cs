@@ -1,8 +1,6 @@
-﻿using tennismanager.service.DTO.Abstract;
+﻿namespace tennismanager.service.DTO;
 
-namespace tennismanager.service.DTO;
-
-public class PackageDto : AuditableDto<Guid>
+public class PackageDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

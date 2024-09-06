@@ -3,7 +3,7 @@
 namespace tennismanager.data.Entities;
 
 /// <summary>
-///     https://stackoverflow.com/questions/5183630/calendar-recurring-repeating-events-best-storage-method
+///  https://stackoverflow.com/questions/5183630/calendar-recurring-repeating-events-best-storage-method
 /// </summary>
 public class SessionInterval : BaseEntity
 {
@@ -18,5 +18,5 @@ public class SessionInterval : BaseEntity
     /// <summary>
     ///     The number of seconds between each repeat (e.g. 86400 for daily, 604800 for weekly, 2592000 for monthly)
     /// </summary>
-    public int RepeatInterval { get; set; }
+    public long RepeatInterval { get; set; }
 }

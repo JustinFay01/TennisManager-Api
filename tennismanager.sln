@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.data", "src\t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager.shared", "src\tennismanager.shared\tennismanager.shared.csproj", "{29796C05-DF6A-411F-8E96-6D9F3255EDCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tennismanager-api.services.tests", "tests\tennismanager-api.services.tests\tennismanager-api.services.tests.csproj", "{07656BFD-F7A5-44F6-86EB-2F50009E1BBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,5 +40,9 @@ Global
 		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29796C05-DF6A-411F-8E96-6D9F3255EDCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07656BFD-F7A5-44F6-86EB-2F50009E1BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07656BFD-F7A5-44F6-86EB-2F50009E1BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07656BFD-F7A5-44F6-86EB-2F50009E1BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07656BFD-F7A5-44F6-86EB-2F50009E1BBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

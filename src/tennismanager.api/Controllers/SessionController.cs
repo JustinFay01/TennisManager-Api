@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.Session;
 using tennismanager.service.DTO;
+using tennismanager.service.DTO.Session;
 using tennismanager.service.Services;
 
 namespace tennismanager.api.Controllers;
