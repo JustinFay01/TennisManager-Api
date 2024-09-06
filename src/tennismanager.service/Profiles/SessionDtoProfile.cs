@@ -2,6 +2,7 @@
 using tennismanager.data.Entities;
 using tennismanager.service.DTO;
 using tennismanager.service.DTO.Session;
+using tennismanager.shared.Models;
 
 namespace tennismanager.service.Profiles;
 

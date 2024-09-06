@@ -1,20 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using tennismanager.data.Entities.Abstract;
+using tennismanager.shared.Models;
 
 namespace tennismanager.data.Entities;
-
-public enum SessionType
-{
-    Event,
-    TennisPrivate,
-    TennisDrill,
-    TennisHitting,
-    PicklePrivate,
-    PickleDrill,
-    PickleHitting
-}
-
 public class Session : BaseEntity
 {
     public string Name { get; set; }

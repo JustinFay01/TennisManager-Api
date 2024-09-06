@@ -29,7 +29,7 @@ public class SessionService : ISessionService
     public async Task<SessionDto> CreateSessionAsync(SessionDto sessionDto)
     {
         var session = _mapper.Map<Session>(sessionDto);
-
+        
         _tennisManagerContext.Sessions.Add(session);
 
         await _tennisManagerContext.SaveChangesAsync();
