@@ -33,8 +33,9 @@ public class SessionService : ISessionService
         _tennisManagerContext.Sessions.Add(session);
 
         await _tennisManagerContext.SaveChangesAsync();
-
-        return _mapper.Map<SessionDto>(session);
+        
+        var mappedSession = _mapper.Map<SessionDto>(session);
+        return mappedSession;
     }
 
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)

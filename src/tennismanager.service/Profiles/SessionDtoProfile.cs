@@ -25,7 +25,8 @@ public class SessionDtoProfile : Profile
         CreateMap<SessionIntervalDto, SessionInterval>()
             .ForMember(dest => dest.SessionMeta, opt => opt.Ignore())
             .ForMember(dest => dest.SessionMetaId, opt => opt.Ignore())
-            .ForMember(dest => dest.Id, opt => opt.Ignore());
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ReverseMap();
     }
 }
 
