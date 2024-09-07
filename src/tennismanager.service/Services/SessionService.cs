@@ -10,6 +10,7 @@ namespace tennismanager.service.Services;
 public interface ISessionService
 {
     Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);
+    Task UpdateSessionAsync(Guid id, SessionDto sessionDto);
     Task AddCustomersToSessionAsync(List<Guid> sessionIds, Dictionary<Guid, decimal> customerIds);
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
     Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize);
@@ -36,6 +37,11 @@ public class SessionService : ISessionService
         
         var mappedSession = _mapper.Map<SessionDto>(session);
         return mappedSession;
+    }
+
+    public Task UpdateSessionAsync(Guid id, SessionDto sessionDto)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)

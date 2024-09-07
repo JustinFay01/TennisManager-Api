@@ -21,7 +21,8 @@ public class SessionController
 
     public SessionController(
         ILogger<SessionController> logger,
-        IMapper mapper, ISessionService sessionService, IValidator<SessionCreateRequest> sessionCreateRequestValidator,
+        IMapper mapper, ISessionService sessionService,
+        IValidator<SessionCreateRequest> sessionCreateRequestValidator,
         IValidator<SessionAddCustomersRequest> sessionAddCustomersRequestValidator)
     {
         _logger = logger;
@@ -41,7 +42,7 @@ public class SessionController
             var sessionDto = _mapper.Map<SessionDto>(request);
 
             var session = await _sessionService.CreateSessionAsync(sessionDto);
-            
+
             return new CreatedResult($"api/session/{session.Id}", session);
         }
         catch (ValidationException validationException)
@@ -54,6 +55,14 @@ public class SessionController
             _logger.LogError(exception, "Something went wrong!");
             return new StatusCodeResult(500);
         }
+    }
+
+    [HttpPatch("update/{id}")]
+    public async Task<IActionResult> UpdateSession([FromRoute] Guid id, [FromBody] SessionUpdateRequest request)
+    {
+        _logger.LogInformation("Update session request received");
+
+        throw new NotImplementedException();
     }
 
     [HttpGet("all")]

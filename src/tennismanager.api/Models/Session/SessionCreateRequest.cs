@@ -43,7 +43,10 @@ public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequ
         RuleFor(s => s.SessionMeta).NotNull()
             .WithMessage("Session meta must not be null");
 
-        When(s => s.SessionMeta.Recurring, () =>
+        RuleFor(s => s.SessionMeta.Recurring).NotNull()
+            .WithMessage("Recurring must not be null");
+        
+        When(s => (bool) s.SessionMeta.Recurring!, () =>
         {
             RuleFor(s => s.SessionMeta.SessionIntervals).NotEmpty();
             RuleForEach(s => s.SessionMeta.SessionIntervals)
