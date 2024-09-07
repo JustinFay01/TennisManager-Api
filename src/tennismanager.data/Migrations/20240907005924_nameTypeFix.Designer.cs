@@ -12,8 +12,8 @@ using tennismanager.data;
 namespace tennismanager.data.Migrations
 {
     [DbContext(typeof(TennisManagerContext))]
-    [Migration("20240906233639_intervalToLong")]
-    partial class intervalToLong
+    [Migration("20240907005924_nameTypeFix")]
+    partial class nameTypeFix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,14 +175,14 @@ namespace tennismanager.data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("RecurringStartDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<long>("RepeatInterval")
                         .HasColumnType("bigint");
 
                     b.Property<Guid>("SessionMetaId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -325,7 +325,7 @@ namespace tennismanager.data.Migrations
             modelBuilder.Entity("tennismanager.data.Entities.SessionInterval", b =>
                 {
                     b.HasOne("tennismanager.data.Entities.SessionMeta", "SessionMeta")
-                        .WithMany()
+                        .WithMany("SessionIntervals")
                         .HasForeignKey("SessionMetaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -366,6 +366,11 @@ namespace tennismanager.data.Migrations
             modelBuilder.Entity("tennismanager.data.Entities.Session", b =>
                 {
                     b.Navigation("CustomerSessions");
+                });
+
+            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
+                {
+                    b.Navigation("SessionIntervals");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Customer", b =>

@@ -5,11 +5,16 @@
 namespace tennismanager.data.Migrations
 {
     /// <inheritdoc />
-    public partial class intervalToLong : Migration
+    public partial class nameTypeFix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "StartDate",
+                table: "SessionIntervals",
+                newName: "RecurringStartDate");
+
             migrationBuilder.AlterColumn<long>(
                 name: "RepeatInterval",
                 table: "SessionIntervals",
@@ -22,6 +27,11 @@ namespace tennismanager.data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "RecurringStartDate",
+                table: "SessionIntervals",
+                newName: "StartDate");
+
             migrationBuilder.AlterColumn<int>(
                 name: "RepeatInterval",
                 table: "SessionIntervals",

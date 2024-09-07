@@ -9,6 +9,12 @@ public class SessionCreateProfile : Profile
 {
     public SessionCreateProfile()
     {
-        CreateMap<SessionCreateRequest, SessionDto>();
+        CreateMap<SessionCreateRequest, SessionDto>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+        
+        CreateMap<SessionMetaRequest, SessionMetaDto>()
+            .ForMember(dest => dest.SessionIntervals, opt => opt.MapFrom(src => src.SessionIntervals));
+        
+        CreateMap<SessionIntervalRequest, SessionIntervalDto>();
     }
 }

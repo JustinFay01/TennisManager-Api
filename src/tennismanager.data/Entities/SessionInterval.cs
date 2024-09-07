@@ -13,7 +13,7 @@ public class SessionInterval : BaseEntity
     /// <summary>
     ///     The Unix timestamp of the start of the repeat interval
     /// </summary>
-    public DateTime StartDate { get; set; }
+    public DateTime RecurringStartDate { get; set; }
 
     /// <summary>
     ///     The number of seconds between each repeat (e.g. 86400 for daily, 604800 for weekly, 2592000 for monthly)

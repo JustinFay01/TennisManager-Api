@@ -29,8 +29,12 @@ public class SessionService : ISessionService
     public async Task<SessionDto> CreateSessionAsync(SessionDto sessionDto)
     {
         var session = _mapper.Map<Session>(sessionDto);
-        
+        var sessionMeta = _mapper.Map<SessionMeta>(sessionDto.SessionMeta);
+        var sessionIntervals = _mapper.Map<List<SessionInterval>>(sessionDto.SessionMeta.SessionIntervals);
+
         _tennisManagerContext.Sessions.Add(session);
+        _tennisManagerContext.SessionMetas.Add(sessionMeta);
+        _tennisManagerContext.SessionIntervals.AddRange(sessionIntervals);
 
         await _tennisManagerContext.SaveChangesAsync();
 

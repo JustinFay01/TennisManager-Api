@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <RootNamespace>tennismanager_api.services.tests</RootNamespace>
+        <RootNamespace>tennismanager_api.api.tests</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
@@ -23,9 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\tennismanager.data\tennismanager.data.csproj" />
-      <ProjectReference Include="..\..\src\tennismanager.service\tennismanager.service.csproj" />
-      <ProjectReference Include="..\..\src\tennismanager.shared\tennismanager.shared.csproj" />
+      <ProjectReference Include="..\..\src\tennismanager.api\tennismanager.api.csproj" />
     </ItemGroup>
 
 </Project>
