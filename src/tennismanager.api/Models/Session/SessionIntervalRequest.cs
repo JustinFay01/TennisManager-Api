@@ -1,6 +1,6 @@
-﻿namespace tennismanager.service.DTO.Session;
+﻿namespace tennismanager.api.Models.Session;
 
-public class SessionIntervalDto
+public class SessionIntervalRequest
 {
     public DateTime RecurringStartDate { get; set; }
     public long RepeatInterval { get; set; }

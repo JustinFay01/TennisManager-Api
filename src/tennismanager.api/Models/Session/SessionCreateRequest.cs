@@ -15,8 +15,7 @@ public class SessionCreateRequest
     public int Duration { get; set; }
     public int Capacity { get; set; }
     public Guid? CoachId { get; set; }
-    
-    public SessionMetaDto SessionMeta { get; set; }
+    public SessionMetaRequest SessionMeta { get; set; }
 }
 
 public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequest>
@@ -27,6 +26,12 @@ public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequ
             .WithMessage("Invalid session type");
         
         RuleFor(x => x.Name).NotEmpty();
+        
+        RuleFor(x => x.Price).GreaterThanOrEqualTo(0);
+        
+        RuleFor(x => x.Duration).GreaterThan(0);
+        
+        RuleFor(x => x.Capacity).GreaterThan(0);
 
         When(x => x.Type is nameof(SessionType.TennisPrivate) or nameof(SessionType.PicklePrivate),
             () => { RuleFor(x => x.CoachId).NotNull(); });
@@ -34,7 +39,7 @@ public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequ
         RuleFor(s => s.SessionMeta).NotNull();
         When(s => s.SessionMeta.Recurring, () =>
         {
-            RuleFor(s => s.SessionMeta.SessionInterval).NotEmpty();
+            RuleFor(s => s.SessionMeta.SessionIntervals).NotEmpty();
         });
         
     }

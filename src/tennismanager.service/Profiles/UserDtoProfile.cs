@@ -18,7 +18,10 @@ public class UserDtoProfile : Profile
             .Include<CoachDto, Coach>()
             .Include<CustomerDto, Customer>()
             .ReverseMap();
-        
+
+        CreateMap<CoachDto, Coach>()
+            .ReverseMap();
+
         CreateMap<CustomerDto, Customer>()
             .ReverseMap();
     }
