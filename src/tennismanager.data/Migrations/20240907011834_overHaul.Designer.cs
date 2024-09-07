@@ -12,8 +12,8 @@ using tennismanager.data;
 namespace tennismanager.data.Migrations
 {
     [DbContext(typeof(TennisManagerContext))]
-    [Migration("20240907005924_nameTypeFix")]
-    partial class nameTypeFix
+    [Migration("20240907011834_overHaul")]
+    partial class overHaul
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,16 +197,13 @@ namespace tennismanager.data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Recurring")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("SessionId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("SessionId1")
+                    b.Property<Guid>("SessionId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartDate")
@@ -214,7 +211,8 @@ namespace tennismanager.data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SessionId1");
+                    b.HasIndex("SessionId")
+                        .IsUnique();
 
                     b.ToTable("SessionMetas");
                 });
@@ -336,8 +334,8 @@ namespace tennismanager.data.Migrations
             modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
                 {
                     b.HasOne("tennismanager.data.Entities.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("SessionId1")
+                        .WithOne("SessionMeta")
+                        .HasForeignKey("tennismanager.data.Entities.SessionMeta", "SessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -366,6 +364,8 @@ namespace tennismanager.data.Migrations
             modelBuilder.Entity("tennismanager.data.Entities.Session", b =>
                 {
                     b.Navigation("CustomerSessions");
+
+                    b.Navigation("SessionMeta");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>

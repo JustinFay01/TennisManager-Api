@@ -152,18 +152,17 @@ namespace tennismanager.data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SessionId1 = table.Column<Guid>(type: "uuid", nullable: false),
-                    SessionId = table.Column<int>(type: "integer", nullable: false),
+                    SessionId = table.Column<Guid>(type: "uuid", nullable: false),
                     Recurring = table.Column<bool>(type: "boolean", nullable: false),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SessionMetas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SessionMetas_Sessions_SessionId1",
-                        column: x => x.SessionId1,
+                        name: "FK_SessionMetas_Sessions_SessionId",
+                        column: x => x.SessionId,
                         principalTable: "Sessions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -175,8 +174,8 @@ namespace tennismanager.data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     SessionMetaId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RepeatInterval = table.Column<int>(type: "integer", nullable: false)
+                    RecurringStartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RepeatInterval = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,9 +214,10 @@ namespace tennismanager.data.Migrations
                 column: "SessionMetaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SessionMetas_SessionId1",
+                name: "IX_SessionMetas_SessionId",
                 table: "SessionMetas",
-                column: "SessionId1");
+                column: "SessionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sessions_CoachId",

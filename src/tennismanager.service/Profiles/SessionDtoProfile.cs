@@ -17,7 +17,6 @@ public class SessionDtoProfile : Profile
             .ReverseMap();
 
         CreateMap<SessionMetaDto, SessionMeta>()
-            .ForMember(dest => dest.SessionIntervals, opt => opt.Ignore())
             .ForMember(dest => dest.Session, opt => opt.Ignore())
             .ForMember(dest => dest.SessionId, opt => opt.Ignore())
             .ForMember(dest => dest.Id, opt => opt.Ignore())
