@@ -3,6 +3,8 @@ using System.Text.Json;
 using AutoFixture;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -26,15 +28,14 @@ public class SessionTests : IDisposable
         
         _mockSessionService = new Mock<ISessionService>();
         var mockLogger = new Mock<ILogger<SessionController>>();
-        var mockMapper = new Mock<IMapper>();
-        var mockSessionService = new Mock<ISessionService>();
-        var mockSessionCreateRequestValidator = new Mock<IValidator<SessionCreateRequest>>();
+        var mapper = new MapperConfiguration(cfg => { cfg.AddProfile<SessionCreateProfile>(); }).CreateMapper();
+        var mockSessionCreateRequestValidator = new Mock<IValidator<SessionRequest>>();
         var mockSessionAddCustomersRequestValidator = new Mock<IValidator<SessionAddCustomersRequest>>();
 
         TestFixture = new SessionController(
             mockLogger.Object,
-            mockMapper.Object,
-            mockSessionService.Object,
+            mapper,
+            _mockSessionService.Object,
             mockSessionCreateRequestValidator.Object,
             mockSessionAddCustomersRequestValidator.Object
         );
@@ -54,15 +55,16 @@ public class SessionTests : IDisposable
     }
 
 
-    # region Update Session Tests (Json Merge Patch)
+    # region Update Session Tests
 
     [Fact]
     public async Task UpdateSession_ValidRequest_ReturnsNoContent()
     {
         // Arrange
-       var session = Fixture.Build<SessionUpdateRequest>()
-            .Create();
+        var session = CreateSessionPatchDocument();
 
+        _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
+           .ReturnsAsync(Fixture.Create<SessionDto>());
         _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()));
 
         // Act
@@ -71,16 +73,17 @@ public class SessionTests : IDisposable
 
         // Assert
         _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()), Times.Once);
-        Assert.IsType<NoContentResult>(result);
+        Assert.IsType<OkResult>(result);
     }
     
     [Fact]
     public async Task UpdateSession_InvalidRequest_ReturnsBadRequest()
     {
         // Arrange
-        var session = Fixture.Build<SessionUpdateRequest>()
-            .Create();
+        var session = CreateSessionPatchDocument();
         
+        _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(Fixture.Create<SessionDto>());
         _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()))
             .ThrowsAsync(new ValidationException("Invalid request"));
 
@@ -93,7 +96,17 @@ public class SessionTests : IDisposable
     }
     
     
+    private JsonPatchDocument<SessionRequest> CreateSessionPatchDocument()
+    {
+        var patchDocument = new JsonPatchDocument<SessionRequest>();
+        patchDocument.Operations.Add(new Operation<SessionRequest>
+        {
+            op = "replace",
+            path = "/name",
+            value = "New Name"
+        });
+        return patchDocument;
+    }
     
-
     # endregion
 }

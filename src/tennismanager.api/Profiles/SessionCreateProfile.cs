@@ -9,11 +9,14 @@ public class SessionCreateProfile : Profile
 {
     public SessionCreateProfile()
     {
-        CreateMap<SessionCreateRequest, SessionDto>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore());
+        CreateMap<SessionRequest, SessionDto>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ReverseMap();
 
-        CreateMap<SessionMetaRequest, SessionMetaDto>();
-        
-        CreateMap<SessionIntervalRequest, SessionIntervalDto>();
+        CreateMap<SessionMetaRequest, SessionMetaDto>()
+            .ReverseMap();
+
+        CreateMap<SessionIntervalRequest, SessionIntervalDto>()
+            .ReverseMap();
     }
 }

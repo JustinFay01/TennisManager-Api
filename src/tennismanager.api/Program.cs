@@ -28,7 +28,8 @@ public class Program
         
         
         // Add services to the container.
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddNewtonsoftJson();
         builder.Services.UseTennisManagerServices(builder.Configuration);
         
         // Injects all Validators

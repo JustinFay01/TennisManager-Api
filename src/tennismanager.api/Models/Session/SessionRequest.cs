@@ -6,7 +6,7 @@ using tennismanager.shared.Models;
 
 namespace tennismanager.api.Models.Session;
 
-public class SessionCreateRequest
+public class SessionRequest
 {
     public string Type { get; set; }
     public string Name { get; set; }
@@ -18,9 +18,9 @@ public class SessionCreateRequest
     public SessionMetaRequest SessionMeta { get; set; }
 }
 
-public class SessionCreateRequestValidator : AbstractValidator<SessionCreateRequest>
+public class SessionRequestValidator : AbstractValidator<SessionRequest>
 {
-    public SessionCreateRequestValidator()
+    public SessionRequestValidator()
     {
         RuleFor(x => x.Type).NotNull().IsEnumName(typeof(SessionType))
             .WithMessage("Invalid session type");

@@ -47,7 +47,7 @@ public class SessionService : ISessionService
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)
     {
         var session = await _tennisManagerContext.Sessions.FirstOrDefaultAsync(s => s.Id == id);
-        return session != null ? _mapper.Map<SessionDto>(session) : null;
+        return _mapper.Map<SessionDto>(session);
     }
 
     public async Task AddCustomersToSessionAsync(List<Guid> sessionIds, Dictionary<Guid, decimal> customerIds)

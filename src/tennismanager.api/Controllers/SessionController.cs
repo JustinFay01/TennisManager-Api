@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Dawn;
 using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.Session;
-using tennismanager.service.DTO;
 using tennismanager.service.DTO.Session;
 using tennismanager.service.Services;
 
@@ -16,28 +16,28 @@ public class SessionController
     private readonly ILogger<SessionController> _logger;
     private readonly IMapper _mapper;
     private readonly ISessionService _sessionService;
-    private readonly IValidator<SessionCreateRequest> _sessionCreateRequestValidator;
+    private readonly IValidator<SessionRequest> _sessionRequestValidator;
     private readonly IValidator<SessionAddCustomersRequest> _sessionAddCustomersRequestValidator;
 
     public SessionController(
         ILogger<SessionController> logger,
         IMapper mapper, ISessionService sessionService,
-        IValidator<SessionCreateRequest> sessionCreateRequestValidator,
+        IValidator<SessionRequest> sessionRequestValidator,
         IValidator<SessionAddCustomersRequest> sessionAddCustomersRequestValidator)
     {
         _logger = logger;
         _mapper = mapper;
         _sessionService = sessionService;
-        _sessionCreateRequestValidator = sessionCreateRequestValidator;
+        _sessionRequestValidator = sessionRequestValidator;
         _sessionAddCustomersRequestValidator = sessionAddCustomersRequestValidator;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateSession([FromBody] SessionCreateRequest request)
+    public async Task<IActionResult> CreateSession([FromBody] SessionRequest request)
     {
         try
         {
-            _sessionCreateRequestValidator.ValidateAndThrow(request);
+            _sessionRequestValidator.ValidateAndThrow(request);
 
             var sessionDto = _mapper.Map<SessionDto>(request);
 
@@ -58,11 +58,46 @@ public class SessionController
     }
 
     [HttpPatch("update/{id}")]
-    public async Task<IActionResult> UpdateSession([FromRoute] Guid id, [FromBody] SessionUpdateRequest request)
+    public async Task<IActionResult> UpdateSession([FromRoute] Guid id, [FromBody] JsonPatchDocument<SessionRequest> request)
     {
         _logger.LogInformation("Update session request received");
 
-        throw new NotImplementedException();
+        try
+        {
+            // Fetch the session
+            var session = await _sessionService.GetSessionByIdAsync(id);
+            if (session == null)
+            {
+                return new NotFoundResult();
+            }
+            
+            // Map the session to the update request
+            var sessionUpdateRequest = _mapper.Map<SessionRequest>(session);
+            
+            // Apply the patch
+            request.ApplyTo(sessionUpdateRequest);
+            
+            // Validate the updated request
+            _sessionRequestValidator.ValidateAndThrow(sessionUpdateRequest);
+            
+            // Map the updated request back to a session DTO
+            var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
+            
+            // Update the session
+            await _sessionService.UpdateSessionAsync(id, sessionDto);
+            
+            return new OkResult();
+        }
+        catch (ValidationException validationException)
+        {
+            _logger.LogError(validationException, validationException.Message);
+            return new BadRequestObjectResult(validationException.Message);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Something went wrong!");
+            return new StatusCodeResult(500);
+        }
     }
 
     [HttpGet("all")]
