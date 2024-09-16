@@ -41,7 +41,9 @@ public class SessionService : ISessionService
 
     public Task UpdateSessionAsync(Guid id, SessionDto sessionDto)
     {
-        throw new NotImplementedException();
+        var session = _mapper.Map<Session>(sessionDto);
+        _tennisManagerContext.Sessions.Update(session);
+        return _tennisManagerContext.SaveChangesAsync();
     }
 
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)

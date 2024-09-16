@@ -61,7 +61,6 @@ public class SessionController
     public async Task<IActionResult> UpdateSession([FromRoute] Guid id, [FromBody] JsonPatchDocument<SessionRequest> request)
     {
         _logger.LogInformation("Update session request received");
-
         try
         {
             // Fetch the session
