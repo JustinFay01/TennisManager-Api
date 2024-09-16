@@ -143,7 +143,7 @@ public class SessionController
     {
         try
         {
-            _sessionAddCustomersRequestValidator.ValidateAndThrow(request);
+            await _sessionAddCustomersRequestValidator.ValidateAndThrowAsync(request);
 
             var customerSessions = _mapper.Map<List<CustomerSessionDto>>(request.Requests);
 
