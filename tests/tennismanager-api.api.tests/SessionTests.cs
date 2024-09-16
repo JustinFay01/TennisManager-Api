@@ -1,5 +1,3 @@
-using System.Text;
-using System.Text.Json;
 using AutoFixture;
 using AutoMapper;
 using FluentValidation;
@@ -65,14 +63,14 @@ public class SessionTests : IDisposable
 
         _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
            .ReturnsAsync(Fixture.Create<SessionDto>());
-        _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()));
+        _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()));
 
         // Act
         var result = await TestFixture.UpdateSession(Guid.NewGuid(), session);
 
 
         // Assert
-        _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()), Times.Once);
+        _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
         Assert.IsType<OkResult>(result);
     }
     
@@ -84,14 +82,14 @@ public class SessionTests : IDisposable
         
         _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(Fixture.Create<SessionDto>());
-        _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()))
+        _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()))
             .ThrowsAsync(new ValidationException("Invalid request"));
 
         // Act
         var result = await TestFixture.UpdateSession(Guid.NewGuid(), session);
 
         // Assert
-        _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<Guid>(), It.IsAny<SessionDto>()), Times.Once);
+        _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
         Assert.IsType<BadRequestObjectResult>(result);
     }
     

@@ -14,12 +14,13 @@ public class CustomerSession : BaseEntity
     public Guid SessionId { get; set; }
 
     /// <summary>
-    ///     The actual date of the session.
+    ///     The date of the session that the customer is attending.
     /// </summary>
     public DateTime Date { get; set; }
 
     /// <summary>
     ///     Overrides the default price of the session. Allows for a special price to be set for a customer.
+    ///     If null, fetch the price from the session.
     /// </summary>
     public decimal? CustomPrice { get; set; }
 }

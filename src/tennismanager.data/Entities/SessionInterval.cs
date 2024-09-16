@@ -11,7 +11,9 @@ public class SessionInterval : BaseEntity
     public Guid SessionMetaId { get; set; }
 
     /// <summary>
-    ///     The Unix timestamp of the start of the repeat interval
+    ///     The date and time the recurring event starts. Specifically, this is the first instance of this recurrence.
+    ///     For instance, if the event was originally created on a Monday, but is also set to repeat on Mondays AND Tuesdays every week,
+    ///     this would be the date of the first Monday OR Tuesday and the RepeatInterval would be 604800 (seconds in a week).
     /// </summary>
     public DateTime RecurringStartDate { get; set; }
 

@@ -83,7 +83,7 @@ public class SessionController
             var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
             
             // Update the session
-            await _sessionService.UpdateSessionAsync(id, sessionDto);
+            await _sessionService.UpdateSessionAsync(sessionDto);
             
             return new OkResult();
         }
@@ -145,12 +145,9 @@ public class SessionController
         {
             _sessionAddCustomersRequestValidator.ValidateAndThrow(request);
 
-            var customersAndPrices =
-                request.CustomersAndPrices.ToDictionary(kvp => Guid.Parse(kvp.Key), kvp => kvp.Value);
+            var customerSessions = _mapper.Map<List<CustomerSessionDto>>(request.Requests);
 
-            var sessionIds = request.SessionIds.Select(x => Guid.Parse(x)).ToList();
-
-            await _sessionService.AddCustomersToSessionAsync(sessionIds, customersAndPrices);
+            await _sessionService.AddCustomersToSessionAsync(customerSessions);
 
             return new OkResult();
         }

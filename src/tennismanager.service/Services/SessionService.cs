@@ -10,8 +10,8 @@ namespace tennismanager.service.Services;
 public interface ISessionService
 {
     Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);
-    Task UpdateSessionAsync(Guid id, SessionDto sessionDto);
-    Task AddCustomersToSessionAsync(List<Guid> sessionIds, Dictionary<Guid, decimal> customerIds);
+    Task UpdateSessionAsync(SessionDto sessionDto);
+    Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions);
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
     Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize);
 }
@@ -39,7 +39,7 @@ public class SessionService : ISessionService
         return mappedSession;
     }
 
-    public Task UpdateSessionAsync(Guid id, SessionDto sessionDto)
+    public Task UpdateSessionAsync(SessionDto sessionDto)
     {
         var session = _mapper.Map<Session>(sessionDto);
         _tennisManagerContext.Sessions.Update(session);
@@ -52,22 +52,10 @@ public class SessionService : ISessionService
         return _mapper.Map<SessionDto>(session);
     }
 
-    public async Task AddCustomersToSessionAsync(List<Guid> sessionIds, Dictionary<Guid, decimal> customerIds)
+    public async Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions)
     {
-        var customerSessions = new List<CustomerSession>();
-        foreach (var id in sessionIds)
-        {
-            // customerSessions.AddRange(customerIds
-            //     .Select(kvp => new CustomerSession
-            //     {
-            //         CustomerId = kvp.Key,
-            //         SessionId = id,
-            //         Price = kvp.Value
-            //     })
-            //     .ToList());
-        }
-
-        await _tennisManagerContext.CustomerSessions.AddRangeAsync(customerSessions);
+        var entities = _mapper.Map<List<CustomerSession>>(customerSessions);
+        await _tennisManagerContext.CustomerSessions.AddRangeAsync(entities);
         await _tennisManagerContext.SaveChangesAsync();
     }
 
@@ -75,19 +63,18 @@ public class SessionService : ISessionService
     {
         var count = _tennisManagerContext.Sessions.Count();
 
-        // var query = await _tennisManagerContext.Sessions
-        //     .AsNoTracking()
-        //     .OrderByDescending(s => s.Date)
-        //     .Skip((page - 1) * pageSize)
-        //     .Take(pageSize)
-        //     .ToListAsync();
+        var query = await _tennisManagerContext.Sessions
+            .AsNoTracking()
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
         return new PagedResponse<SessionDto>
         {
-            // Items = _mapper.Map<List<SessionDto>>(query),
-            // TotalItems = count,
-            // PageNumber = page,
-            // PageSize = pageSize
+            Items = _mapper.Map<List<SessionDto>>(query),
+            PageNumber = page,
+            PageSize = pageSize,
+            TotalItems = count
         };
     }
 }
