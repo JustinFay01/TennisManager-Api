@@ -18,6 +18,7 @@ public class SessionTests : IDisposable
 {
     private readonly SessionController TestFixture;
     private readonly Mock<ISessionService> _mockSessionService;
+    private readonly IMapper mapper;
     private readonly Fixture Fixture;
 
     public SessionTests()
@@ -26,7 +27,13 @@ public class SessionTests : IDisposable
         
         _mockSessionService = new Mock<ISessionService>();
         var mockLogger = new Mock<ILogger<SessionController>>();
-        var mapper = new MapperConfiguration(cfg => { cfg.AddProfile<SessionCreateProfile>(); }).CreateMapper();
+        
+         mapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<SessionCreateProfile>();
+            cfg.AddProfile<CustomerSessionProfile>();
+        }).CreateMapper();
+        
         var mockSessionCreateRequestValidator = new Mock<IValidator<SessionRequest>>();
         var mockSessionAddCustomersRequestValidator = new Mock<IValidator<SessionAddCustomersRequest>>();
 
@@ -48,10 +55,29 @@ public class SessionTests : IDisposable
     [Fact]
     public void ValidateMappings()
     {
-        var config = new MapperConfiguration(cfg => { cfg.AddProfile<SessionCreateProfile>(); });
-        config.AssertConfigurationIsValid();
+        mapper.ConfigurationProvider.AssertConfigurationIsValid();
     }
+    
+    # region Add Customers To Session Tests
 
+    [Fact]
+    public async Task AddCustomersToSession_ValidRequest_ReturnsOkResult()
+    {
+        // Arrange
+        var sessionAddCustomersRequest = Fixture.Create<SessionAddCustomersRequest>();
+
+        _mockSessionService.Setup(x => x.AddCustomersToSessionAsync(It.IsAny<List<CustomerSessionDto>>()));
+        
+        // Act
+        var result = await TestFixture.AddCustomersToSession(sessionAddCustomersRequest);
+        
+        // Assert
+        _mockSessionService.Verify(x => x.AddCustomersToSessionAsync(It.IsAny<List<CustomerSessionDto>>()), Times.Once);
+        Assert.IsType<OkResult>(result);
+
+    }
+    
+    # endregion
 
     # region Update Session Tests
 
@@ -92,7 +118,6 @@ public class SessionTests : IDisposable
         _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
         Assert.IsType<BadRequestObjectResult>(result);
     }
-    
     
     private JsonPatchDocument<SessionRequest> CreateSessionPatchDocument()
     {

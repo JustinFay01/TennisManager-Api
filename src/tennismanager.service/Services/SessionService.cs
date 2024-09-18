@@ -52,6 +52,7 @@ public class SessionService : ISessionService
         return _mapper.Map<SessionDto>(session);
     }
 
+    // TODO: Refactor to: a) use a transaction b) return the number of successfully added entities, c) list of failed entities
     public async Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions)
     {
         var entities = _mapper.Map<List<CustomerSession>>(customerSessions);
