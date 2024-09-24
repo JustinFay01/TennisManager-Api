@@ -9,11 +9,11 @@ public class UserCreateRequest
 {
     [JsonPropertyName("type")]
     public string Type { get; set; }
-    
-    [JsonPropertyName("first")] 
+
+    [JsonPropertyName("firstName")] 
     public string FirstName { get; set; }
-    
-    [JsonPropertyName("last")] 
+
+    [JsonPropertyName("lastName")] 
     public string LastName { get; set; }
     
     [JsonPropertyName("email")] 
