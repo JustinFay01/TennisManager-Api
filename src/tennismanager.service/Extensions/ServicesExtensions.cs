@@ -20,6 +20,7 @@ public static class ServicesExtensions
         // services.AddScoped<ICoachService, CoachService>();
         // services.AddScoped<IPackageService, PackageService>();
         services.AddScoped<ISessionService, SessionService>();
+        services.AddScoped<IUserService, UserService>();
         
         return services;
     }

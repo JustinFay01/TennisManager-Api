@@ -7,15 +7,7 @@ namespace tennismanager.service.Services;
 
 public interface ICoachService
 {
-    Task<CoachDto> CreateCoachAsync(CoachDto coach);
-    
-    Task<CoachDto?> GetCoachByIdAsync(Guid id);
-    
-    Task DeleteUserAsync(Guid id);
-    
-    Task<PackagePriceDto?> PutPackagePriceAsync(decimal requestPrice, Guid requestCoachId, Guid requestPackageId);
 
-    Task<List<CoachDto>> GetCoachesAsync();
 }
 
 public class CoachService : ICoachService
@@ -28,18 +20,7 @@ public class CoachService : ICoachService
         _mapper = mapper;
         _tennisManagerContext = tennisManagerContext;
     }
-
-    public async Task<CoachDto> CreateCoachAsync(CoachDto coachDto)
-    {
-        var coach = _mapper.Map<Coach>(coachDto);
-
-        _tennisManagerContext.Coaches.Add(coach);
-
-        await _tennisManagerContext.SaveChangesAsync();
-
-        return _mapper.Map<CoachDto>(coach);
-    }
-
+    
     //TODO: FIX THIS
     public async Task<CoachDto?> GetCoachByIdAsync(Guid id)
     {
@@ -77,61 +58,5 @@ public class CoachService : ICoachService
         // }
         //
         // await _tennisManagerContext.SaveChangesAsync();
-    }
-
-    //TODO: FIX THIS
-    public async Task<PackagePriceDto?> PutPackagePriceAsync(decimal requestPrice, Guid requestCoachId,
-        Guid requestPackageId)
-    {
-        // Determine if the coach exists
-        // var coach = await _tennisManagerContext.Coaches
-        //     .Include(x => x.PackagePricesList)
-        //     .FirstOrDefaultAsync(c => c.Id == requestCoachId);
-        // if (coach == null)
-        // {
-        //     throw new ValidationException("No coach found.");
-        // }
-        //
-        // // Determine if the package exists
-        // var package = await _tennisManagerContext.Packages.FirstOrDefaultAsync(p => p.Id == requestPackageId);
-        // if (package == null)
-        // {
-        //     throw new ValidationException("No package found.");
-        // }
-        //
-        // if(coach.PackagePricesList.Any(x => x.PackageId == requestPackageId))
-        // {
-        //     throw new ValidationException("Package price already exists.");
-        // }
-        //
-        // // TODO: Implement auto price calculation
-        // //var price = requestPrice == 0 ? package.Uses - 1 * coach.DefaultPrice : requestPrice;
-        // // Create a new package price
-        // var packagePrice = new CoachPackagePrice
-        // {
-        //     Price = requestPrice,
-        //     CoachId = requestCoachId,
-        //     PackageId = requestPackageId
-        // };
-        //
-        // // Add to customer
-        // coach.PackagePricesList.Add(packagePrice);
-        //
-        // // Save changes
-        // await _tennisManagerContext.SaveChangesAsync();
-        //
-        // return _mapper.Map<PackagePriceDto>(packagePrice);
-        return null;
-    }
-
-    public async Task<List<CoachDto>> GetCoachesAsync()
-    {
-        // var coaches = await _tennisManagerContext.Coaches
-        //     .Include(c => c.PackagePricesList)
-        //     .Select(c => _mapper.Map<CoachDto>(c))
-        //     .ToListAsync();
-
-        // return coaches;
-        return [];
     }
 }

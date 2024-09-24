@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using tennismanager.api.Models.User;
 using tennismanager.api.Models.User.Abstract;
 using tennismanager.api.Models.User.Requests;
 using tennismanager.api.Models.User.Responses;
@@ -20,9 +19,8 @@ public class UserProfile : Profile
             .Include<UserCreateRequest, CustomerDto>();
 
         CreateMap<UserCreateRequest, CoachDto>()
-            .IncludeBase<UserCreateRequest, UserDto>()
-            .ForMember(dest => dest.PackagePricesList, opt => opt.Ignore());
-        
+            .IncludeBase<UserCreateRequest, UserDto>();
+
         // TODO: Implement collections
         CreateMap<UserCreateRequest, CustomerDto>();
 
@@ -33,13 +31,7 @@ public class UserProfile : Profile
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .Include<CoachDto, CoachResponse>();
-            //.Include<CustomerDto, CustomerResponse>();
 
-            CreateMap<CoachDto, CoachResponse>()
-            .ForMember(dest => dest.PackagePricesList, opt => opt.MapFrom(src => src.PackagePricesList));
-            
-            CreateMap<PackagePriceDto, PackagePriceResponse>()
-                .ForMember(dest => dest.PackageId, opt => opt.MapFrom(src => src.PackageId))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
+        CreateMap<CoachDto, CoachResponse>();
     }
 }

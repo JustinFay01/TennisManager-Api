@@ -29,8 +29,8 @@ public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
     {
         var integrations = new List<string>()
         {
-            UserTypes.Coach,
-            UserTypes.Customer
+            UserType.Coach,
+            UserType.Customer
         };
 
         RuleFor(x => x.Type).NotNull()
