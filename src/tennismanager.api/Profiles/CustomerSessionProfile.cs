@@ -6,11 +6,9 @@ namespace tennismanager.api.Profiles;
 
 public class CustomerSessionProfile : Profile
 {
-    
     public CustomerSessionProfile()
     {
         CreateMap<CustomerSessionRequest, CustomerSessionDto>()
             .ReverseMap();
     }
-    
 }

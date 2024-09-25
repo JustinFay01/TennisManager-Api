@@ -4,6 +4,7 @@ using tennismanager.data.Entities.Abstract;
 using tennismanager.shared.Types;
 
 namespace tennismanager.data.Entities;
+
 public class Session : BaseEntity
 {
     public string Name { get; set; }
@@ -28,11 +29,11 @@ public class Session : BaseEntity
 
     public Guid? CoachId { get; set; }
     public string? Description { get; set; }
-    
+
     /// <summary>
-    /// Navigational property for session meta. This contains all scheduling information for the session.
-    /// Marked as optional so EF core knows that this is a 1:1 relationship and that the Session is the
-    /// Principal entity.
+    ///     Navigational property for session meta. This contains all scheduling information for the session.
+    ///     Marked as optional so EF core knows that this is a 1:1 relationship and that the Session is the
+    ///     Principal entity.
     /// </summary>
     public SessionMeta? SessionMeta { get; set; }
 

@@ -6,6 +6,6 @@ public class PackageDto
     public string Name { get; set; }
     public int Uses { get; set; }
     public decimal DefaultPrice { get; set; }
-    
+
     //TODO: Add collections
 }

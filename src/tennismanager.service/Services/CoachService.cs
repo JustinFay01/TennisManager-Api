@@ -1,26 +1,24 @@
 ﻿using AutoMapper;
 using tennismanager.data;
-using tennismanager.data.Entities;
 using tennismanager.service.DTO;
 
 namespace tennismanager.service.Services;
 
 public interface ICoachService
 {
-
 }
 
 public class CoachService : ICoachService
 {
     private IMapper _mapper;
     private TennisManagerContext _tennisManagerContext;
-    
+
     public CoachService(IMapper mapper, TennisManagerContext tennisManagerContext)
     {
         _mapper = mapper;
         _tennisManagerContext = tennisManagerContext;
     }
-    
+
     //TODO: FIX THIS
     public async Task<CoachDto?> GetCoachByIdAsync(Guid id)
     {

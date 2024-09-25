@@ -9,14 +9,13 @@ public class Program
 {
     public static void Main(string[] args)
     {
-       
         var builder = WebApplication.CreateBuilder(args);
-        
+
         // Allow cors
-        var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy(name: MyAllowSpecificOrigins,
+            options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
                     builder.WithOrigins("*")
@@ -29,21 +28,21 @@ public class Program
         builder.Services.AddExceptionHandler<ArgumentExceptionHandler>();
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<ExceptionHandler>();
-        
+
         // Add services to the container.
         builder.Services.AddControllers()
             .AddNewtonsoftJson();
         builder.Services.UseTennisManagerServices(builder.Configuration);
-        
+
         // Injects all Validators
         builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
-        
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
+
         var app = builder.Build();
-        
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -53,15 +52,14 @@ public class Program
 
         // Use ExceptionHandler Middleware
         app.UseExceptionHandler(options => { });
-        
+
         app.UseHttpsRedirection();
-        
+
         // Needs to be before UseAuthorization
         app.UseCors(MyAllowSpecificOrigins);
-        
+
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
-        
     }
 }

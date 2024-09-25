@@ -34,4 +34,5 @@ Content-Type: application/json
 ###
 GET {{tennismanager.api_HostAddress}}/api/coaches/all
 Accept: application/json
+
 ###

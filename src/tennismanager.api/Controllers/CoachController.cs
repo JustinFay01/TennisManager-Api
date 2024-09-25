@@ -10,12 +10,12 @@ namespace tennismanager.api.Controllers;
 [Route("/api/coaches")]
 public class CoachController : ControllerBase
 {
-    
-    private readonly ILogger<CoachController> _logger;
-    private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
-    private readonly IValidator<PackagePriceRequest> _packagePriceRequestValidator;
-    private readonly IMapper _mapper;
     private readonly ICoachService _coachService;
+
+    private readonly ILogger<CoachController> _logger;
+    private readonly IMapper _mapper;
+    private readonly IValidator<PackagePriceRequest> _packagePriceRequestValidator;
+    private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
 
     public CoachController(
         ILogger<CoachController> logger,
@@ -105,5 +105,4 @@ public class CoachController : ControllerBase
     //         return StatusCode(500, exception.Message);
     //     }
     // }
-    
 }

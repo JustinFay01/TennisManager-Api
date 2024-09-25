@@ -13,8 +13,8 @@ namespace tennismanager.api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly ILogger<CustomerController> _logger;
-    private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
     private readonly IMapper _mapper;
+    private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
     private readonly IUserService _userService;
 
     public UserController(ILogger<CustomerController> logger, IValidator<UserCreateRequest> userCreateRequestValidator,

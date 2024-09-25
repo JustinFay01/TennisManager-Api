@@ -8,8 +8,8 @@ namespace tennismanager.api.Controllers;
 [Route("/api/customers")]
 public class CustomerController : ControllerBase
 {
-    private readonly ILogger<CustomerController> _logger;
     private readonly ICustomerService _customerService;
+    private readonly ILogger<CustomerController> _logger;
 
     public CustomerController(ILogger<CustomerController> logger,
         ICustomerService customerService)

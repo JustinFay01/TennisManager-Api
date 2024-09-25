@@ -17,8 +17,8 @@ public class PackageController : ControllerBase
 {
     private readonly ILogger<PackageController> _logger;
     private readonly IMapper _mapper;
-    private readonly IPackageService _packageService;
     private readonly IValidator<PackageCreateRequest> _packageCreateRequestValidator;
+    private readonly IPackageService _packageService;
 
     public PackageController(
         ILogger<PackageController> logger,

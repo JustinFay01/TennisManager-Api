@@ -12,11 +12,11 @@
 
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.18.1"/>
-        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
-        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="Moq" Version="4.20.72"/>
         <PackageReference Include="xunit" Version="2.5.3"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
     </ItemGroup>
@@ -26,9 +26,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\tennismanager.data\tennismanager.data.csproj" />
-      <ProjectReference Include="..\..\src\tennismanager.service\tennismanager.service.csproj" />
-      <ProjectReference Include="..\..\src\tennismanager.shared\tennismanager.shared.csproj" />
+        <ProjectReference Include="..\..\src\tennismanager.data\tennismanager.data.csproj"/>
+        <ProjectReference Include="..\..\src\tennismanager.service\tennismanager.service.csproj"/>
+        <ProjectReference Include="..\..\src\tennismanager.shared\tennismanager.shared.csproj"/>
     </ItemGroup>
 
 </Project>

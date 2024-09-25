@@ -18,8 +18,8 @@ public interface ISessionService
 
 public class SessionService : ISessionService
 {
-    private readonly TennisManagerContext _tennisManagerContext;
     private readonly IMapper _mapper;
+    private readonly TennisManagerContext _tennisManagerContext;
 
     public SessionService(TennisManagerContext tennisManagerContext, IMapper mapper)
     {
@@ -34,7 +34,7 @@ public class SessionService : ISessionService
         _tennisManagerContext.Sessions.Add(session);
 
         await _tennisManagerContext.SaveChangesAsync();
-        
+
         var mappedSession = _mapper.Map<SessionDto>(session);
         return mappedSession;
     }

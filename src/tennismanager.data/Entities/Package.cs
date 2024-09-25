@@ -14,7 +14,6 @@ public class Package : BaseEntity
     public Coach Coach { get; set; }
     public Guid CoachId { get; set; }
     public DateTime PurchaseDate { get; set; }
-    
 }
 
 public class PackageEntityTypeConfiguration : IEntityTypeConfiguration<Package>

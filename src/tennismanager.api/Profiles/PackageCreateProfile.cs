@@ -12,8 +12,5 @@ public class PackageCreateProfile : Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.DefaultPrice, opt => opt.MapFrom(src => src.DefaultPrice))
             .ForMember(dest => dest.Uses, opt => opt.MapFrom(src => src.Uses));
-
-
     }
-    
 }

@@ -16,24 +16,24 @@ namespace tennismanager_api.api.tests;
 
 public class SessionTests : IDisposable
 {
-    private readonly SessionController TestFixture;
     private readonly Mock<ISessionService> _mockSessionService;
-    private readonly IMapper mapper;
     private readonly Fixture Fixture;
+    private readonly IMapper mapper;
+    private readonly SessionController TestFixture;
 
     public SessionTests()
     {
         Fixture = new Fixture();
-        
+
         _mockSessionService = new Mock<ISessionService>();
         var mockLogger = new Mock<ILogger<SessionController>>();
-        
-         mapper = new MapperConfiguration(cfg =>
+
+        mapper = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<SessionCreateProfile>();
             cfg.AddProfile<CustomerSessionProfile>();
         }).CreateMapper();
-        
+
         var mockSessionCreateRequestValidator = new Mock<IValidator<SessionRequest>>();
         var mockSessionAddCustomersRequestValidator = new Mock<IValidator<SessionAddCustomersRequest>>();
 
@@ -57,7 +57,7 @@ public class SessionTests : IDisposable
     {
         mapper.ConfigurationProvider.AssertConfigurationIsValid();
     }
-    
+
     # region Add Customers To Session Tests
 
     [Fact]
@@ -67,16 +67,15 @@ public class SessionTests : IDisposable
         var sessionAddCustomersRequest = Fixture.Create<SessionAddCustomersRequest>();
 
         _mockSessionService.Setup(x => x.AddCustomersToSessionAsync(It.IsAny<List<CustomerSessionDto>>()));
-        
+
         // Act
         var result = await TestFixture.AddCustomersToSession(sessionAddCustomersRequest);
-        
+
         // Assert
         _mockSessionService.Verify(x => x.AddCustomersToSessionAsync(It.IsAny<List<CustomerSessionDto>>()), Times.Once);
         Assert.IsType<OkResult>(result);
-
     }
-    
+
     # endregion
 
     # region Update Session Tests
@@ -88,7 +87,7 @@ public class SessionTests : IDisposable
         var session = CreateSessionPatchDocument();
 
         _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
-           .ReturnsAsync(Fixture.Create<SessionDto>());
+            .ReturnsAsync(Fixture.Create<SessionDto>());
         _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()));
 
         // Act
@@ -99,13 +98,13 @@ public class SessionTests : IDisposable
         _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
         Assert.IsType<OkResult>(result);
     }
-    
+
     [Fact]
     public async Task UpdateSession_InvalidRequest_ReturnsBadRequest()
     {
         // Arrange
         var session = CreateSessionPatchDocument();
-        
+
         _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(Fixture.Create<SessionDto>());
         _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()))
@@ -118,7 +117,7 @@ public class SessionTests : IDisposable
         _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
         Assert.IsType<BadRequestObjectResult>(result);
     }
-    
+
     private JsonPatchDocument<SessionRequest> CreateSessionPatchDocument()
     {
         var patchDocument = new JsonPatchDocument<SessionRequest>();
@@ -130,6 +129,6 @@ public class SessionTests : IDisposable
         });
         return patchDocument;
     }
-    
+
     # endregion
 }

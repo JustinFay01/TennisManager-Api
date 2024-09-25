@@ -6,10 +6,9 @@ namespace tennismanager.data.Entities;
 
 public class CustomerSession : BaseEntity
 {
-    
     public Customer Customer { get; set; }
     public Guid CustomerId { get; set; }
-    
+
     public Session Session { get; set; }
     public Guid SessionId { get; set; }
 
@@ -28,6 +27,6 @@ public class CustomerSession : BaseEntity
 public class CustomerSessionEntityTypeConfiguration : IEntityTypeConfiguration<CustomerSession>
 {
     public void Configure(EntityTypeBuilder<CustomerSession> builder)
-    {        
+    {
     }
 }

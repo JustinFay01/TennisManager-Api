@@ -1,6 +1,4 @@
-﻿
-
-namespace tennismanager.service.DTO.Session;
+﻿namespace tennismanager.service.DTO.Session;
 
 public class SessionDto
 {
@@ -12,6 +10,6 @@ public class SessionDto
     public int Capacity { get; set; }
     public string Type { get; set; }
     public Guid? CoachId { get; set; }
-    
+
     public SessionMetaDto SessionMeta { get; set; }
 }

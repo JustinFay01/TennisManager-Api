@@ -10,9 +10,9 @@ namespace tennismanager_api.services.tests;
 
 public class SessionServiceTests : BaseInMemoryTest
 {
-    private readonly SessionService TestFixture;
     private readonly Fixture Fixture;
     private readonly IMapper Mapper;
+    private readonly SessionService TestFixture;
 
     public SessionServiceTests()
     {
@@ -21,14 +21,11 @@ public class SessionServiceTests : BaseInMemoryTest
 
         TestFixture = new SessionService(Context, Mapper);
     }
-    
+
     [Fact]
     public void ValidateMappings()
     {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<SessionDtoProfile>();
-        });
+        var config = new MapperConfiguration(cfg => { cfg.AddProfile<SessionDtoProfile>(); });
         config.AssertConfigurationIsValid();
     }
 

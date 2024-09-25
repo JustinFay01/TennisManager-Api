@@ -28,6 +28,7 @@ public class SessionMeta : BaseEntity
     ///     The information about a single recurring event. See SessionInterval for more information.
     /// </summary>
     public List<SessionInterval> SessionIntervals { get; set; } = [];
+
     public int CurrentWeekDay => (int)StartDate.DayOfWeek;
     public int CurrentWeekOfMonth => StartDate.Day / 7;
 }
@@ -41,7 +42,7 @@ public class SessionMetaEntityConfiguration : IEntityTypeConfiguration<SessionMe
 
         builder.Property(sm => sm.StartDate)
             .IsRequired();
-        
+
         builder.HasOne(sm => sm.Session)
             .WithOne(s => s.SessionMeta)
             .HasForeignKey<SessionMeta>(sm => sm.SessionId);

@@ -6,6 +6,10 @@ namespace tennismanager.data;
 
 public class TennisManagerContext : DbContext
 {
+    public TennisManagerContext(DbContextOptions<TennisManagerContext> options) : base(options)
+    {
+    }
+
     public DbSet<Group> Groups { get; set; }
     public DbSet<UserGroup> UserGroups { get; set; }
     public DbSet<User> Users { get; set; }
@@ -19,17 +23,13 @@ public class TennisManagerContext : DbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<SessionMeta> SessionMetas { get; set; }
     public DbSet<SessionInterval> SessionIntervals { get; set; }
-    
-    public TennisManagerContext(DbContextOptions<TennisManagerContext> options) : base(options)
-    {
-    }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SessionEntityConfiguration).Assembly);
-        
+
         modelBuilder.Entity<User>()
-        .HasDiscriminator<string>("UserType")
+            .HasDiscriminator<string>("UserType")
             .HasValue<User>("User")
             .HasValue<Customer>("Customer")
             .HasValue<Coach>("Coach")
@@ -37,5 +37,4 @@ public class TennisManagerContext : DbContext
 
         base.OnModelCreating(modelBuilder);
     }
-
 }

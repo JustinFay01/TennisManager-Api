@@ -15,9 +15,9 @@ public class SessionController
 {
     private readonly ILogger<SessionController> _logger;
     private readonly IMapper _mapper;
-    private readonly ISessionService _sessionService;
-    private readonly IValidator<SessionRequest> _sessionRequestValidator;
     private readonly IValidator<SessionAddCustomersRequest> _sessionAddCustomersRequestValidator;
+    private readonly IValidator<SessionRequest> _sessionRequestValidator;
+    private readonly ISessionService _sessionService;
 
     public SessionController(
         ILogger<SessionController> logger,

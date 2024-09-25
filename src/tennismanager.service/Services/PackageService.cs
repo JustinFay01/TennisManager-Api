@@ -15,8 +15,8 @@ public interface IPackageService
 
 public class PackageService : IPackageService
 {
-    private readonly TennisManagerContext _tennisManagerContext;
     private readonly IMapper _mapper;
+    private readonly TennisManagerContext _tennisManagerContext;
 
 
     public PackageService(
