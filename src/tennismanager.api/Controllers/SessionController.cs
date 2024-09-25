@@ -35,136 +35,72 @@ public class SessionController
     [HttpPost("create")]
     public async Task<IActionResult> CreateSession([FromBody] SessionRequest request)
     {
-        try
-        {
-            _sessionRequestValidator.ValidateAndThrow(request);
+        _sessionRequestValidator.ValidateAndThrow(request);
 
-            var sessionDto = _mapper.Map<SessionDto>(request);
+        var sessionDto = _mapper.Map<SessionDto>(request);
 
-            var session = await _sessionService.CreateSessionAsync(sessionDto);
+        var session = await _sessionService.CreateSessionAsync(sessionDto);
 
-            return new CreatedResult($"api/session/{session.Id}", session);
-        }
-        catch (ValidationException validationException)
-        {
-            _logger.LogError(validationException, validationException.Message);
-            return new BadRequestObjectResult(validationException.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return new StatusCodeResult(500);
-        }
+        return new CreatedResult($"api/session/{session.Id}", session);
     }
 
     [HttpPatch("update/{id}")]
-    public async Task<IActionResult> UpdateSession([FromRoute] Guid id, [FromBody] JsonPatchDocument<SessionRequest> request)
+    public async Task<IActionResult> UpdateSession([FromRoute] Guid id,
+        [FromBody] JsonPatchDocument<SessionRequest> request)
     {
         _logger.LogInformation("Update session request received");
-        try
-        {
-            // Fetch the session
-            var session = await _sessionService.GetSessionByIdAsync(id);
-            if (session == null)
-            {
-                return new NotFoundResult();
-            }
-            
-            // Map the session to the update request
-            var sessionUpdateRequest = _mapper.Map<SessionRequest>(session);
-            
-            // Apply the patch
-            request.ApplyTo(sessionUpdateRequest);
-            
-            // Validate the updated request
-            _sessionRequestValidator.ValidateAndThrow(sessionUpdateRequest);
-            
-            // Map the updated request back to a session DTO
-            var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
-            
-            // Update the session
-            await _sessionService.UpdateSessionAsync(sessionDto);
-            
-            return new OkResult();
-        }
-        catch (ValidationException validationException)
-        {
-            _logger.LogError(validationException, validationException.Message);
-            return new BadRequestObjectResult(validationException.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return new StatusCodeResult(500);
-        }
+
+        // Fetch the session
+        var session = await _sessionService.GetSessionByIdAsync(id);
+        if (session == null) return new NotFoundResult();
+
+        // Map the session to the update request
+        var sessionUpdateRequest = _mapper.Map<SessionRequest>(session);
+
+        // Apply the patch
+        request.ApplyTo(sessionUpdateRequest);
+
+        // Validate the updated request
+        _sessionRequestValidator.ValidateAndThrow(sessionUpdateRequest);
+
+        // Map the updated request back to a session DTO
+        var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
+
+        // Update the session
+        await _sessionService.UpdateSessionAsync(sessionDto);
+
+        return new OkResult();
     }
 
     [HttpGet("all")]
     public async Task<IActionResult> GetSessions([FromQuery] int page, [FromQuery] int pageSize)
     {
-        try
-        {
-            Guard.Argument(page, nameof(page)).NotNegative().NotZero();
-            Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
+        Guard.Argument(page, nameof(page)).NotNegative().NotZero();
+        Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
 
-            var sessions = await _sessionService.GetSessionsAsync(page, pageSize);
+        var sessions = await _sessionService.GetSessionsAsync(page, pageSize);
 
-            return new OkObjectResult(sessions);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return new StatusCodeResult(500);
-        }
+        return new OkObjectResult(sessions);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSessionById(Guid id)
     {
-        try
-        {
-            var session = await _sessionService.GetSessionByIdAsync(id);
-            if (session == null)
-            {
-                return new NotFoundResult();
-            }
+        var session = await _sessionService.GetSessionByIdAsync(id);
+        if (session == null) return new NotFoundResult();
 
-            return new OkObjectResult(session);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return new StatusCodeResult(500);
-        }
+        return new OkObjectResult(session);
     }
 
     [HttpPatch("add-customers")]
     public async Task<IActionResult> AddCustomersToSession([FromBody] SessionAddCustomersRequest request)
     {
-        try
-        {
-            await _sessionAddCustomersRequestValidator.ValidateAndThrowAsync(request);
+        await _sessionAddCustomersRequestValidator.ValidateAndThrowAsync(request);
 
-            var customerSessions = _mapper.Map<List<CustomerSessionDto>>(request.Requests);
+        var customerSessions = _mapper.Map<List<CustomerSessionDto>>(request.Requests);
 
-            await _sessionService.AddCustomersToSessionAsync(customerSessions);
+        await _sessionService.AddCustomersToSessionAsync(customerSessions);
 
-            return new OkResult();
-        }
-        catch (ArgumentException exception)
-        {
-            _logger.LogError(exception, exception.Message);
-            return new BadRequestObjectResult(exception.Message);
-        }
-        catch (ValidationException validationException)
-        {
-            _logger.LogError(validationException, validationException.Message);
-            return new BadRequestObjectResult(validationException.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return new StatusCodeResult(500);
-        }
+        return new OkResult();
     }
 }

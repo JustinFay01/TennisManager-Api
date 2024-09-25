@@ -17,48 +17,24 @@ public class CustomerController : ControllerBase
         _logger = logger;
         _customerService = customerService;
     }
-    
+
     [HttpGet("all")]
     public async Task<IActionResult> GetCustomers([FromQuery] int page, [FromQuery] int pageSize)
     {
-        try
-        {
-            Guard.Argument(page, nameof(page)).NotNegative().NotZero();
-            Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
+        Guard.Argument(page, nameof(page)).NotNegative().NotZero();
+        Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
 
-            var customers = await _customerService.GetCustomersAsync(page, pageSize);
-            
-            return new OkObjectResult(customers);
-        }
-        catch (ArgumentException exception)
-        {
-            _logger.LogError(exception, exception.Message);
-            return new BadRequestObjectResult(exception.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return StatusCode(500, exception.Message);
-        }
+        var customers = await _customerService.GetCustomersAsync(page, pageSize);
+
+        return new OkObjectResult(customers);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCustomerById(Guid id)
     {
-        try
-        {
-            var customerDto = await _customerService.GetCustomerByIdAsync(id);
-            if (customerDto == null)
-            {
-                return new NotFoundResult();
-            }
-            return new OkObjectResult(customerDto);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return StatusCode(500, exception.Message);
-        }
+        var customerDto = await _customerService.GetCustomerByIdAsync(id);
+        if (customerDto == null) return new NotFoundResult();
+
+        return new OkObjectResult(customerDto);
     }
-    
 }

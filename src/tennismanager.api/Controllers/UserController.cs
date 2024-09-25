@@ -29,17 +29,9 @@ public class UserController : ControllerBase
     [HttpGet("${id}")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
-        try
-        {
-            var userDto = await _userService.GetUserByIdAsync(id);
-            if (userDto == null) return new NotFoundResult();
-            return new OkObjectResult(userDto);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return StatusCode(500, exception.Message);
-        }
+        var userDto = await _userService.GetUserByIdAsync(id);
+        if (userDto == null) return new NotFoundResult();
+        return new OkObjectResult(userDto);
     }
 
     [HttpPost("create")]
