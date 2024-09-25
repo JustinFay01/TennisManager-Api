@@ -1,16 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using tennismanager.data.Entities.Abstract;
+using tennismanager.shared.Types;
 
 namespace tennismanager.data.Entities;
-
-public enum UserGroupType
-{
-    AccountOwner,
-    Spouse,
-    Child,
-    Other
-}
 
 public class UserGroup
 {
@@ -19,7 +12,6 @@ public class UserGroup
 
     public User User { get; set; }
     public Guid UserId { get; set; }
-
     public UserGroupType Type { get; set; }
 }
 

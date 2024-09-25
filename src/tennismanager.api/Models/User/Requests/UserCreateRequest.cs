@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using FluentValidation;
-using tennismanager.shared;
+using tennismanager.shared.Types;
 
 namespace tennismanager.api.Models.User.Requests;
 

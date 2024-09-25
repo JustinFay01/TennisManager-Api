@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using FluentValidation;
-using tennismanager.api.Extensions;
-using tennismanager.service.DTO.Session;
-using tennismanager.shared.Models;
+﻿using FluentValidation;
+using tennismanager.shared.Extensions;
+using tennismanager.shared.Types;
 
 namespace tennismanager.api.Models.Session;
 
@@ -23,7 +21,7 @@ public class SessionRequestValidator : AbstractValidator<SessionRequest>
     public SessionRequestValidator()
     {
         RuleFor(x => x.Type).NotNull().IsEnumName(typeof(SessionType))
-            .WithMessage("Invalid session type");
+            .WithMessage(EnumExtensions.ErrorMessage<SessionType>());
 
         RuleFor(x => x.Name).NotEmpty();
 

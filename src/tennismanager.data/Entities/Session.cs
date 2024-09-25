@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using tennismanager.data.Entities.Abstract;
-using tennismanager.shared.Models;
+using tennismanager.shared.Types;
 
 namespace tennismanager.data.Entities;
 public class Session : BaseEntity

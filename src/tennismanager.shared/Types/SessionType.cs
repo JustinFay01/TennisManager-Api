@@ -1,4 +1,4 @@
-﻿namespace tennismanager.shared.Models;
+﻿namespace tennismanager.shared.Types;
 
 public enum SessionType
 {

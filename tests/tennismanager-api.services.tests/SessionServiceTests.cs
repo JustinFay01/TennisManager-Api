@@ -4,7 +4,7 @@ using tennismanager.data.Entities;
 using tennismanager.service.DTO.Session;
 using tennismanager.service.Profiles;
 using tennismanager.service.Services;
-using tennismanager.shared.Models;
+using tennismanager.shared.Types;
 
 namespace tennismanager_api.services.tests;
 

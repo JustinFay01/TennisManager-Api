@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using tennismanager.data.Entities;
-using tennismanager.service.DTO;
 using tennismanager.service.DTO.Session;
-using tennismanager.shared.Models;
+using tennismanager.shared.Types;
 
 namespace tennismanager.service.Profiles;
 
