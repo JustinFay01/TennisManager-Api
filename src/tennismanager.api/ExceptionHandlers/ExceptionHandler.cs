@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using tennismanager.api.Exceptions.Handlers.Abstract;
+using tennismanager.api.ExceptionHandlers.Abstract;
 
-namespace tennismanager.api.Exceptions.Handlers;
+namespace tennismanager.api.ExceptionHandlers;
 
-public class InternalErrorExceptionHandler : BaseExceptionHandler<InternalErrorExceptionHandler>
+public class ExceptionHandler : BaseExceptionHandler<ExceptionHandler>
 {
-    public InternalErrorExceptionHandler(ILogger<InternalErrorExceptionHandler> logger) : base(logger)
+    public ExceptionHandler(ILogger<ExceptionHandler> logger) : base(logger)
     {
     }
 

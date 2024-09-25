@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using tennismanager.api.Exceptions.Handlers.Abstract;
+using tennismanager.api.ExceptionHandlers.Abstract;
 
-namespace tennismanager.api.Exceptions.Handlers;
+namespace tennismanager.api.ExceptionHandlers;
 
 public class ArgumentExceptionHandler : BaseExceptionHandler<ArgumentExceptionHandler>
 {

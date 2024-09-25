@@ -45,32 +45,19 @@ public class UserController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateCustomer([FromBody] UserCreateRequest request)
     {
-        try
+        await _userCreateRequestValidator.ValidateAndThrowAsync(request);
+
+        UserDto? userDto = request.Type switch
         {
-            _userCreateRequestValidator.ValidateAndThrow(request);
+            UserType.Customer => _mapper.Map<CustomerDto>(request),
+            UserType.Coach => _mapper.Map<CoachDto>(request),
+            _ => throw new ValidationException("Invalid user type")
+        };
 
-            UserDto? userDto = request.Type switch
-            {
-                UserType.Customer => _mapper.Map<CustomerDto>(request),
-                UserType.Coach => _mapper.Map<CoachDto>(request),
-                _ => throw new ValidationException("Invalid user type")
-            };
+        userDto = await _userService.CreateUserAsync(userDto);
 
-            userDto = await _userService.CreateUserAsync(userDto);
+        if (userDto == null) return new BadRequestObjectResult("User could not be created");
 
-            if (userDto == null) return new BadRequestObjectResult("User could not be created");
-
-            return new CreatedResult($"api/user/{userDto.Id}", userDto);
-        }
-        catch (ValidationException validationException)
-        {
-            _logger.LogError(validationException, validationException.Message);
-            return new BadRequestObjectResult(validationException.Message);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Something went wrong!");
-            return StatusCode(500, exception.Message);
-        }
+        return new CreatedResult($"api/user/{userDto.Id}", userDto);
     }
 }

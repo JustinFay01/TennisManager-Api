@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using tennismanager.api.Exceptions.Handlers.Abstract;
+using tennismanager.api.ExceptionHandlers.Abstract;
 
-namespace tennismanager.api.Exceptions.Handlers;
+namespace tennismanager.api.ExceptionHandlers;
 
 public class ValidationExceptionHandler : BaseExceptionHandler<ValidationExceptionHandler>
 {
@@ -22,7 +22,7 @@ public class ValidationExceptionHandler : BaseExceptionHandler<ValidationExcepti
         var problemDetails = new ProblemDetails
         {
             Title = "Validation error",
-            Detail = "One or more validation errors occurred.",
+            Detail = validationException.Errors.Select(x => x.ErrorMessage).Aggregate((x, y) => $"{x}, {y}"),
             Status = 400
         };
         httpContext.Response.StatusCode = problemDetails.Status.Value;

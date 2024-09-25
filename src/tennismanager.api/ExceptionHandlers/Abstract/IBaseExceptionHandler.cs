@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 
-namespace tennismanager.api.Exceptions.Handlers.Abstract;
+namespace tennismanager.api.ExceptionHandlers.Abstract;
 
 public abstract class BaseExceptionHandler<T> : IExceptionHandler where T : class
 {

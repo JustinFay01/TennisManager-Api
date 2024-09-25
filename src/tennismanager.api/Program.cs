@@ -1,7 +1,6 @@
 using FluentValidation;
-using tennismanager.api.Models.User;
+using tennismanager.api.ExceptionHandlers;
 using tennismanager.api.Models.User.Requests;
-using tennismanager.api.Profiles;
 using tennismanager.service.Extensions;
 
 namespace tennismanager.api;
@@ -25,7 +24,11 @@ public class Program
                         .AllowAnyMethod();
                 });
         });
-        
+
+        // Exception handling in chain order (first one to catch the exception will handle it)
+        builder.Services.AddExceptionHandler<ArgumentExceptionHandler>();
+        builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+        builder.Services.AddExceptionHandler<ExceptionHandler>();
         
         // Add services to the container.
         builder.Services.AddControllers()
@@ -47,6 +50,9 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        // Use ExceptionHandler Middleware
+        app.UseExceptionHandler(options => { });
         
         app.UseHttpsRedirection();
         

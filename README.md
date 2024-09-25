@@ -2,10 +2,11 @@
 
 ## Todo
 
-1. Global Exception Handling
+~~1. Global Exception Handling~~
 2. Enum Helper for Fluent Validation
    - Convert the enum to a list of strings and validate that the type is in the list
 3. Determine how to return sessions with repeat occurrences
+4. Fix the email validation error message
 
 
 We are going to be using EF to create both ORM and migrations. 
