@@ -3,10 +3,24 @@
 ## Todo
 
 ~~1. Global Exception Handling~~
-2. Enum Helper for Fluent Validation
-   - Convert the enum to a list of strings and validate that the type is in the list
+~~2. Enum Helper for Fluent Validation~~
+ ~~- Convert the enum to a list of strings and validate that the type is in the list~~
 3. Determine how to return sessions with repeat occurrences
 4. Fix the email validation error message
+5. Add user checkin functionality to store user info
+
+```csharp
+// User info example
+{
+  "sub": "google-oauth2|108009125244734864059",
+  "given_name": "Justin",
+  "family_name": "Fay",
+  "nickname": "justinfay501",
+  "name": "Justin Fay",
+  "picture": "https://lh3.googleusercontent.com/a/ACg8ocKjL2GczeHuZHJ5866A-boUi7uHRWXLZGYSTY0PCTA0HY7AQQc=s96-c",
+  "updated_at": "2024-09-27T02:39:41.143Z"
+}
+```
 
 
 We are going to be using EF to create both ORM and migrations. 
