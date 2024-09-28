@@ -29,6 +29,8 @@ public class UserController : ControllerBase
     [HttpGet("${id}")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
+        _logger.LogInformation("Get user by id request received");
+        
         var userDto = await _userService.GetUserByIdAsync(id);
         if (userDto == null) return new NotFoundResult();
         return new OkObjectResult(userDto);
@@ -37,6 +39,8 @@ public class UserController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateCustomer([FromBody] UserCreateRequest request)
     {
+        _logger.LogInformation("Create user request received");
+        
         await _userCreateRequestValidator.ValidateAndThrowAsync(request);
 
         UserDto? userDto = request.Type switch

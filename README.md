@@ -12,7 +12,7 @@
 ```csharp
 // User info example
 {
-  "sub": "google-oauth2|108009125244734864059",
+  "sub": "****",
   "given_name": "Justin",
   "family_name": "Fay",
   "nickname": "justinfay501",
