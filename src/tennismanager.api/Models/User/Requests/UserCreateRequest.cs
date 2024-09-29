@@ -5,17 +5,14 @@ using tennismanager.shared.Types;
 
 namespace tennismanager.api.Models.User.Requests;
 
-public class UserCreateRequest
+/**
+ * This class is used to create a new user when the Auth0 login is received.
+ * This method is then called by the Auth0 login callback, if the CheckIn method fails.
+ */
+public class UserCreateRequest : UserCheckInRequest
 {
     [JsonPropertyName("type")] public string Type { get; set; }
-
-    [JsonPropertyName("firstName")] public string FirstName { get; set; }
-
-    [JsonPropertyName("lastName")] public string LastName { get; set; }
-
-    [JsonPropertyName("email")] public string? Email { get; set; }
-
-    [JsonPropertyName("phone")] public string? PhoneNumber { get; set; }
+    
 }
 
 public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
@@ -32,29 +29,5 @@ public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
             .Must(x => integrations.Contains(x)).WithMessage(
                 "This property can only be 'coach' or 'customer'"
             );
-        RuleFor(x => x.FirstName).NotEmpty();
-        RuleFor(x => x.LastName).NotEmpty();
-
-        When(x => !string.IsNullOrEmpty(x.Email), () => { RuleFor(x => x.Email).EmailAddress(); });
-        // Accepts:
-        // 1234567890
-        // (123) 456-7890
-        // 123-456-7890
-        // 123.456.7890
-        RuleFor(x => x.PhoneNumber)
-            .Must(phone => string.IsNullOrEmpty(phone) || Regex.IsMatch(phone,
-                @"(?:\d{10}|\d{3}-\d{3}-\d{4}|\d{3}\.\d{3}\.\d{4}|\(\d{3}\)\s?\d{3}-\d{4})$"))
-            .WithMessage(
-                "Phone number can only contain digits, spaces, periods, minus sign, parentheses and spaces or be null.");
-
-        // TODO: Remove when sure that the package prices are not needed
-        // When(x => x.Type.Equals(UserTypes.Coach) && x.PackagePrices.Length != 0, () =>
-        // {
-        //     RuleForEach(x => x.PackagePrices).SetValidator(new PackagePriceRequestValidator());
-        // }).Otherwise(() =>
-        // {
-        //     RuleFor(x => x.PackagePrices.Length).Equal(0)
-        //     .WithMessage("Only coaches may include a list of package prices.");
-        // });
     }
 }

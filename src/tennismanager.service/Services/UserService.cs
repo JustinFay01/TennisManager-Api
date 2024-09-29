@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.data.Entities.Abstract;
@@ -8,6 +9,8 @@ namespace tennismanager.service.Services;
 
 public interface IUserService
 {
+    public Task<UserDto?> GetUserByAuth0Sub(string auth0Id);
+
     public Task<UserDto?> CreateUserAsync(UserDto userDto);
 
     public Task<UserDto?> GetUserByIdAsync(Guid id);
@@ -23,6 +26,12 @@ public class UserService : IUserService
         _mapper = mapper;
         _tennisManagerContext = tennisManagerContext;
     }
+    
+    public async Task<UserDto?> GetUserByAuth0Sub(string auth0Id)
+    {
+        var user = await _tennisManagerContext.Users.FirstOrDefaultAsync(u => u.Sub == auth0Id);
+        return user is null ? null : MapUserDto(user);
+    }
 
     public async Task<UserDto?> CreateUserAsync(UserDto userDto)
     {
@@ -36,7 +45,7 @@ public class UserService : IUserService
         _tennisManagerContext.Users.Add(entity);
         await _tennisManagerContext.SaveChangesAsync();
 
-        var result = _mapper.Map<UserDto>(entity);
+        var result = MapUserDto(entity);
         return result;
     }
 
@@ -44,5 +53,15 @@ public class UserService : IUserService
     {
         var user = await _tennisManagerContext.Users.FindAsync(id);
         return user != null ? _mapper.Map<UserDto>(user) : null;
+    }
+    
+    private UserDto MapUserDto(User user)
+    {
+        return user switch
+        {
+            Coach coach => _mapper.Map<CoachDto>(coach),
+            Customer customer => _mapper.Map<CustomerDto>(customer),
+            _ => _mapper.Map<UserDto>(user)
+        };
     }
 }
