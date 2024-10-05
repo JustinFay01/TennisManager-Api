@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.service.DTO.Session;
+using tennismanager.shared.Exceptions.Exceptions;
 using tennismanager.shared.Models;
 
 namespace tennismanager.service.Services;
@@ -11,9 +12,11 @@ public interface ISessionService
 {
     Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);
     Task UpdateSessionAsync(SessionDto sessionDto);
-    Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions);
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
     Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize);
+    Task DeleteSessionAsync(Guid id);
+    
+    Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions);
 }
 
 public class SessionService : ISessionService
@@ -53,6 +56,15 @@ public class SessionService : ISessionService
     }
 
     // TODO: Refactor to: a) use a transaction b) return the number of successfully added entities, c) list of failed entities
+    public Task DeleteSessionAsync(Guid id)
+    {
+        var session = _tennisManagerContext.Sessions.FirstOrDefault(s => s.Id == id);
+        if (session == null) throw new SessionNotFoundException();
+        _tennisManagerContext.Sessions.Remove(session);
+        
+        return _tennisManagerContext.SaveChangesAsync();
+    }
+
     public async Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions)
     {
         var entities = _mapper.Map<List<CustomerSession>>(customerSessions);

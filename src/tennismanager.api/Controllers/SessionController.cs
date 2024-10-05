@@ -32,7 +32,7 @@ public class SessionController
         _sessionAddCustomersRequestValidator = sessionAddCustomersRequestValidator;
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateSession([FromBody] SessionRequest request)
     {
         _sessionRequestValidator.ValidateAndThrow(request);
@@ -43,8 +43,28 @@ public class SessionController
 
         return new CreatedResult($"api/session/{session.Id}", session);
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetSessions([FromQuery] int page, [FromQuery] int pageSize)
+    {
+        Guard.Argument(page, nameof(page)).NotNegative().NotZero();
+        Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
 
-    [HttpPatch("update/{id}")]
+        var sessions = await _sessionService.GetSessionsAsync(page, pageSize);
+
+        return new OkObjectResult(sessions);
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSessionById(Guid id)
+    {
+        var session = await _sessionService.GetSessionByIdAsync(id);
+        if (session == null) return new NotFoundResult();
+
+        return new OkObjectResult(session);
+    }
+
+    [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateSession([FromRoute] Guid id,
         [FromBody] JsonPatchDocument<SessionRequest> request)
     {
@@ -61,7 +81,7 @@ public class SessionController
         request.ApplyTo(sessionUpdateRequest);
 
         // Validate the updated request
-        _sessionRequestValidator.ValidateAndThrow(sessionUpdateRequest);
+        await _sessionRequestValidator.ValidateAndThrowAsync(sessionUpdateRequest);
 
         // Map the updated request back to a session DTO
         var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
@@ -72,26 +92,13 @@ public class SessionController
         return new OkResult();
     }
 
-    [HttpGet("all")]
-    public async Task<IActionResult> GetSessions([FromQuery] int page, [FromQuery] int pageSize)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteSession([FromRoute] Guid id)
     {
-        Guard.Argument(page, nameof(page)).NotNegative().NotZero();
-        Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
-
-        var sessions = await _sessionService.GetSessionsAsync(page, pageSize);
-
-        return new OkObjectResult(sessions);
+        await _sessionService.DeleteSessionAsync(id);
+        return new NoContentResult();
     }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetSessionById(Guid id)
-    {
-        var session = await _sessionService.GetSessionByIdAsync(id);
-        if (session == null) return new NotFoundResult();
-
-        return new OkObjectResult(session);
-    }
-
+    
     [HttpPatch("add-customers")]
     public async Task<IActionResult> AddCustomersToSession([FromBody] SessionAddCustomersRequest request)
     {

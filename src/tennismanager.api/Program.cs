@@ -27,6 +27,7 @@ public class Program
         // Exception handling in chain order (first one to catch the exception will handle it)
         builder.Services.AddExceptionHandler<ArgumentExceptionHandler>();
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+        builder.Services.AddExceptionHandler<EntityNotFoundExceptionHandler>();
         builder.Services.AddExceptionHandler<ExceptionHandler>();
 
         // Add services to the container.
