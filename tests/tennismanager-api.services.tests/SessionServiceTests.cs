@@ -10,13 +10,11 @@ namespace tennismanager_api.services.tests;
 
 public class SessionServiceTests : BaseInMemoryTest
 {
-    private readonly Fixture Fixture;
     private readonly IMapper Mapper;
     private readonly SessionService TestFixture;
 
     public SessionServiceTests()
     {
-        Fixture = new Fixture();
         Mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<SessionDtoProfile>()));
 
         TestFixture = new SessionService(Context, Mapper);

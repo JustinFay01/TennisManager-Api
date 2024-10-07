@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoFixture;
+using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 
 namespace tennismanager_api.services.tests;
@@ -6,6 +7,7 @@ namespace tennismanager_api.services.tests;
 public class BaseInMemoryTest
 {
     protected readonly TennisManagerContext Context;
+    protected readonly Fixture Fixture = new();
 
     public BaseInMemoryTest()
     {

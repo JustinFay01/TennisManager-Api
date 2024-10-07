@@ -23,6 +23,7 @@ public class UserDtoProfile : Profile
             .ReverseMap();
 
         CreateMap<CustomerDto, Customer>()
+            .ForMember(dest => dest.Sessions, opt => opt.Ignore())
             .ReverseMap();
     }
 }
