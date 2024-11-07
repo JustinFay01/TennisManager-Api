@@ -1,5 +1,4 @@
-﻿version: '3.8'
-services:
+﻿services:
   db:
     image: postgres
     restart: unless-stopped

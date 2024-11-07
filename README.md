@@ -31,6 +31,8 @@ We are going to be using EF to create both ORM and migrations.
 
 ## Migrations
 
+***Warning*** switch `\` to `/` for linux or mac
+
 To create a new migration run: 
 
 ```
