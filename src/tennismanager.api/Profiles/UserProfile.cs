@@ -13,8 +13,8 @@ public class UserProfile : Profile
         CreateMap<UserCheckInRequest, UserDto>();
         
         CreateMap<UserCreateRequest, UserDto>()
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.GivenName))
-            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.FamilyName))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .Include<UserCreateRequest, CoachDto>()
             .Include<UserCreateRequest, CustomerDto>();
 

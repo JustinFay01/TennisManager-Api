@@ -104,7 +104,7 @@ public class UserController : ControllerBase
        
          await _userCheckInRequestValidator.ValidateAndThrowAsync(request);
          
-        var userDto = await _userService.GetUserByAuth0Sub(request.Sub);
+        var userDto = await _userService.GetUserAsync(request.Id);
         return userDto != null ? new OkObjectResult(userDto) : new NoContentResult();
     }
 

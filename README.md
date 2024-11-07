@@ -35,18 +35,34 @@ We are going to be using EF to create both ORM and migrations.
 
 To create a new migration run: 
 
+If in source dir
+
+**Windows**
 ```
-dotnet ef migrations add <MigrationName> -s .\src\tennismanager.api -p .\src\tennismanager.data -v
+-s .\src\tennismanager.api -p .\src\tennismanager.data -v
+```
+
+**Linux/Mac**
+```
+-s ./src/tennismanager.api -p ./src/tennismanager.data -v
+```
+
+```
+dotnet ef migrations add <MigrationName> 
+```
+
+```
+dotnet ef migrations add <MigrationName> 
 ```
 
 To update the database to the latest migration
 
 ```
-dotnet ef database update -s .\src\tennismanager.api -p .\src\tennismanager.data -v
+dotnet ef database update
 ```
 
 ```
-dotnet ef migrations list -s .\src\tennismanager.api -p .\src\tennismanager.data -v
+dotnet ef migrations list
 ```
 
 This will generate a migration with a timestamp preceeding the given name.

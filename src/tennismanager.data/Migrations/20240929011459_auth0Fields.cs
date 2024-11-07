@@ -21,12 +21,6 @@ namespace tennismanager.data.Migrations
                 table: "Users",
                 type: "text",
                 nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Sub",
-                table: "Users",
-                type: "text",
-                nullable: true);
         }
 
         /// <inheritdoc />
@@ -38,10 +32,6 @@ namespace tennismanager.data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Picture",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "Sub",
                 table: "Users");
         }
     }

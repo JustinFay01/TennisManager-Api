@@ -15,8 +15,7 @@ public interface IUserService
     public Task<UserDto?> GetUserAsync(Guid id);
     public Task<List<UserDto>> GetUsersAsync();
     public Task DeleteUserAsync(Guid id);
-
-    public Task<UserDto?> GetUserByAuth0Sub(string auth0Id);
+    
 }
 
 public class UserService : IUserService
@@ -61,11 +60,5 @@ public class UserService : IUserService
         
         _tennisManagerContext.Users.Remove(user);
         await _tennisManagerContext.SaveChangesAsync();
-    }
-
-    public async Task<UserDto?> GetUserByAuth0Sub(string auth0Id)
-    {
-        var user = await _tennisManagerContext.Users.FirstOrDefaultAsync(u => u.Sub == auth0Id);
-        return user is null ? null : _mapper.Map<UserDto>(user);
     }
 }
