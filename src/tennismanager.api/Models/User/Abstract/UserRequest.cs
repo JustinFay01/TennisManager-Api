@@ -1,5 +1,6 @@
 using FluentValidation;
 using Newtonsoft.Json;
+using tennismanager.shared.Extensions;
 using tennismanager.shared.Types;
 
 namespace tennismanager.api.Models.User.Abstract;
@@ -41,16 +42,8 @@ public abstract class UserRequestValidator<T> : AbstractValidator<T>
     {
         RuleFor(x => x.FirstName).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();
-        
-        var integrations = new List<string>
-        {
-            UserType.Coach,
-            UserType.Customer
-        };
 
-        RuleFor(x => x.Type).NotNull()
-            .Must(x => integrations.Contains(x)).WithMessage(
-                "This property can only be 'coach' or 'customer'"
-            );
+        RuleFor(x => x.Type).NotNull().IsEnumName(typeof(UserType))
+            .WithMessage(EnumExtensions.ErrorMessage<UserType>());
     }
 }

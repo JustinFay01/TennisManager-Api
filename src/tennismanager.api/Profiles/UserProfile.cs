@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using tennismanager.api.Models.User.Abstract;
-using tennismanager.api.Models.User.Requests;
 using tennismanager.api.Models.User.Responses;
-using tennismanager.service.DTO;
 using tennismanager.service.DTO.Users;
 using tennismanager.shared.Types;
 
@@ -12,24 +10,32 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserDto, UserResponse>()
-            .ReverseMap();
-        
-        CreateMap<CustomerDto, UserResponse>()
-            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => UserType.Customer))
-            .IncludeBase<UserDto, UserResponse>();
-        
-        CreateMap<CoachDto, UserResponse>()
-            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => UserType.Coach))
-            .IncludeBase<UserDto, UserResponse>();
+        CreateMap<UserResponse, UserDto>()
+            .Include<CoachResponse, CoachDto>()
+            .Include<CustomerResponse, CustomerDto>()
+            .ReverseMap()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom<UserTypeResolver>());
 
-        CreateMap<UserRequest, CustomerDto>();
-        
-        CreateMap<UserRequest, CoachDto>();
-        
-        CreateMap<UserUpdateRequest, UserDto>()
+        CreateMap<CoachResponse, CoachDto>()
             .ReverseMap();
 
+        CreateMap<CustomerResponse, CustomerDto>()
+            .ReverseMap();
+
+
+    }
+    
+    private class UserTypeResolver : IValueResolver<UserDto, UserResponse, string>
+    {
+        public string Resolve(UserDto source, UserResponse destination, string destMember, ResolutionContext context)
+        {
+            return source switch
+            {
+                CoachDto => UserType.Coach.ToString(),
+                CustomerDto => UserType.Customer.ToString(),
+                _ => throw new ArgumentException("Invalid user type")
+            };
+        }
     }
 }
 

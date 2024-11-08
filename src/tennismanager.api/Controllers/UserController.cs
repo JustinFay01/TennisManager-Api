@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.User.Abstract;
 using tennismanager.api.Models.User.Requests;
+using tennismanager.api.Models.User.Responses;
 using tennismanager.service.DTO;
 using tennismanager.service.DTO.Users;
 using tennismanager.service.Services;
@@ -71,7 +72,7 @@ public class UserController : ControllerBase
         
         await _userUpdateRequestValidator.ValidateAndThrowAsync(request);
         
-        var newUserDto = BuildUserDto(request);
+        var newUserDto = _mapper.Map<UserDto>(request);
         newUserDto.Id = id;
         
         await _userService.UpdateUserAsync(newUserDto);
@@ -119,22 +120,12 @@ public class UserController : ControllerBase
         
         await _userCreateRequestValidator.ValidateAndThrowAsync(request);
 
-        var userDto = BuildUserDto(request);
+        var userDto = _mapper.Map<UserDto>(request);
         
         userDto = await _userService.CreateUserAsync(userDto);
 
         if (userDto == null) return new BadRequestObjectResult("User could not be created");
 
         return new CreatedResult($"api/user/{userDto.Id}", userDto);
-    }
-    
-    private UserDto BuildUserDto(UserRequest request)
-    {
-        return request.Type switch
-        {
-            UserType.Customer => _mapper.Map<CustomerDto>(request),
-            UserType.Coach => _mapper.Map<CoachDto>(request),
-            _ => throw new ValidationException("Invalid user type")
-        };
     }
 }

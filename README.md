@@ -86,3 +86,7 @@ Models don't need to extend anything, but do needed to be added to the `TennisMa
 2. Create empty webapi project
 3. Run web api with https to validate it works
 
+
+## Current DB 
+
+![DB Diagram](assets/tennismanager-db.jpeg)
