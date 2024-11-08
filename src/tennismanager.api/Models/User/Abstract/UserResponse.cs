@@ -1,6 +1,5 @@
 ﻿namespace tennismanager.api.Models.User.Abstract;
 
-//TODO: Mark abstract when Customer Fields are added to Customer Response
 public abstract class UserResponse
 {
     public Guid Id { get; set; }

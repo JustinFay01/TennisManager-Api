@@ -3,8 +3,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.User.Abstract;
 using tennismanager.api.Models.User.Requests;
-using tennismanager.api.Models.User.Responses;
-using tennismanager.service.DTO;
 using tennismanager.service.DTO.Users;
 using tennismanager.service.Services;
 using tennismanager.shared.Types;
@@ -87,10 +85,6 @@ public class UserController : ControllerBase
         return new NoContentResult();
     }
     
-    /**
-     * Create a new user when the Auth0 login is received.
-     * This method is then called by the Auth0 login callback, if the CheckIn method fails.
-     */
     [HttpPost]
     public async Task<IActionResult> CreateCustomer([FromBody] UserRequest request)
     {
