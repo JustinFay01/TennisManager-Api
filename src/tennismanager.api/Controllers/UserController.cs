@@ -19,15 +19,17 @@ public class UserController : ControllerBase
     
     private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
     private readonly IValidator<UserCheckInRequest> _userCheckInRequestValidator;
+    private readonly IValidator<UserUpdateRequest> _userUpdateRequestValidator;
 
     public UserController(ILogger<UserController> logger, IValidator<UserCreateRequest> userCreateRequestValidator,
-        IMapper mapper, IUserService userService, IValidator<UserCheckInRequest> userCheckInRequestValidator)
+        IMapper mapper, IUserService userService, IValidator<UserCheckInRequest> userCheckInRequestValidator, IValidator<UserUpdateRequest> userUpdateRequestValidator)
     {
         _logger = logger;
         _mapper = mapper;
         _userService = userService;
         
         _userCheckInRequestValidator = userCheckInRequestValidator;
+        _userUpdateRequestValidator = userUpdateRequestValidator;
         _userCreateRequestValidator = userCreateRequestValidator;
     }
 
@@ -37,20 +39,11 @@ public class UserController : ControllerBase
         _logger.LogInformation("Get users request received");
         
         var userDtos =  await _userService.GetUsersAsync();
-        var userResponses = _mapper.Map<IEnumerable<UserResponse>>(userDtos);
-        
-        _logger.LogInformation("Returning {Count} users", userResponses.Count());
-        
-        return new OkObjectResult(userResponses);
+        _logger.LogInformation("Returning {Count} users", userDtos.Count);
+        var response = userDtos.Select(userDto => _mapper.Map<UserResponse>(userDto)).ToList();
+        return new OkObjectResult(response);
     }
     
-    // [HttpPut]
-    // public async Task<IActionResult> UpdateUsers([FromBody] List<UserUpdateRequest> request)
-    // {
-    //     _logger.LogInformation("Update users request received");
-    // }
-    
-
     [HttpGet("${id}")]
     public async Task<IActionResult> GetUser([FromRoute] Guid id)
     {
@@ -61,21 +54,29 @@ public class UserController : ControllerBase
         return new OkObjectResult(userDto);
     }
     
-    // [HttpPut("${id}")]
-    // public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateRequest request)
-    // {
-    //     _logger.LogInformation("Update user request received");
-    //     
-    //     var userDto = await _userService.GetUserByIdAsync(id);
-    //     if (userDto == null) return new NotFoundResult();
-    //     
-    //     await _userUpdateRequestValidator.ValidateAndThrowAsync(request);
-    //     
-    //     userDto = _mapper.Map(request, userDto);
-    //     userDto = await _userService.UpdateUserAsync(userDto);
-    //     
-    //     return new OkObjectResult(userDto);
-    // }
+    /// <summary>
+    /// PUT best practice is to completely replace the resource with the new one.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPut("${id}")]
+    public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateRequest request)
+    {
+        _logger.LogInformation("Update user request received");
+        
+        var userDto = await _userService.GetUserAsync(id);
+        if (userDto == null) return new NotFoundResult();
+        
+        await _userUpdateRequestValidator.ValidateAndThrowAsync(request);
+        
+        var newUserDto = _mapper.Map<UserDto>(request);
+        newUserDto.Id = id;
+        
+        await _userService.UpdateUserAsync(newUserDto);
+            
+        return new OkResult();
+    }
     
     [HttpDelete("${id}")]
     public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
@@ -88,9 +89,6 @@ public class UserController : ControllerBase
         
         return new NoContentResult();
     }
-    
-    
-    // TODO: Do we need Auth0 login?
     
     /**
      * Check in the user after the Auth0 login.

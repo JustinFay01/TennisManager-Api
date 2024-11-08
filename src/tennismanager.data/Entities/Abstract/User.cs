@@ -10,9 +10,6 @@ public abstract class User : BaseEntity
     // Auth0 Fields
     public string? Nickname { get; set; }
     public string? Picture { get; set; }
-    public string? Sub { get; set; }
-    public string? Auth0Provider => !string.IsNullOrEmpty(Sub) ? Sub.Split("|")[0] : null;
-    public string? Auth0Id => !string.IsNullOrEmpty(Sub) ? Sub.Split("|")[1] : null;
 }
 
 public class Admin : User

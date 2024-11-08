@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dawn;
 using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
@@ -11,7 +12,7 @@ namespace tennismanager.service.Services;
 public interface IUserService
 {
     public Task<UserDto?> CreateUserAsync(UserDto userDto);
-
+    public Task UpdateUserAsync(UserDto userDto);
     public Task<UserDto?> GetUserAsync(Guid id);
     public Task<List<UserDto>> GetUsersAsync();
     public Task DeleteUserAsync(Guid id);
@@ -38,6 +39,21 @@ public class UserService : IUserService
 
         var result = _mapper.Map<UserDto>(entity);
         return result;
+    }
+
+    public async Task UpdateUserAsync(UserDto userDto)
+    {
+        Guard.Argument(userDto, nameof(userDto)).NotNull();
+        
+        var current = await _tennisManagerContext.Users.FindAsync(userDto.Id);
+        
+        if (current is null) throw new UserNotFoundException();
+
+        _tennisManagerContext.Remove(current);
+        var updatedUser = _mapper.Map<User>(userDto);
+        _tennisManagerContext.Users.Add(updatedUser);
+        
+        await _tennisManagerContext.SaveChangesAsync();
     }
 
     public async Task<UserDto?> GetUserAsync(Guid id)
