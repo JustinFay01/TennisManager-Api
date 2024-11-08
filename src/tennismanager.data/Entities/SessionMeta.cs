@@ -46,5 +46,11 @@ public class SessionMetaEntityConfiguration : IEntityTypeConfiguration<SessionMe
         builder.HasOne(sm => sm.Session)
             .WithOne(s => s.SessionMeta)
             .HasForeignKey<SessionMeta>(sm => sm.SessionId);
+        
+        builder.Property(sm => sm.StartDate)
+            .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+        
+        builder.Property(sm => sm.EndDate)
+            .HasConversion(v => v, v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
     }
 }

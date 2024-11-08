@@ -1,15 +1,12 @@
-import asyncio
-import aiohttp
 import random
 import argparse
 from dataclasses import dataclass, field
 from typing import Optional, List
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import requests
 from tqdm import tqdm
 from colorama import Fore, Style, init
-from pytz import timezone
 
 
 # Argument parser
@@ -86,14 +83,13 @@ class SessionMetaRequest:
     sessionIntervals: List[SessionIntervalRequest] = field(default_factory=list)
 
     @staticmethod
-    def random_instance():
-        start_date = (datetime.now() + timedelta(days=random.randint(0, 30))).astimezone(timezone.utc)
-        end_date = (start_date + timedelta(days=random.randint(30, 365))).astimezone(timezone.utc)
+    def random_instance():    
         recurring = random.choice([True, False])
+        utc_date = "2024-11-08T12:00:00Z"
         return SessionMetaRequest(
             recurring=recurring,
-            startDate=start_date.isoformat(),
-            endDate=end_date.isoformat(),
+            startDate=utc_date,
+            endDate=utc_date,
             sessionIntervals=[SessionIntervalRequest.random_instance() for _ in range(random.randint(1, 3))] if recurring else [])
 
 @dataclass
@@ -177,15 +173,3 @@ for _ in tqdm(range(total_requests), desc="Creating data"):
         create_customer()
     for _ in tqdm(range(args.num_sessions), desc="Creating sessions", leave=False):
         create_session()
-
-async def main():
-    async with aiohttp.ClientSession() as session:
-        tasks = []
-        for _ in range(args.num_customers):
-            tasks.append(create_customer(session))
-        for _ in range(args.num_sessions):
-            tasks.append(create_session(session))
-        await asyncio.gather(*tasks)
-
-if __name__ == "__main__":
-    asyncio.run(main())

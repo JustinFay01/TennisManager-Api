@@ -35,9 +35,20 @@ public class SessionController
     [HttpPost]
     public async Task<IActionResult> CreateSession([FromBody] SessionRequest request)
     {
-        _sessionRequestValidator.ValidateAndThrow(request);
+       await _sessionRequestValidator.ValidateAndThrowAsync(request);
 
-        var sessionDto = _mapper.Map<SessionDto>(request);
+       if (request.SessionMeta.StartDate.HasValue)
+       {
+           request.SessionMeta.StartDate =
+               DateTime.SpecifyKind((DateTime)request.SessionMeta.StartDate, DateTimeKind.Utc);
+       }
+
+       if (request.SessionMeta.EndDate.HasValue)
+       {
+           request.SessionMeta.EndDate = DateTime.SpecifyKind((DateTime)request.SessionMeta.EndDate, DateTimeKind.Utc);
+       }
+
+       var sessionDto = _mapper.Map<SessionDto>(request);
 
         var session = await _sessionService.CreateSessionAsync(sessionDto);
 
