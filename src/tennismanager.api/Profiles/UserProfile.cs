@@ -11,24 +11,24 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserCreateRequest, UserDto>()
-            .ConstructUsing(ReqToDto);
-            
+        CreateMap<UserDto, UserResponse>()
+            .ReverseMap();
+        
+        CreateMap<CustomerDto, UserResponse>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => UserType.Customer))
+            .IncludeBase<UserDto, UserResponse>();
+        
+        CreateMap<CoachDto, UserResponse>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => UserType.Coach))
+            .IncludeBase<UserDto, UserResponse>();
+
+        CreateMap<UserRequest, CustomerDto>();
+        
+        CreateMap<UserRequest, CoachDto>();
         
         CreateMap<UserUpdateRequest, UserDto>()
-            .ConstructUsing(ReqToDto);
-        CreateMap<UserCheckInRequest, UserDto>()
-            .ConstructUsing(ReqToDto);
-    }
+            .ReverseMap();
 
-    private static UserDto ReqToDto(UserRequest request, ResolutionContext context)
-    {
-        return request.Type switch
-        {
-            UserType.Coach => context.Mapper.Map<CoachDto>(request),
-            UserType.Customer => context.Mapper.Map<CustomerDto>(request),
-            _ => throw new ArgumentOutOfRangeException()
-        };
     }
 }
 

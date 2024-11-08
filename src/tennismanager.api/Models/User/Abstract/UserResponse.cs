@@ -9,7 +9,7 @@ namespace tennismanager.api.Models.User.Abstract;
 public class UserResponse
 {
     public Guid Id { get; set; }
-    public string UserType { get; set; }
+    public string Type { get; set; }
 
     public string FirstName { get; set; }
     public string LastName { get; set; }

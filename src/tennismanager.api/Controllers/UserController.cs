@@ -70,7 +70,7 @@ public class UserController : ControllerBase
         
         await _userUpdateRequestValidator.ValidateAndThrowAsync(request);
         
-        var newUserDto = _mapper.Map<UserDto>(request);
+        var newUserDto = BuildUserDto(request);
         newUserDto.Id = id;
         
         await _userService.UpdateUserAsync(newUserDto);
@@ -118,17 +118,22 @@ public class UserController : ControllerBase
         
         await _userCreateRequestValidator.ValidateAndThrowAsync(request);
 
-        UserDto? userDto = request.Type switch
-        {
-            UserType.Customer => _mapper.Map<CustomerDto>(request),
-            UserType.Coach => _mapper.Map<CoachDto>(request),
-            _ => throw new ValidationException("Invalid user type")
-        };
-
+        var userDto = BuildUserDto(request);
+        
         userDto = await _userService.CreateUserAsync(userDto);
 
         if (userDto == null) return new BadRequestObjectResult("User could not be created");
 
         return new CreatedResult($"api/user/{userDto.Id}", userDto);
+    }
+    
+    private UserDto BuildUserDto(UserRequest request)
+    {
+        return request.Type switch
+        {
+            UserType.Customer => _mapper.Map<CustomerDto>(request),
+            UserType.Coach => _mapper.Map<CoachDto>(request),
+            _ => throw new ValidationException("Invalid user type")
+        };
     }
 }
