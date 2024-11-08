@@ -1,7 +1,6 @@
-﻿namespace tennismanager.service.DTO;
+﻿namespace tennismanager.service.DTO.Users;
 
 public class CoachDto : UserDto
 {
-    // TODO: Add Coach Specific Fields
     public decimal HourlyRate { get; set; }
 }

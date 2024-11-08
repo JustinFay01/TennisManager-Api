@@ -1,6 +1,6 @@
-﻿namespace tennismanager.api.Models.Session;
+namespace tennismanager.api.Models.Session.Responses;
 
-public class CustomerSessionRequest
+public class CustomerSessionResponse
 {
     public Guid CustomerId { get; set; }
     public Guid SessionId { get; set; }

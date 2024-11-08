@@ -4,5 +4,6 @@ namespace tennismanager.api.Models.User.Responses;
 
 public class CoachResponse : UserResponse
 {
-    public ICollection<PackagePriceResponse> PackagePricesList { get; set; } = new List<PackagePriceResponse>();
+    //public List<PackagePriceResponse> PackagePricesList { get; set; } = [];
+    public decimal HourlyRate { get; set; }
 }

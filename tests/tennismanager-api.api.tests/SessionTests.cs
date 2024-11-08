@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using tennismanager.api.Controllers;
-using tennismanager.api.Models.Session;
+using tennismanager.api.Models.Session.Requests;
 using tennismanager.api.Profiles;
 using tennismanager.service.DTO.Session;
 using tennismanager.service.Services;

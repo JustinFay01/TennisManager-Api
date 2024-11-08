@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using tennismanager.data;
 using tennismanager.service.DTO;
+using tennismanager.service.DTO.Users;
 
 namespace tennismanager.service.Services;
 

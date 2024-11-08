@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.User.Abstract;
 using tennismanager.api.Models.User.Requests;
 using tennismanager.service.DTO;
+using tennismanager.service.DTO.Users;
 using tennismanager.service.Services;
 using tennismanager.shared.Types;
 

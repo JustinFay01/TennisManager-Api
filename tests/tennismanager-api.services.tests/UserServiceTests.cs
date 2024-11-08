@@ -3,6 +3,7 @@ using AutoMapper;
 using tennismanager.data.Entities;
 using tennismanager.data.Entities.Abstract;
 using tennismanager.service.DTO;
+using tennismanager.service.DTO.Users;
 using tennismanager.service.Profiles;
 using tennismanager.service.Services;
 

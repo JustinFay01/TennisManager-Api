@@ -1,4 +1,4 @@
-﻿namespace tennismanager.api.Models.Session;
+﻿namespace tennismanager.api.Models.Session.Requests;
 
 public class SessionIntervalRequest
 {

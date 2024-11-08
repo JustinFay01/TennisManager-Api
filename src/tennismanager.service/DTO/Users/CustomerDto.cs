@@ -1,6 +1,8 @@
-﻿namespace tennismanager.service.DTO;
+﻿using tennismanager.service.DTO.Session;
+
+namespace tennismanager.service.DTO.Users;
 
 public class CustomerDto : UserDto
 {
-    //TODO: Add ParticipatedSessions and Packages
+    public ICollection<CustomerSessionDto> Sessions { get; set; } = [];
 }

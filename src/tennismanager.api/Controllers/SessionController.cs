@@ -3,7 +3,7 @@ using Dawn;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using tennismanager.api.Models.Session;
+using tennismanager.api.Models.Session.Requests;
 using tennismanager.service.DTO.Session;
 using tennismanager.service.Services;
 

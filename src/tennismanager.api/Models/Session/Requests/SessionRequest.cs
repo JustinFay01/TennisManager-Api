@@ -2,7 +2,7 @@
 using tennismanager.shared.Extensions;
 using tennismanager.shared.Types;
 
-namespace tennismanager.api.Models.Session;
+namespace tennismanager.api.Models.Session.Requests;
 
 public class SessionRequest
 {

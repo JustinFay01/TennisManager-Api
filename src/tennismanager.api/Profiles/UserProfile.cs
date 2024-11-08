@@ -3,6 +3,7 @@ using tennismanager.api.Models.User.Abstract;
 using tennismanager.api.Models.User.Requests;
 using tennismanager.api.Models.User.Responses;
 using tennismanager.service.DTO;
+using tennismanager.service.DTO.Users;
 using tennismanager.shared.Types;
 
 namespace tennismanager.api.Profiles;
