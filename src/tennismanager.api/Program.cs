@@ -36,7 +36,7 @@ public class Program
         builder.Services.UseTennisManagerServices(builder.Configuration);
 
         // Injects all Validators
-        builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<UserRequestValidator>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

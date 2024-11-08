@@ -31,8 +31,8 @@ public class UserProfile : Profile
         {
             return source switch
             {
-                CoachDto => UserType.Coach.ToString(),
-                CustomerDto => UserType.Customer.ToString(),
+                CoachDto => UserType.Coach.ToString().ToLower(),
+                CustomerDto => UserType.Customer.ToString().ToLower(),
                 _ => throw new ArgumentException("Invalid user type")
             };
         }

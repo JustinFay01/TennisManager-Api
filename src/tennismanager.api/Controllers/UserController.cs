@@ -19,21 +19,16 @@ public class UserController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
     
-    private readonly IValidator<UserCreateRequest> _userCreateRequestValidator;
-    private readonly IValidator<UserCheckInRequest> _userCheckInRequestValidator;
-    private readonly IValidator<UserUpdateRequest> _userUpdateRequestValidator;
+    private readonly IValidator<UserRequest> _userRequestValidator;
 
-    public UserController(ILogger<UserController> logger, IValidator<UserCreateRequest> userCreateRequestValidator,
-        IMapper mapper, IUserService userService, IValidator<UserCheckInRequest> userCheckInRequestValidator, IValidator<UserUpdateRequest> userUpdateRequestValidator)
+    public UserController(ILogger<UserController> logger, IMapper mapper, IUserService userService, IValidator<UserRequest> userRequestValidator)
     {
         _logger = logger;
         _mapper = mapper;
         _userService = userService;
-        
-        _userCheckInRequestValidator = userCheckInRequestValidator;
-        _userUpdateRequestValidator = userUpdateRequestValidator;
-        _userCreateRequestValidator = userCreateRequestValidator;
+        _userRequestValidator = userRequestValidator;
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetUsers()
@@ -63,14 +58,14 @@ public class UserController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut("${id}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateRequest request)
+    public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UserRequest request)
     {
         _logger.LogInformation("Update user request received");
         
         var userDto = await _userService.GetUserAsync(id);
         if (userDto == null) return new NotFoundResult();
         
-        await _userUpdateRequestValidator.ValidateAndThrowAsync(request);
+        await _userRequestValidator.ValidateAndThrowAsync(request);
         
         var newUserDto = _mapper.Map<UserDto>(request);
         newUserDto.Id = id;
@@ -93,32 +88,15 @@ public class UserController : ControllerBase
     }
     
     /**
-     * Check in the user after the Auth0 login.
-     * If the user is already in the database, return the user.
-     * If the user is not in the database, return a 204 No Content.
-     */
-    [HttpPost("check-in")]
-    public async Task<IActionResult> UserCheckIn([FromBody] UserCheckInRequest request)
-    {
-       _logger.LogInformation("UserCheckIn request received");
-       
-         await _userCheckInRequestValidator.ValidateAndThrowAsync(request);
-         
-        var userDto = await _userService.GetUserAsync(request.Id);
-        return userDto != null ? new OkObjectResult(userDto) : new NoContentResult();
-    }
-
-    
-    /**
      * Create a new user when the Auth0 login is received.
      * This method is then called by the Auth0 login callback, if the CheckIn method fails.
      */
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateCustomer([FromBody] UserCreateRequest request)
+    [HttpPost]
+    public async Task<IActionResult> CreateCustomer([FromBody] UserRequest request)
     {
         _logger.LogInformation("Create user request received");
         
-        await _userCreateRequestValidator.ValidateAndThrowAsync(request);
+        await _userRequestValidator.ValidateAndThrowAsync(request);
 
         var userDto = _mapper.Map<UserDto>(request);
         
