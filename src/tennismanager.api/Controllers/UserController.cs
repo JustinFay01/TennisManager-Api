@@ -67,7 +67,7 @@ public class UserController : ControllerBase
         
         await _userRequestValidator.ValidateAndThrowAsync(request);
         
-        var newUserDto = _mapper.Map<UserDto>(request);
+        var newUserDto = MapUserRequestToUserDto(request);
         newUserDto.Id = id;
         
         await _userService.UpdateUserAsync(newUserDto);
@@ -98,12 +98,27 @@ public class UserController : ControllerBase
         
         await _userRequestValidator.ValidateAndThrowAsync(request);
 
-        var userDto = _mapper.Map<UserDto>(request);
+        var userDto = MapUserRequestToUserDto(request);
         
         userDto = await _userService.CreateUserAsync(userDto);
 
         if (userDto == null) return new BadRequestObjectResult("User could not be created");
 
         return new CreatedResult($"api/user/{userDto.Id}", userDto);
+    }
+    
+    private UserDto MapUserRequestToUserDto(UserRequest request)
+    {
+        if (!Enum.TryParse<UserType>(request.Type, true ,out var userType))
+        {
+            throw new ArgumentException("Invalid user type");
+        }
+        
+        return userType switch 
+        {
+            UserType.Coach => _mapper.Map<CoachDto>(request),
+            UserType.Customer => _mapper.Map<CustomerDto>(request),
+            _ => throw new ArgumentException("Invalid user type")
+        };
     }
 }

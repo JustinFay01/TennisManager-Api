@@ -27,6 +27,12 @@ public class UserRequest
     
     [JsonProperty("nickname")]
     public string? Nickname { get; set; }
+    
+    // Customer Fields
+    
+    // Coach Fields
+    [JsonProperty("hourlyRate")]
+    public decimal? HourlyRate { get; set; }
 }
 
 public class UserRequestValidator : AbstractValidator<UserRequest>

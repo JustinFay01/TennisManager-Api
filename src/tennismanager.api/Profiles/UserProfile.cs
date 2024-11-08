@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using tennismanager.api.Models.User.Abstract;
+using tennismanager.api.Models.User.Requests;
 using tennismanager.api.Models.User.Responses;
 using tennismanager.service.DTO.Users;
 using tennismanager.shared.Types;
@@ -22,7 +23,8 @@ public class UserProfile : Profile
         CreateMap<CustomerResponse, CustomerDto>()
             .ReverseMap();
 
-
+        CreateMap<UserRequest, CustomerDto>();
+        CreateMap<UserRequest, CoachDto>();
     }
     
     private class UserTypeResolver : IValueResolver<UserDto, UserResponse, string>
