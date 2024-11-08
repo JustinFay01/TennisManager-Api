@@ -18,6 +18,11 @@ public class UserResponse
     public string? NickName { get; set; }
 }
 
+//TODO: Need to make these completely abstract and add child classes for Customer and Coach
+// We need to model the same inheritance structure as the DTOs in order for automapper to work
+// Lastly, we can then add a helper method which chooses the DTO to map to based on the Type property
+// In addition, we need to add a validator for each child class and a method to 
+// choose the correct Response to map to based on the Type property
 public abstract class UserRequest
 {
     [JsonProperty("type")]
