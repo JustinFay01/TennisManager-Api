@@ -33,6 +33,11 @@ headers = {
 
 
 # Models for the data
+
+# Helper functions
+def format_date(date):
+    return date.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+
 @dataclass
 class UserRequest:
     type: str # "customer" or "coach"
@@ -71,7 +76,7 @@ class SessionIntervalRequest:
     def random_instance():
         start_date = datetime.now() + timedelta(days=random.randint(0, 30))
         return SessionIntervalRequest(
-            recurringStartDate=start_date.isoformat(),
+            recurringStartDate=format_date(start_date),
             repeatInterval=random.randint(86400, 86400*7)
         )
 
@@ -85,12 +90,12 @@ class SessionMetaRequest:
     @staticmethod
     def random_instance():    
         recurring = random.choice([True, False])
-        utc_date = "2024-11-08T12:00:00Z"
         return SessionMetaRequest(
             recurring=recurring,
-            startDate=utc_date,
-            endDate=utc_date,
-            sessionIntervals=[SessionIntervalRequest.random_instance() for _ in range(random.randint(1, 3))] if recurring else [])
+            startDate=format_date(datetime.now() + timedelta(days=random.randint(0, 30))),
+            endDate=format_date(datetime.now() + timedelta(days=random.randint(31, 60))),
+            sessionIntervals=[SessionIntervalRequest.random_instance() for _ in range(random.randint(1, 3))] if recurring else []
+        )
 
 @dataclass
 class SessionRequest:
@@ -168,8 +173,9 @@ def create_session():
     
 
 total_requests = args.num_customers + args.num_sessions
-for _ in tqdm(range(total_requests), desc="Creating data"):
-    for _ in tqdm(range(args.num_customers), desc="Creating customers", leave=False):
-        create_customer()
-    for _ in tqdm(range(args.num_sessions), desc="Creating sessions", leave=False):
-        create_session()
+for _ in tqdm(range(args.num_customers), desc="Creating customers", leave=False):
+    create_customer()
+for _ in tqdm(range(args.num_sessions), desc="Creating sessions", leave=False):
+    create_session()
+
+print(f"{Fore.GREEN}Successfully created {total_requests} requests{Style.RESET_ALL}")
