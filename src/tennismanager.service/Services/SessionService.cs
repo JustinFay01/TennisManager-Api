@@ -13,7 +13,7 @@ public interface ISessionService
     Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);
     Task UpdateSessionAsync(SessionDto sessionDto);
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
-    Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize);
+    Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize);
     Task DeleteSessionAsync(Guid id);
     
     Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions);
@@ -72,21 +72,23 @@ public class SessionService : ISessionService
         await _tennisManagerContext.SaveChangesAsync();
     }
 
-    public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int page, int pageSize)
+    public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize)
     {
-        var count = _tennisManagerContext.Sessions.Count();
+        IQueryable<Session> query = _tennisManagerContext.Sessions
+            .Include(session => session.SessionMeta)
+            .ThenInclude(meta => meta.SessionIntervals) 
+            .Include(session => session.CustomerSessions);
 
-        var query = await _tennisManagerContext.Sessions
-            .AsNoTracking()
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return new PagedResponse<SessionDto>
+        if(page != null && pageSize != null)
+        {
+            query = query.Skip((int) pageSize * ((int) page - 1)).Take((int) pageSize);
+        }
+        
+        var count = await query.CountAsync();
+        
+        return new PagedResponse<SessionDto>(page ?? 1, pageSize ?? count)
         {
             Items = _mapper.Map<List<SessionDto>>(query),
-            PageNumber = page,
-            PageSize = pageSize,
             TotalItems = count
         };
     }

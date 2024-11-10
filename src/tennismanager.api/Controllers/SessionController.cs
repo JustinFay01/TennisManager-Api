@@ -56,10 +56,13 @@ public class SessionController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetSessions([FromQuery] int page, [FromQuery] int pageSize)
+    public async Task<IActionResult> GetSessions([FromQuery] int? page, [FromQuery] int? pageSize)
     {
-        Guard.Argument(page, nameof(page)).NotNegative().NotZero();
-        Guard.Argument(pageSize, nameof(pageSize)).NotNegative().NotZero();
+        if(pageSize != null || page != null)
+        {
+            Guard.Argument(pageSize, nameof(pageSize)).NotNull().NotZero();
+            Guard.Argument(page, nameof(page)).NotNull().NotZero();
+        }
 
         var sessions = await _sessionService.GetSessionsAsync(page, pageSize);
 

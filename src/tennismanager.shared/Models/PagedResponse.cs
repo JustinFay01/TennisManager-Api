@@ -2,6 +2,13 @@
 
 public class PagedResponse<T> where T : class
 {
+    
+    public PagedResponse(int pageNumber, int pageSize)
+    {
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+    }
+    
     public List<T> Items { get; set; } = [];
 
     public int TotalItems { get; set; }
