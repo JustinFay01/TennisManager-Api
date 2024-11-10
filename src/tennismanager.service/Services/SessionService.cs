@@ -51,7 +51,12 @@ public class SessionService : ISessionService
 
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)
     {
-        var session = await _tennisManagerContext.Sessions.FirstOrDefaultAsync(s => s.Id == id);
+        var session = await _tennisManagerContext.Sessions
+            .Include(s => s.SessionMeta)
+            .ThenInclude(meta => meta.SessionIntervals)
+            .Include(s => s.CustomerSessions)
+            .FirstOrDefaultAsync(s => s.Id == id);
+        
         return _mapper.Map<SessionDto>(session);
     }
 
