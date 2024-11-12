@@ -62,7 +62,7 @@ class UserRequest:
             lastName=last_name,
             email=f"{first_name.lower()}.{last_name.lower()}@example.com",
             phoneNumber=f"+1{random.randint(1000000000, 9999999999)}",
-            picture="N/A",
+            picture=None,
             nickname=random.choice([None, first_name[0] + last_name[0]]),
             hourlyRate=round(random.uniform(10.0, 100.0), 2) if random.choice([True, False]) else None
         )
