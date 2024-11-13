@@ -1,12 +1,7 @@
 using AutoFixture;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using tennismanager.api.Controllers;
@@ -76,60 +71,6 @@ public class SessionTests : BaseApiTest<SessionController>
         // Assert
         _mockSessionService.Verify(x => x.AddCustomersToSessionAsync(It.IsAny<List<CustomerSessionDto>>()), Times.Once);
         Assert.IsType<OkResult>(result);
-    }
-
-    # endregion
-
-    # region Update Session Tests
-
-    [Fact]
-    public async Task UpdateSession_ValidRequest_ReturnsNoContent()
-    {
-        // Arrange
-        var session = CreateSessionPatchDocument();
-
-        _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(Fixture.Create<SessionDto>());
-        _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()));
-
-        // Act
-        var result = await _testSubject.UpdateSession(Guid.NewGuid(), session);
-
-
-        // Assert
-        _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
-        Assert.IsType<OkResult>(result);
-    }
-
-    [Fact(Skip = "No way to test global exception handling")]
-    public async Task UpdateSession_InvalidRequest_ReturnsBadRequest()
-    {
-        // Arrange
-        var session = CreateSessionPatchDocument();
-
-        _mockSessionService.Setup(x => x.GetSessionByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(Fixture.Create<SessionDto>());
-        _mockSessionService.Setup(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()))
-            .ThrowsAsync(new ValidationException("Invalid request"));
-
-        // Act
-        var result = await _testSubject.UpdateSession(Guid.NewGuid(), session);
-
-        // Assert
-        _mockSessionService.Verify(x => x.UpdateSessionAsync(It.IsAny<SessionDto>()), Times.Once);
-        Assert.IsType<BadRequestObjectResult>(result);
-    }
-
-    private JsonPatchDocument<SessionRequest> CreateSessionPatchDocument()
-    {
-        var patchDocument = new JsonPatchDocument<SessionRequest>();
-        patchDocument.Operations.Add(new Operation<SessionRequest>
-        {
-            op = "replace",
-            path = "/name",
-            value = "New Name"
-        });
-        return patchDocument;
     }
 
     # endregion

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Dawn;
 using FluentValidation;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.Models.Session.Requests;
 using tennismanager.service.DTO.Session;
@@ -78,33 +77,33 @@ public class SessionController
         return new OkObjectResult(session);
     }
 
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateSession([FromRoute] Guid id,
-        [FromBody] JsonPatchDocument<SessionRequest> request)
-    {
-        _logger.LogInformation("Update session request received");
-
-        // Fetch the session
-        var session = await _sessionService.GetSessionByIdAsync(id);
-        if (session == null) return new NotFoundResult();
-
-        // Map the session to the update request
-        var sessionUpdateRequest = _mapper.Map<SessionRequest>(session);
-
-        // Apply the patch
-        request.ApplyTo(sessionUpdateRequest);
-
-        // Validate the updated request
-        await _sessionRequestValidator.ValidateAndThrowAsync(sessionUpdateRequest);
-
-        // Map the updated request back to a session DTO
-        var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
-
-        // Update the session
-        await _sessionService.UpdateSessionAsync(sessionDto);
-
-        return new OkResult();
-    }
+    // [HttpPatch("{id}")]
+    // public async Task<IActionResult> UpdateSession([FromRoute] Guid id,
+    //     [FromBody] JsonPatchDocument<SessionRequest> request)
+    // {
+    //     _logger.LogInformation("Update session request received");
+    //
+    //     // Fetch the session
+    //     var session = await _sessionService.GetSessionByIdAsync(id);
+    //     if (session == null) return new NotFoundResult();
+    //
+    //     // Map the session to the update request
+    //     var sessionUpdateRequest = _mapper.Map<SessionRequest>(session);
+    //
+    //     // Apply the patch
+    //     request.ApplyTo(sessionUpdateRequest);
+    //
+    //     // Validate the updated request
+    //     await _sessionRequestValidator.ValidateAndThrowAsync(sessionUpdateRequest);
+    //
+    //     // Map the updated request back to a session DTO
+    //     var sessionDto = _mapper.Map<SessionDto>(sessionUpdateRequest);
+    //
+    //     // Update the session
+    //     await _sessionService.UpdateSessionAsync(sessionDto);
+    //
+    //     return new OkResult();
+    // }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteSession([FromRoute] Guid id)

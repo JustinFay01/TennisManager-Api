@@ -1,5 +1,5 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
-using Newtonsoft.Json;
 using tennismanager.shared.Extensions;
 using tennismanager.shared.Types;
 
@@ -7,31 +7,31 @@ namespace tennismanager.api.Models.User.Requests;
 
 public class UserRequest
 {
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public string Type { get; set; }
     
-    [JsonProperty("firstName")]
+    [JsonPropertyName("firstName")]
     public string FirstName { get; set; }
     
-    [JsonProperty("lastName")]
+    [JsonPropertyName("lastName")]
     public string LastName { get; set; }
     
-    [JsonProperty("email")]
+    [JsonPropertyName("email")]
     public string? Email { get; set; }
     
-    [JsonProperty("phoneNumber")]
+    [JsonPropertyName("phoneNumber")]
     public string? PhoneNumber { get; set; }
     
-    [JsonProperty("picture")]
+    [JsonPropertyName("picture")]
     public string? Picture { get; set; }
     
-    [JsonProperty("nickname")]
+    [JsonPropertyName("nickname")]
     public string? Nickname { get; set; }
     
     // Customer Fields
     
     // Coach Fields
-    [JsonProperty("hourlyRate")]
+    [JsonPropertyName("hourlyRate")]
     public decimal? HourlyRate { get; set; }
 }
 

@@ -33,8 +33,7 @@ public class Program
         builder.Services.AddExceptionHandler<ExceptionHandler>();
 
         // Add services to the container.
-        builder.Services.AddControllers()
-            .AddNewtonsoftJson();
+        builder.Services.AddControllers();
         builder.Services.UseTennisManagerServices(builder.Configuration);
 
         // Injects all Validators
