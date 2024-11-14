@@ -13,6 +13,15 @@ public interface ISessionService
     Task<SessionDto> CreateSessionAsync(SessionDto sessionDto);
     Task UpdateSessionAsync(SessionDto sessionDto);
     Task<SessionDto?> GetSessionByIdAsync(Guid id);
+    
+    /// <summary>
+    /// Get a list of sessions with optional pagination. If either page or pageSize is null, all sessions are returned.
+    ///
+    /// <see href="https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries"/>
+    /// </summary>
+    /// <param name="page">Page Number</param>
+    /// <param name="pageSize">Page Size</param>
+    /// <returns>PagedResponse of SessionDto</returns>
     Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize);
     Task DeleteSessionAsync(Guid id);
     
@@ -82,14 +91,17 @@ public class SessionService : ISessionService
         IQueryable<Session> query = _tennisManagerContext.Sessions
             .Include(session => session.SessionMeta)
             .ThenInclude(meta => meta.SessionIntervals) 
-            .Include(session => session.CustomerSessions);
+            .Include(session => session.CustomerSessions)
+            // https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries
+            .AsSplitQuery()
+            .OrderBy(session => session.SessionMeta.StartDate);
 
+        var count = await query.CountAsync();
+        
         if(page != null && pageSize != null)
         {
             query = query.Skip((int) pageSize * ((int) page - 1)).Take((int) pageSize);
         }
-        
-        var count = await query.CountAsync();
         
         return new PagedResponse<SessionDto>(page ?? 1, pageSize ?? count)
         {
