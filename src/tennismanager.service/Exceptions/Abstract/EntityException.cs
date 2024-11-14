@@ -1,4 +1,4 @@
-﻿namespace tennismanager.shared.Exceptions.Exceptions.Abstract;
+﻿namespace tennismanager.service.Exceptions.Abstract;
 
 public class EntityException(string message) : Exception(message);
 

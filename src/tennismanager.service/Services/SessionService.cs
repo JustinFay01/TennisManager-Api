@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using tennismanager.data;
 using tennismanager.data.Entities;
 using tennismanager.service.DTO.Session;
-using tennismanager.shared.Exceptions.Exceptions;
+using tennismanager.service.Exceptions;
 using tennismanager.shared.Models;
 
 namespace tennismanager.service.Services;

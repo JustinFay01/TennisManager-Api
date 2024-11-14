@@ -6,7 +6,7 @@ using tennismanager.data.Entities;
 using tennismanager.data.Entities.Abstract;
 using tennismanager.service.DTO;
 using tennismanager.service.DTO.Users;
-using tennismanager.shared.Exceptions.Exceptions;
+using tennismanager.service.Exceptions;
 
 namespace tennismanager.service.Services;
 

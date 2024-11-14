@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using tennismanager.api.ExceptionHandlers.Abstract;
-using tennismanager.shared.Exceptions.Exceptions.Abstract;
+using tennismanager.service.Exceptions.Abstract;
 
 namespace tennismanager.api.ExceptionHandlers;
 

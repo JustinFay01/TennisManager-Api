@@ -8,8 +8,8 @@ using tennismanager.api.Controllers;
 using tennismanager.api.Models.Session.Requests;
 using tennismanager.api.Profiles;
 using tennismanager.service.DTO.Session;
+using tennismanager.service.Exceptions;
 using tennismanager.service.Services;
-using tennismanager.shared.Exceptions.Exceptions;
 
 namespace tennismanager_api.api.tests;
 
