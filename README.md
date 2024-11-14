@@ -51,10 +51,6 @@ If in source dir
 dotnet ef migrations add <MigrationName> 
 ```
 
-```
-dotnet ef migrations add <MigrationName> 
-```
-
 To update the database to the latest migration
 
 ```

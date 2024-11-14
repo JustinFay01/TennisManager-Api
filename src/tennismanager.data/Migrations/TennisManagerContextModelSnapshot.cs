@@ -17,7 +17,7 @@ namespace tennismanager.data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -47,10 +47,7 @@ namespace tennismanager.data.Migrations
 
                     b.Property<string>("Picture")
                         .HasColumnType("text");
-
-                    b.Property<string>("Sub")
-                        .HasColumnType("text");
-
+                    
                     b.Property<string>("UserType")
                         .IsRequired()
                         .HasMaxLength(8)
@@ -58,7 +55,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasDiscriminator<string>("UserType").HasValue("User");
 
@@ -89,7 +86,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("CustomerSessions");
+                    b.ToTable("CustomerSessions", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Group", b =>
@@ -103,7 +100,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasKey("MemberNumber");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Package", b =>
@@ -137,7 +134,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Packages");
+                    b.ToTable("Packages", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Session", b =>
@@ -172,7 +169,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasIndex("CoachId");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Sessions", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.SessionInterval", b =>
@@ -194,7 +191,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasIndex("SessionMetaId");
 
-                    b.ToTable("SessionIntervals");
+                    b.ToTable("SessionIntervals", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
@@ -220,7 +217,7 @@ namespace tennismanager.data.Migrations
                     b.HasIndex("SessionId")
                         .IsUnique();
 
-                    b.ToTable("SessionMetas");
+                    b.ToTable("SessionMetas", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.UserGroup", b =>
@@ -244,7 +241,7 @@ namespace tennismanager.data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserGroups");
+                    b.ToTable("UserGroups", (string)null);
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Abstract.Admin", b =>
