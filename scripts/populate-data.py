@@ -114,7 +114,7 @@ class SessionRequest:
     @staticmethod
     def random_instance():
         return SessionRequest(
-            type="Event",
+            type=random.choice(["Event", "TennisHitting", "TennisDrill", "PickleDrill", "PickleHitting"]),
             name=random.choice(["Tennis", "Wimbledon", "US Open", "French Open", "Australian Open"]),
             price=round(random.uniform(10.0, 100.0), 2),
             duration=random.choice([30, 45, 60, 90]),
