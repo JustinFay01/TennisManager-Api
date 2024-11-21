@@ -22,13 +22,13 @@ public class Event : BaseEntity
     /// Start Time of the Event
     /// Nullable if IsFullDay is true
     /// </summary>
-    public DateTime? StartTime { get; set; }
+    public TimeOnly? StartTime { get; set; }
     
     /// <summary>
     /// End Time of the Event
     /// Nullable if IsFullDay is true
     /// </summary>
-    public DateTime? EndTime { get; set; }
+    public TimeOnly? EndTime { get; set; }
     
     public bool IsFullDay { get; set; }
     public bool IsRecurring { get; set; }

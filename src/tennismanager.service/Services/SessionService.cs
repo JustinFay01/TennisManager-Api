@@ -22,7 +22,7 @@ public interface ISessionService
     /// <param name="page">Page Number</param>
     /// <param name="pageSize">Page Size</param>
     /// <returns>PagedResponse of SessionDto</returns>
-    Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate);
+    Task<PagedResponse<CondensedSessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate);
     Task DeleteSessionAsync(Guid id);
     
     Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions);
@@ -86,7 +86,7 @@ public class SessionService : ISessionService
         await _tennisManagerContext.SaveChangesAsync();
     }
 
-    public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate)
+    public async Task<PagedResponse<CondensedSessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate)
     {
         var query = _tennisManagerContext.Sessions
             .Include(session => session.Event)
@@ -105,9 +105,9 @@ public class SessionService : ISessionService
             query = query.Skip((int) pageSize * ((int) page - 1)).Take((int) pageSize);
         }
 
-        return new PagedResponse<SessionDto>(page ?? 1, pageSize ?? count)
+        return new PagedResponse<CondensedSessionDto>(page ?? 1, pageSize ?? count)
         {
-            Items = _mapper.Map<List<SessionDto>>(query),
+            Items = _mapper.Map<List<CondensedSessionDto>>(query),
             TotalItems = count
         };
     }

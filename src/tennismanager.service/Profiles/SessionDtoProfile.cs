@@ -22,6 +22,13 @@ public class SessionDtoProfile : Profile
         
         CreateMap<RecurringPatternDto, RecurringPattern>()
             .ReverseMap();
+
+        CreateMap<CondensedSessionDto, Session>()
+            .ReverseMap()
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Event.StartTime))
+            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Event.EndTime))
+            .ForMember(dest => dest.SessionDate, opt => opt.MapFrom(src => src.Event.StartDate));
+            
         
         CreateMap<SessionMetaDto, SessionMeta>()
             .ForMember(dest => dest.Session, opt => opt.Ignore())

@@ -18,9 +18,11 @@ public static class EventDtoExtensions
         DateOnly? endDate = random.Next(0, 2) == 0 // 50% chance of having an end date
             ? startDate.AddDays(random.Next(1, 7)) // End date within a week
             : null;
-        
-        var startTime = DateTime.UtcNow.AddHours(random.Next(0, 24));
-        var endTime = startTime.AddHours(random.Next(1, 8)); // End time within 1-8 hours
+
+        var startTime = TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(random.Next(0, 24)));
+        TimeOnly? endTime = random.Next(0, 2) == 0 // 50% chance of having an end time
+            ? TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(random.Next(1, 24))) // End time within a day
+            : null;
         
         var isRecurring = random.Next(0, 2) == 1; // 50% chance of being recurring
         
