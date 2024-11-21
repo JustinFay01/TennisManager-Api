@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using tennismanager.data.Entities.Abstract;
+using tennismanager.data.Entities.Events;
 using tennismanager.shared.Types;
 
 namespace tennismanager.data.Entities;
@@ -14,11 +15,9 @@ public class Session : BaseEntity
     ///     private, pickleball drill, pickleball hitting
     /// </summary>
     public SessionType Type { get; set; }
-
-    /// <summary>
-    ///     Duration in minutes
-    /// </summary>
-    public int Duration { get; set; }
+    
+    public required Event Event { get; set; }
+    public Guid EventId { get; set; }
 
     public int Capacity { get; set; }
 
@@ -29,35 +28,11 @@ public class Session : BaseEntity
 
     public Guid? CoachId { get; set; }
     public string? Description { get; set; }
-
-    /// <summary>
-    ///     Navigational property for session meta. This contains all scheduling information for the session.
-    ///     Marked as optional so EF core knows that this is a 1:1 relationship and that the Session is the
-    ///     Principal entity.
-    /// </summary>
-    public required SessionMeta SessionMeta { get; set; }
-
+    
     /// <summary>
     ///     Customers who have signed up for this session
     /// </summary>
     public ICollection<CustomerSession> CustomerSessions { get; set; } = [];
-    
-    
-    /// <summary>
-    ///  Determines if the session takes place on a given date.
-    ///
-    /// If the date is equal to the start date, the session takes place.
-    ///
-    /// 
-    /// </summary>
-    /// <param name="date"></param>
-    /// <returns></returns>
-    public bool TakesPlaceOn(DateTime date)
-    {
-        var isStartDate = date.Date == SessionMeta.StartDate.Date;
-        
-        var isBeforeEndDate = date.Date <= SessionMeta.EndDate?.Date;
-    }
 }
 
 public class SessionEntityConfiguration : IEntityTypeConfiguration<Session>
