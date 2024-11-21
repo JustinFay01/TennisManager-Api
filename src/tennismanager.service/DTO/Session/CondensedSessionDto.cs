@@ -10,6 +10,6 @@ public class CondensedSessionDto
     public int Capacity { get; set; }
     public Guid? CoachId { get; set; }
     public DateOnly SessionDate { get; set; }
-    public TimeOnly? StartTime { get; set; }
-    public TimeOnly? EndTime { get; set; }
+    public DateTime? StartTime { get; set; }
+    public DateTime? EndTime { get; set; }
 }
