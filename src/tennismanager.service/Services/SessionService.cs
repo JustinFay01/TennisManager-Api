@@ -88,15 +88,17 @@ public class SessionService : ISessionService
 
     public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate)
     {
-        IQueryable<Session> query = _tennisManagerContext.Sessions
+        var query = _tennisManagerContext.Sessions
             .Include(session => session.Event)
-            .ThenInclude(meta => meta.RecurringPatterns) 
+            .ThenInclude(meta => meta.RecurringPatterns)
             .Include(session => session.CustomerSessions)
             // https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries
-            .AsSplitQuery()
-            .OrderBy(session => session.Event.StartDate);
+            .AsSplitQuery();
+        
+        // For each session
+            // Generate a list of dates the session occurs on based on
 
-        var count = await query.CountAsync();
+       var count = await query.CountAsync();
         
         if(page != null && pageSize != null)
         {
