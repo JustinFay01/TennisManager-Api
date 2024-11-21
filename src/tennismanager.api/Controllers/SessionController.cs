@@ -34,24 +34,13 @@ public class SessionController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateSession([FromBody] SessionRequest request)
+    public async Task<IActionResult> CreateSession([FromBody] SessionDto request)
     {
-       await _sessionRequestValidator.ValidateAndThrowAsync(request);
+       //await _sessionRequestValidator.ValidateAndThrowAsync(request);
 
-       if (request.SessionMeta.StartDate.HasValue)
-       {
-           request.SessionMeta.StartDate =
-               DateTime.SpecifyKind((DateTime)request.SessionMeta.StartDate, DateTimeKind.Utc);
-       }
+        //var sessionDto = _mapper.Map<SessionDto>(request);
 
-       if (request.SessionMeta.EndDate.HasValue)
-       {
-           request.SessionMeta.EndDate = DateTime.SpecifyKind((DateTime)request.SessionMeta.EndDate, DateTimeKind.Utc);
-       }
-
-       var sessionDto = _mapper.Map<SessionDto>(request);
-
-        var session = await _sessionService.CreateSessionAsync(sessionDto);
+        var session = await _sessionService.CreateSessionAsync(request);
 
         return new CreatedResult($"api/session/{session.Id}", session);
     }
