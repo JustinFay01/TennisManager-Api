@@ -25,11 +25,9 @@ public class SessionDtoProfile : Profile
         
         CreateMap<CondensedSessionDto, Session>()
                     .ReverseMap()
-                    .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Event.StartDate.ToDateTime(src.Event.StartTime ?? TimeOnly.MinValue)))
-                    .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Event.StartDate.ToDateTime(src.Event.EndTime ?? TimeOnly.MinValue)))
+                    .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Event.StartDate.ToDateTime(src.Event.StartTime ?? TimeOnly.MinValue).ToUniversalTime()))
+                    .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Event.StartDate.ToDateTime(src.Event.EndTime ?? TimeOnly.MinValue).ToUniversalTime()))
                     .ForMember(dest => dest.SessionDate, opt => opt.MapFrom(src => src.Event.StartDate));
-        
-            
         
         CreateMap<SessionMetaDto, SessionMeta>()
             .ForMember(dest => dest.Session, opt => opt.Ignore())
