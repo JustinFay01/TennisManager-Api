@@ -18,7 +18,7 @@ public static class SessionDtoExtensions
             Price = GetRandomPrice(),
             Capacity = GetRandomCapacity(),
             Type = GetRandomType(),
-            CoachId = Guid.NewGuid(),
+            CoachId = null,
             Event = new EventDto().BuildRandom()
         };
     }
