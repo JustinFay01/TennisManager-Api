@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using tennismanager.data.Entities;
+using tennismanager.data.Entities.Events;
+using tennismanager.service.DTO.Event;
 using tennismanager.service.DTO.Session;
 using tennismanager.shared.Types;
 
@@ -15,6 +17,12 @@ public class SessionDtoProfile : Profile
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => SessionTypeMapper.MapSessionType(src.Type)))
             .ReverseMap();
 
+        CreateMap<EventDto, Event>()
+            .ReverseMap();
+        
+        CreateMap<RecurringPatternDto, RecurringPattern>()
+            .ReverseMap();
+        
         CreateMap<SessionMetaDto, SessionMeta>()
             .ForMember(dest => dest.Session, opt => opt.Ignore())
             .ForMember(dest => dest.SessionId, opt => opt.Ignore())
