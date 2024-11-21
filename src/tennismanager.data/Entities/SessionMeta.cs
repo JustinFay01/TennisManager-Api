@@ -54,8 +54,8 @@ public class SessionMetaEntityConfiguration : IEntityTypeConfiguration<SessionMe
         builder.Property(sm => sm.StartDate)
             .IsRequired();
 
-        builder.HasOne(sm => sm.Session)
-            .WithOne(s => s.SessionMeta)
-            .HasForeignKey<SessionMeta>(sm => sm.SessionId);
+        // builder.HasOne(sm => sm.Session)
+        //     .WithOne(s => s.SessionMeta)
+        //     .HasForeignKey<SessionMeta>(sm => sm.SessionId);
     }
 }

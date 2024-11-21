@@ -61,8 +61,8 @@ public class SessionService : ISessionService
     public async Task<SessionDto?> GetSessionByIdAsync(Guid id)
     {
         var session = await _tennisManagerContext.Sessions
-            .Include(s => s.SessionMeta)
-            .ThenInclude(meta => meta.SessionIntervals)
+            .Include(s => s.Event)
+            .ThenInclude(meta => meta.RecurringPatterns)
             .Include(s => s.CustomerSessions)
             .FirstOrDefaultAsync(s => s.Id == id);
         
@@ -89,32 +89,18 @@ public class SessionService : ISessionService
     public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate)
     {
         IQueryable<Session> query = _tennisManagerContext.Sessions
-            .Include(session => session.SessionMeta)
-            .ThenInclude(meta => meta.SessionIntervals) 
+            .Include(session => session.Event)
+            .ThenInclude(meta => meta.RecurringPatterns) 
             .Include(session => session.CustomerSessions)
             // https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries
             .AsSplitQuery()
-            .OrderBy(session => session.SessionMeta.StartDate);
+            .OrderBy(session => session.Event.StartDate);
 
         var count = await query.CountAsync();
         
         if(page != null && pageSize != null)
         {
             query = query.Skip((int) pageSize * ((int) page - 1)).Take((int) pageSize);
-        }
-
-        if (startDate != null)
-        {
-            // Find all sessions 
-            
-            query = query
-                .Where(session => DateOnly.FromDateTime(session.SessionMeta.StartDate) >= startDate);
-        }
-
-        if (endDate != null)
-        {
-            query = query
-                .Where(session => DateOnly.FromDateTime(session.SessionMeta.EndDate ?? DateTime.MaxValue) <= endDate);
         }
 
         return new PagedResponse<SessionDto>(page ?? 1, pageSize ?? count)
