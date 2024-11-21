@@ -4,10 +4,21 @@ using tennismanager.data.Entities.Abstract;
 
 namespace tennismanager.data.Entities;
 
+public enum SessionMetaKey
+{
+    start,
+    day,
+    week,
+    month,
+    year
+}
+
 public class SessionMeta : BaseEntity
 {
     public Session Session { get; set; }
     public Guid SessionId { get; set; }
+    
+    public SessionMetaKey Key { get; set; }
 
     /// <summary>
     ///     Whether the session is recurring or not.

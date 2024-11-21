@@ -7,7 +7,7 @@ namespace tennismanager.data.Entities;
 
 public class Session : BaseEntity
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     ///     Different types of sessions. This could include events, tennis private, tennis drill, tennis hitting, pickleball
@@ -35,12 +35,29 @@ public class Session : BaseEntity
     ///     Marked as optional so EF core knows that this is a 1:1 relationship and that the Session is the
     ///     Principal entity.
     /// </summary>
-    public SessionMeta? SessionMeta { get; set; }
+    public required SessionMeta SessionMeta { get; set; }
 
     /// <summary>
     ///     Customers who have signed up for this session
     /// </summary>
-    public ICollection<CustomerSession> CustomerSessions { get; set; }
+    public ICollection<CustomerSession> CustomerSessions { get; set; } = [];
+    
+    
+    /// <summary>
+    ///  Determines if the session takes place on a given date.
+    ///
+    /// If the date is equal to the start date, the session takes place.
+    ///
+    /// 
+    /// </summary>
+    /// <param name="date"></param>
+    /// <returns></returns>
+    public bool TakesPlaceOn(DateTime date)
+    {
+        var isStartDate = date.Date == SessionMeta.StartDate.Date;
+        
+        var isBeforeEndDate = date.Date <= SessionMeta.EndDate?.Date;
+    }
 }
 
 public class SessionEntityConfiguration : IEntityTypeConfiguration<Session>

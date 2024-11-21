@@ -22,7 +22,7 @@ public interface ISessionService
     /// <param name="page">Page Number</param>
     /// <param name="pageSize">Page Size</param>
     /// <returns>PagedResponse of SessionDto</returns>
-    Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize);
+    Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate);
     Task DeleteSessionAsync(Guid id);
     
     Task AddCustomersToSessionAsync(List<CustomerSessionDto> customerSessions);
@@ -86,7 +86,7 @@ public class SessionService : ISessionService
         await _tennisManagerContext.SaveChangesAsync();
     }
 
-    public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize)
+    public async Task<PagedResponse<SessionDto>> GetSessionsAsync(int? page, int? pageSize, DateOnly? startDate, DateOnly? endDate)
     {
         IQueryable<Session> query = _tennisManagerContext.Sessions
             .Include(session => session.SessionMeta)
@@ -102,7 +102,21 @@ public class SessionService : ISessionService
         {
             query = query.Skip((int) pageSize * ((int) page - 1)).Take((int) pageSize);
         }
-        
+
+        if (startDate != null)
+        {
+            // Find all sessions 
+            
+            query = query
+                .Where(session => DateOnly.FromDateTime(session.SessionMeta.StartDate) >= startDate);
+        }
+
+        if (endDate != null)
+        {
+            query = query
+                .Where(session => DateOnly.FromDateTime(session.SessionMeta.EndDate ?? DateTime.MaxValue) <= endDate);
+        }
+
         return new PagedResponse<SessionDto>(page ?? 1, pageSize ?? count)
         {
             Items = _mapper.Map<List<SessionDto>>(query),
