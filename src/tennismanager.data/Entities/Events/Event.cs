@@ -3,7 +3,7 @@ using tennismanager.data.Entities.Abstract;
 namespace tennismanager.data.Entities.Events;
 
 /// <summary>
-/// https://vertabelo.com/blog/again-and-again-managing-recurring-events-in-a-data-model/
+/// <see href="https://vertabelo.com/blog/again-and-again-managing-recurring-events-in-a-data-model/">Managing Recurring Events in a Data Model</see>
 /// </summary>
 public class Event : BaseEntity
 {

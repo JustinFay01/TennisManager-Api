@@ -12,15 +12,15 @@ using tennismanager.data;
 namespace tennismanager.data.Migrations
 {
     [DbContext(typeof(TennisManagerContext))]
-    [Migration("20240907011834_overHaul")]
-    partial class overHaul
+    [Migration("20241122144706_nuked")]
+    partial class nuked
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -42,7 +42,13 @@ namespace tennismanager.data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Nickname")
+                        .HasColumnType("text");
+
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Picture")
                         .HasColumnType("text");
 
                     b.Property<string>("UserType")
@@ -84,6 +90,77 @@ namespace tennismanager.data.Migrations
                     b.HasIndex("SessionId");
 
                     b.ToTable("CustomerSessions");
+                });
+
+            modelBuilder.Entity("tennismanager.data.Entities.Events.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly?>("EndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<bool>("IsFullDay")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ParentEventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly?>("StartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentEventId");
+
+                    b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("tennismanager.data.Entities.Events.RecurringPattern", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("DayOfMonth")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("DayOfWeek")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("MaxOccurrences")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MonthOfYear")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RecurringType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SeparationCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WeekOfMonth")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("RecurringPattern");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Group", b =>
@@ -150,8 +227,8 @@ namespace tennismanager.data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -166,55 +243,9 @@ namespace tennismanager.data.Migrations
 
                     b.HasIndex("CoachId");
 
+                    b.HasIndex("EventId");
+
                     b.ToTable("Sessions");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionInterval", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("RecurringStartDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("RepeatInterval")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("SessionMetaId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SessionMetaId");
-
-                    b.ToTable("SessionIntervals");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Recurring")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("SessionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SessionId")
-                        .IsUnique();
-
-                    b.ToTable("SessionMetas");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.UserGroup", b =>
@@ -292,6 +323,26 @@ namespace tennismanager.data.Migrations
                     b.Navigation("Session");
                 });
 
+            modelBuilder.Entity("tennismanager.data.Entities.Events.Event", b =>
+                {
+                    b.HasOne("tennismanager.data.Entities.Events.Event", "ParentEvent")
+                        .WithMany()
+                        .HasForeignKey("ParentEventId");
+
+                    b.Navigation("ParentEvent");
+                });
+
+            modelBuilder.Entity("tennismanager.data.Entities.Events.RecurringPattern", b =>
+                {
+                    b.HasOne("tennismanager.data.Entities.Events.Event", "Event")
+                        .WithMany("RecurringPatterns")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("tennismanager.data.Entities.Package", b =>
                 {
                     b.HasOne("tennismanager.data.Entities.Coach", "Coach")
@@ -317,29 +368,15 @@ namespace tennismanager.data.Migrations
                         .WithMany()
                         .HasForeignKey("CoachId");
 
+                    b.HasOne("tennismanager.data.Entities.Events.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Coach");
-                });
 
-            modelBuilder.Entity("tennismanager.data.Entities.SessionInterval", b =>
-                {
-                    b.HasOne("tennismanager.data.Entities.SessionMeta", "SessionMeta")
-                        .WithMany("SessionIntervals")
-                        .HasForeignKey("SessionMetaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SessionMeta");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
-                {
-                    b.HasOne("tennismanager.data.Entities.Session", "Session")
-                        .WithOne("SessionMeta")
-                        .HasForeignKey("tennismanager.data.Entities.SessionMeta", "SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Session");
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.UserGroup", b =>
@@ -361,16 +398,14 @@ namespace tennismanager.data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("tennismanager.data.Entities.Events.Event", b =>
+                {
+                    b.Navigation("RecurringPatterns");
+                });
+
             modelBuilder.Entity("tennismanager.data.Entities.Session", b =>
                 {
                     b.Navigation("CustomerSessions");
-
-                    b.Navigation("SessionMeta");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
-                {
-                    b.Navigation("SessionIntervals");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Customer", b =>

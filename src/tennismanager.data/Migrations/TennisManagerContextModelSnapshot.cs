@@ -245,56 +245,6 @@ namespace tennismanager.data.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("tennismanager.data.Entities.SessionInterval", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("RecurringStartDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("RepeatInterval")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("SessionMetaId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SessionMetaId");
-
-                    b.ToTable("SessionIntervals");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Key")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("Recurring")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("SessionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SessionId");
-
-                    b.ToTable("SessionMetas");
-                });
-
             modelBuilder.Entity("tennismanager.data.Entities.UserGroup", b =>
                 {
                     b.Property<int>("MemberNumber")
@@ -426,28 +376,6 @@ namespace tennismanager.data.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("tennismanager.data.Entities.SessionInterval", b =>
-                {
-                    b.HasOne("tennismanager.data.Entities.SessionMeta", "SessionMeta")
-                        .WithMany("SessionIntervals")
-                        .HasForeignKey("SessionMetaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SessionMeta");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
-                {
-                    b.HasOne("tennismanager.data.Entities.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Session");
-                });
-
             modelBuilder.Entity("tennismanager.data.Entities.UserGroup", b =>
                 {
                     b.HasOne("tennismanager.data.Entities.Group", "Group")
@@ -475,11 +403,6 @@ namespace tennismanager.data.Migrations
             modelBuilder.Entity("tennismanager.data.Entities.Session", b =>
                 {
                     b.Navigation("CustomerSessions");
-                });
-
-            modelBuilder.Entity("tennismanager.data.Entities.SessionMeta", b =>
-                {
-                    b.Navigation("SessionIntervals");
                 });
 
             modelBuilder.Entity("tennismanager.data.Entities.Customer", b =>

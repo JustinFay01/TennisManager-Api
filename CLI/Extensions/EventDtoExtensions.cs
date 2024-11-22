@@ -20,10 +20,7 @@ public static class EventDtoExtensions
             : null;
 
         var startTime = TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(random.Next(0, 24)));
-        TimeOnly? endTime = random.Next(0, 2) == 0 // 50% chance of having an end time
-            ? TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(random.Next(1, 24))) // End time within a day
-            : null;
-        
+        var endTime = TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(random.Next(1, 24))); // End time within a day
         var isRecurring = random.Next(0, 2) == 1; // 50% chance of being recurring
         
         return new EventDto

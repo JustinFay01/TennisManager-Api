@@ -25,21 +25,16 @@ public class SessionDtoProfile : Profile
         
         CreateMap<CondensedSessionDto, Session>()
                     .ReverseMap()
-                    .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Event.StartDate.ToDateTime(src.Event.StartTime ?? TimeOnly.MinValue).ToUniversalTime()))
-                    .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Event.StartDate.ToDateTime(src.Event.EndTime ?? TimeOnly.MinValue).ToUniversalTime()))
+                    .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => ToDateTime(src.Event.StartDate, src.Event.StartTime)))
+                    .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => ToDateTime(src.Event.StartDate, src.Event.EndTime)))
                     .ForMember(dest => dest.SessionDate, opt => opt.MapFrom(src => src.Event.StartDate));
-        
-        CreateMap<SessionMetaDto, SessionMeta>()
-            .ForMember(dest => dest.Session, opt => opt.Ignore())
-            .ForMember(dest => dest.SessionId, opt => opt.Ignore())
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ReverseMap();
+    }
+    
+    private DateTime? ToDateTime(DateOnly date, TimeOnly? time)
+    {
+        if( time == null ) return null;
 
-        CreateMap<SessionIntervalDto, SessionInterval>()
-            .ForMember(dest => dest.SessionMeta, opt => opt.Ignore())
-            .ForMember(dest => dest.SessionMetaId, opt => opt.Ignore())
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ReverseMap();
+        return date.ToDateTime((TimeOnly) time).ToUniversalTime();
     }
 }
 

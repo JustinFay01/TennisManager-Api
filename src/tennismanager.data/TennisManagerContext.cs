@@ -21,8 +21,6 @@ public class TennisManagerContext : DbContext
     public DbSet<Customer> Customers { get; set; }
     public DbSet<CustomerSession> CustomerSessions { get; set; }
     public DbSet<Session> Sessions { get; set; }
-    public DbSet<SessionMeta> SessionMetas { get; set; }
-    public DbSet<SessionInterval> SessionIntervals { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
